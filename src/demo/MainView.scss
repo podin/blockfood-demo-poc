@@ -1,0 +1,39 @@
+#bf-demo-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-family: "Open Sans", sans-serif;
+    color: #cb3837;
+    font-size: 1.5em;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  button {
+    margin-top: 50px;
+    font-size: 3em;
+    background-color: white;
+    color: #cb3837;
+    padding: 5px 25px;
+    border-radius: 5px;
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    border: 5px solid #cb3837;
+    cursor: pointer;
+    outline: none;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: #cb3837;
+      color: white;
+    }
+  }
+}
