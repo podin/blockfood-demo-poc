@@ -75,7 +75,7 @@
       align-items: center;
       justify-content: center;
 
-      & > *:not(:first-of-type) {
+      & > * {
         position: relative;
         margin-left: 15px;
         transition: opacity 0.3s;
@@ -86,7 +86,7 @@
           opacity: 0.3;
         }
 
-        &:before {
+        &:not(:first-of-type):before {
           content: '';
           position: absolute;
           top: calc((100% - 4px) / 2);
