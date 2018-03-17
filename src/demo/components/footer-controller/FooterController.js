@@ -72,7 +72,7 @@ class Footer extends React.Component {
                             <React.Fragment>
                                 <h1>Welcome to the demo of BlockFood</h1>
                                 <p>Play the role of a customer, a restaurant and a courier!</p>
-                                <p>Look at the bottom of your screen to see waht you have to do next.</p>
+                                <p>Look at the bottom of your screen to see what you have to do next.</p>
                                 <h3>Start right now as a hungry customer!</h3>
                             </React.Fragment>
                         )}
@@ -81,6 +81,13 @@ class Footer extends React.Component {
                                 <h1>Your order is now created!</h1>
                                 <p>It's time to become a restaurant in order to accept and prepare this order.</p>
                                 <h3>Let's go! Chef!</h3>
+                            </React.Fragment>
+                        )}
+                        {modal.id === 3 && (
+                            <React.Fragment>
+                                <h1>Your order is now cooked and ready!</h1>
+                                <p>You are going to become another player once again: a courier.</p>
+                                <h3>Don't wait any longer!</h3>
                             </React.Fragment>
                         )}
                     </Modal>

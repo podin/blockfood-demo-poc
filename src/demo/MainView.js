@@ -91,6 +91,8 @@ class MainView extends React.Component {
                     }
                 })
                 .catch(() => {
+                    // TODO: redirect to the first non breaking step
+
                     this.props.history.replace('/')
                     this.setState({ready: true})
                 })

@@ -6,7 +6,7 @@ import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
-import {setStep, setRestaurantOrders} from '../../../state/Actions'
+import {setStep, setModal, setRestaurantOrders} from '../../../state/Actions'
 
 import './RestaurantOrder.scss'
 
@@ -38,8 +38,10 @@ class RestaurantOrder extends React.Component {
     }
 
     onGoBack() {
-        const {demoId, restaurantId} = this.props.match.params
-        this.props.history.replace(getRouteRestaurantOrders(demoId, restaurantId))
+        if (!this.state.loading) {
+            const {demoId, restaurantId} = this.props.match.params
+            this.props.history.replace(getRouteRestaurantOrders(demoId, restaurantId))
+        }
     }
 
     onSubmit() {
@@ -61,7 +63,13 @@ class RestaurantOrder extends React.Component {
                 }
                 else {
                     this.setState({success: true})
-                    // TODO: open next modal
+
+                    const onModalClose = () => {
+                        this.props.dispatch(setStep(7))
+                        // TODO: go to courier page
+                    }
+
+                    setTimeout(() => this.props.dispatch(setModal(3, onModalClose)), 500)
                 }
             }
 
@@ -82,7 +90,9 @@ class RestaurantOrder extends React.Component {
         return (
             <div id="bf-demo-restaurant-order" className="view">
                 <div>
-                    <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
+                    <div className={`go-back${loading ? ' disabled' : ''}`} onClick={this.onGoBack}>
+                        <i className="fas fa-arrow-left"/>Go back
+                    </div>
                     <div className="view-title">
                         <div className="label">Order <span>{order.id}</span></div>
                     </div>

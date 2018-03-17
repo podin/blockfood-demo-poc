@@ -37,7 +37,7 @@ module.exports = function (app) {
             res.send('6')
         }
         else if (data[0].status === ORDER_STATUS.WAITING_COURIER) {
-            res.send('6') // TODO: 7
+            res.send('7')
         }
         else {
             res.sendStatus(500)
