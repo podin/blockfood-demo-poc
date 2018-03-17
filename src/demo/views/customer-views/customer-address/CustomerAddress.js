@@ -37,6 +37,7 @@ class CustomerAddress extends React.Component {
         const {value} = this.state
 
         if (value.length > 0) {
+            this.props.dispatch(setStep(2))
             this.props.dispatch(setCustomerAddress(value))
             this.props.history.push(getRouteCustomerRestaurants(this.demoId))
         }
@@ -51,8 +52,6 @@ class CustomerAddress extends React.Component {
 
     componentDidMount() {
         this.inputElement = ReactDOM.findDOMNode(this).querySelector('input')
-
-        this.props.dispatch(setStep(1))
     }
 
     render() {

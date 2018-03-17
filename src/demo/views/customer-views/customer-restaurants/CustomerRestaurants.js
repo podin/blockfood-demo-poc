@@ -32,11 +32,8 @@ class CustomerRestaurants extends React.Component {
             }
         }
 
+        this.props.dispatch(setStep(3))
         this.props.history.push(getRouteCustomerOrder(this.demoId, restaurantId))
-    }
-
-    componentDidMount() {
-        this.props.customerAddress && this.props.dispatch(setStep(2))
     }
 
     render() {

@@ -4,7 +4,7 @@ import Api from '../../api/Api'
 import doWithMinTime from '../../utils/DoWithMinTime'
 import {getRouteCustomerAddress} from '../../Routes'
 
-import {restart, setModal} from '../../state/Actions'
+import {restart, setStep, setModal} from '../../state/Actions'
 
 import './StartView.scss'
 
@@ -23,6 +23,7 @@ class StartView extends React.Component {
         this.setState({loading: true})
 
         doWithMinTime(() => Api.startDemo()).then((demoId) => {
+            this.props.dispatch(setStep(1))
             this.props.dispatch(setModal(1))
             this.props.history.push(getRouteCustomerAddress(demoId))
         })

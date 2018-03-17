@@ -77,14 +77,10 @@ class CustomerOrder extends React.Component {
                 price
             }
 
+            this.props.dispatch(setStep(4))
             this.props.dispatch(setCurrentOrder(currentOrder))
-
             this.props.history.push(getRouteCustomerPayment(this.demoId))
         }
-    }
-
-    componentDidMount() {
-        this.restaurant && this.props.dispatch(setStep(3))
     }
 
     render() {

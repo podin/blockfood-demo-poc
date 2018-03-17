@@ -5,7 +5,7 @@ import {getRouteCustomerOrder, getRouteCustomerAddress} from '../../../Routes'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
-import {setStep, setModal} from '../../../state/Actions'
+import {setModal} from '../../../state/Actions'
 
 import './CustomerPayment.scss'
 
@@ -39,10 +39,6 @@ class CustomerPayment extends React.Component {
                 setTimeout(() => this.props.dispatch(setModal(2)), 500)
             })
         }
-    }
-
-    componentDidMount() {
-        this.props.currentOrder && this.props.dispatch(setStep(4))
     }
 
     render() {
