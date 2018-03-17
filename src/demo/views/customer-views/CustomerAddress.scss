@@ -1,0 +1,40 @@
+#bf-demo-customer-address {
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input, button {
+      padding: 0 15px;
+      height: 40px;
+      line-height: 40px;
+      outline: none;
+      background: white;
+      border: 2px solid grey;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 1.2em;
+    }
+
+    input {
+      &:focus {
+        border-color: #333;
+      }
+    }
+
+    button {
+      margin-left: 10px;
+      border-color: #333;
+
+      &:disabled {
+        opacity: 0.3;
+      }
+
+      &:not(:disabled):hover {
+        cursor: pointer;
+        background: #333;
+        color: white;
+      }
+    }
+  }
+}

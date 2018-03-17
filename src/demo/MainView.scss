@@ -37,3 +37,14 @@
     }
   }
 }
+
+.view {
+  position: relative;
+  top: 75px;
+  width: 100%;
+  height: calc(100% - 75px - 130px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Open sans", sans-serif;
+}
