@@ -22,3 +22,9 @@ export const getRouteCustomerOrder = (demoId, restaurantId) => {
 export const getRouteCustomerPayment = (demoId) => {
     return CUSTOMER_PAYMENT_ROUTE.replace(':demoId', demoId)
 }
+
+export const RESTAURANT_ORDERS_ROUTE = `/:demoId/${RESTAURANT_ROUTES}-orders/`
+
+export const getRouteRestaurantOrders = (demoId) => {
+    return RESTAURANT_ORDERS_ROUTE.replace(':demoId', demoId)
+}

@@ -5,7 +5,8 @@ import {
     CUSTOMER_ADDRESS_ROUTE,
     CUSTOMER_RESTAURANTS_ROUTE,
     CUSTOMER_RESTAURANT_ORDER_ROUTE,
-    CUSTOMER_PAYMENT_ROUTE
+    CUSTOMER_PAYMENT_ROUTE,
+    RESTAURANT_ORDERS_ROUTE
 } from './Routes'
 import Loader from './components/loader/Loader'
 import Header from './components/header/Header'
@@ -14,6 +15,7 @@ import CustomerAddress from './views/customer-views/customer-address/CustomerAdd
 import CustomerRestaurants from './views/customer-views/customer-restaurants/CustomerRestaurants'
 import CustomerOrder from './views/customer-views/customer-order/CustomerOrder'
 import CustomerPayment from './views/customer-views/customer-payment/CustomerPayment'
+import RestaurantOrders from './views/restaurant-views/restaurant-orders/RestaurantOrders'
 import FooterController from './components/footer-controller/FooterController'
 
 import './MainView.scss'
@@ -60,6 +62,7 @@ class MainView extends React.Component {
                         <Route path={CUSTOMER_RESTAURANTS_ROUTE} exact component={CustomerRestaurants}/>
                         <Route path={CUSTOMER_RESTAURANT_ORDER_ROUTE} exact component={CustomerOrder}/>
                         <Route path={CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
+                        <Route path={RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
                         <Redirect to="/"/>
                     </Switch>
                     <Route path="/" component={FooterController}/>

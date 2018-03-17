@@ -14,10 +14,20 @@
       border: 10px solid black;
       border-radius: 100%;
       font-size: 10em;
-      cursor: pointer;
       transition: transform 0.3s;
 
-      &:hover {
+      &.submitted {
+        font-size: 2em;
+        border-color: transparent;
+
+        i {
+          animation-duration: 0.9s;
+          animation-timing-function: ease-in-out;
+        }
+      }
+
+      &:not(.submitted):hover {
+        cursor: pointer;
         background: black;
         color: white;
         transform: scale(1.1);

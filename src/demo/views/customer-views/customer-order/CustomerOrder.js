@@ -18,9 +18,11 @@ class CustomerOrder extends React.Component {
         this.demoId = demoId
         this.restaurant = _.find(RESTAURANTS, ({id}) => id === restaurantId)
 
+        const {currentOrder} = this.props
+
         this.state = {
-            orderIds: [],
-            price: 0
+            orderIds: currentOrder ? currentOrder.orderIds : [],
+            price: currentOrder ? currentOrder.price : 0
         }
 
         this.onGoBack = this.onGoBack.bind(this)
@@ -120,4 +122,10 @@ class CustomerOrder extends React.Component {
     }
 }
 
-export default connect()(CustomerOrder)
+const mapStateToProps = (state) => {
+    return {
+        currentOrder: state.currentOrder
+    }
+}
+
+export default connect(mapStateToProps)(CustomerOrder)

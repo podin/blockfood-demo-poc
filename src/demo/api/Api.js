@@ -8,6 +8,10 @@ class Api {
     startDemo() {
         return Http.post('/api/start-demo').then(({data}) => data).catch(this.onError)
     }
+
+    createNewOrder() {
+        return Promise.resolve().catch(this.onError)
+    }
 }
 
 export default new Api()

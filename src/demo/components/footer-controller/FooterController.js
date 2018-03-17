@@ -1,9 +1,9 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {getRouteRestaurantOrders} from '../../Routes'
 import Modal from '../modal/Modal'
 
-import {setModal} from '../../state/Actions'
+import {setStep, setModal} from '../../state/Actions'
 
 import './FooterController.scss'
 
@@ -11,7 +11,10 @@ class Footer extends React.Component {
     constructor(props) {
         super(props)
 
+        this.demoId = this.props.match.params.demoId
+
         this.onRestart = this.onRestart.bind(this)
+        this.onModalGo = this.onModalGo.bind(this)
         this.closeModal = this.closeModal.bind(this)
     }
 
@@ -23,6 +26,13 @@ class Footer extends React.Component {
         this.props.dispatch(setModal(null))
     }
 
+    onModalGo() {
+        if (this.props.modal === 2) {
+            this.props.dispatch(setStep(5))
+            this.props.history.push(getRouteRestaurantOrders(this.demoId))
+        }
+    }
+
     render() {
         const {location, step, modal} = this.props
 
@@ -30,7 +40,8 @@ class Footer extends React.Component {
             1: 'As a customer, choose a sector by typing an adress.',
             2: 'As a customer, choose a restaurant.',
             3: 'As a customer, choose your order in the selected restaurant and then, validate your order.',
-            4: 'As a customer, proceed to the payment of your order.'
+            4: 'As a customer, proceed to the payment of your order.',
+            5: 'As a restaurant, accept an order.'
         }[step]
 
         return (
@@ -64,13 +75,20 @@ class Footer extends React.Component {
                 </div>
                 <button className={`next${true ? ' disabled' : ''}`}><i className="fas fa-hand-point-right"/>Next</button>
                 {modal && (
-                    <Modal onClose={this.closeModal}>
+                    <Modal onImmediateClose={this.onModalGo} onClose={this.closeModal}>
                         {modal === 1 && (
                             <React.Fragment>
                                 <h1>Welcome to the demo of BlockFood</h1>
                                 <p>Play the role of a customer, a restaurant and a courier!</p>
                                 <p>Look at the bottom of your screen to see waht you have to do next.</p>
                                 <h3>Start right now as a hungry customer!</h3>
+                            </React.Fragment>
+                        )}
+                        {modal === 2 && (
+                            <React.Fragment>
+                                <h1>Your order is now created!</h1>
+                                <p>It's time to become a restaurant in order to accept and prepare this order.</p>
+                                <h3>Let's go! Chef!</h3>
                             </React.Fragment>
                         )}
                     </Modal>
@@ -87,4 +105,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Footer))
+export default connect(mapStateToProps)(Footer)

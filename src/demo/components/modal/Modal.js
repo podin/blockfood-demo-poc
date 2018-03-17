@@ -21,6 +21,8 @@ class Modal extends React.Component {
     }
 
     close() {
+        this.props.onImmediateClose && this.props.onImmediateClose()
+
         this.containerElement.className += ' closing'
     }
 
@@ -34,11 +36,6 @@ class Modal extends React.Component {
     }
 
     render() {
-
-        const {
-            className,
-        } = this.props
-
         return ReactDOM.createPortal(
             (
                 <div id="bf-demo-modal" className="with-transition" onTransitionEnd={this.onTransitionEnd}>
