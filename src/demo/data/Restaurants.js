@@ -1,3 +1,5 @@
+import * as _ from 'lodash'
+
 import image1 from '../style/images/resto-1.jpg'
 import image2 from '../style/images/resto-2.jpg'
 import image3 from '../style/images/resto-3.jpg'
@@ -35,7 +37,7 @@ const menu = [
     }
 ]
 
-export default [
+const RESTAURANTS = [
     {
         id: 'adhh45rt',
         image: image1,
@@ -61,3 +63,6 @@ export default [
         menu
     }
 ]
+
+export const RESTAURANT_BY_IDS = _.keyBy(RESTAURANTS, ({id}) => id)
+export default RESTAURANTS

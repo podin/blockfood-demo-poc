@@ -1,7 +1,6 @@
 import React from 'react'
-import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {getRouteCustomerOrder, getRouteCustomerAddress} from '../../../Routes'
+import {getRouteCustomerOrder} from '../../../Routes'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
@@ -42,36 +41,29 @@ class CustomerPayment extends React.Component {
     }
 
     render() {
-        const {currentOrder} = this.props
+        const {submitted, success} = this.state
 
-        if (!currentOrder) {
-            return <Redirect to={getRouteCustomerAddress(this.demoId)}/>
-        }
-        else {
-            const {submitted, success} = this.state
-
-            return (
-                <div id="bf-demo-customer-payment" className="view">
-                    <div>
-                        <div className={`go-back${submitted ? ' disabled' : ''}`} onClick={this.onGoBack}>
-                            <i className="fas fa-arrow-left"/>Go back
-                        </div>
-                        <div className="view-title">
-                            <div className="label">Proceed to the payment of your order</div>
-                        </div>
-                        <div className={`btn${submitted ? ' submitted' : ''}`} onClick={this.onSubmit}>
-                            {success ? (
-                                <i className="fas fa-check"/>
-                            ) : submitted ? (
-                                <i className="fas fa-circle-notch fa-spin"/>
-                            ) : (
-                                <i className="fas fa-dollar-sign"/>
-                            )}
-                        </div>
+        return (
+            <div id="bf-demo-customer-payment" className="view">
+                <div>
+                    <div className={`go-back${submitted ? ' disabled' : ''}`} onClick={this.onGoBack}>
+                        <i className="fas fa-arrow-left"/>Go back
+                    </div>
+                    <div className="view-title">
+                        <div className="label">Proceed to the payment of your order</div>
+                    </div>
+                    <div className={`btn${submitted ? ' submitted' : ''}`} onClick={this.onSubmit}>
+                        {success ? (
+                            <i className="fas fa-check"/>
+                        ) : submitted ? (
+                            <i className="fas fa-circle-notch fa-spin"/>
+                        ) : (
+                            <i className="fas fa-dollar-sign"/>
+                        )}
                     </div>
                 </div>
-            )
-        }
+            </div>
+        )
     }
 }
 

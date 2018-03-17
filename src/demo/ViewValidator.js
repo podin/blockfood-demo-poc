@@ -1,6 +1,8 @@
 import React from 'react'
 import {withRouter, matchPath, Redirect} from 'react-router-dom'
+import {connect} from 'react-redux'
 import * as Routes from './Routes'
+import {RESTAURANT_BY_IDS} from './data/Restaurants'
 
 class ViewValidator extends React.Component {
     match(path) {
@@ -14,23 +16,26 @@ class ViewValidator extends React.Component {
             strict: false
         })
 
+        const {step, customerAddress, currentOrder} = this.props
+
         if (!match.isExact) {
             return true
         }
         else if (this.match(Routes.CUSTOMER_ADDRESS_ROUTE)) {
-            return true
+            return step >= 1 && step <= 4
         }
         else if (this.match(Routes.CUSTOMER_RESTAURANTS_ROUTE)) {
-            return true
+            return step >= 1 && step <= 4 && !!customerAddress
         }
         else if (this.match(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE)) {
-            return true
+            const {restaurantId} = this.match(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE).params
+            return step >= 1 && step <= 4 && !!customerAddress && !!RESTAURANT_BY_IDS[restaurantId]
         }
         else if (this.match(Routes.CUSTOMER_PAYMENT_ROUTE)) {
-            return true
+            return step >= 1 && step <= 4 && !!customerAddress && !!currentOrder
         }
         else if (this.match(Routes.RESTAURANT_ORDERS_ROUTE)) {
-            return true
+            return step >= 5
         }
         else {
             return true
@@ -47,4 +52,12 @@ class ViewValidator extends React.Component {
     }
 }
 
-export default withRouter(ViewValidator)
+const mapStateToProps = (state) => {
+    return {
+        step: state.step,
+        customerAddress: state.customerAddress,
+        currentOrder: state.currentOrder
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(ViewValidator))

@@ -1,6 +1,5 @@
 import * as _ from 'lodash'
 import React from 'react'
-import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getRouteCustomerAddress, getRouteCustomerOrder} from '../../../Routes'
 import RESTAURANTS from '../../../data/Restaurants'
@@ -39,38 +38,33 @@ class CustomerRestaurants extends React.Component {
     render() {
         const {customerAddress} = this.props
 
-        if (!customerAddress) {
-            return <Redirect to={getRouteCustomerAddress(this.demoId)}/>
-        }
-        else {
-            return (
-                <div id="bf-demo-customer-restaurants" className="view">
-                    <div>
-                        <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
-                        <div className="view-title">
-                            <div className="label">{RESTAURANTS.length} restaurants found at: <span>{customerAddress}</span></div>
-                        </div>
-                        <div className="list">
-                            {RESTAURANTS.map(restaurant => (
-                                <div key={restaurant.id} className="item" data-id={restaurant.id} onClick={this.onChoose}>
-                                    <img src={restaurant.image} alt={restaurant.name}/>
-                                    <div className="name">{restaurant.name}</div>
-                                    <div className="type">{restaurant.type}</div>
-                                    <div className="rate">
-                                        {_.map(_.range(restaurant.rate), i => (
-                                            <div key={i}><i className="fas fa-star"/></div>
-                                        ))}
-                                        {_.map(_.range(5 - restaurant.rate), i => (
-                                            <div key={restaurant.rate + i}><i className="far fa-star"/></div>
-                                        ))}
-                                    </div>
+        return (
+            <div id="bf-demo-customer-restaurants" className="view">
+                <div>
+                    <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
+                    <div className="view-title">
+                        <div className="label">{RESTAURANTS.length} restaurants found at: <span>{customerAddress}</span></div>
+                    </div>
+                    <div className="list">
+                        {RESTAURANTS.map(restaurant => (
+                            <div key={restaurant.id} className="item" data-id={restaurant.id} onClick={this.onChoose}>
+                                <img src={restaurant.image} alt={restaurant.name}/>
+                                <div className="name">{restaurant.name}</div>
+                                <div className="type">{restaurant.type}</div>
+                                <div className="rate">
+                                    {_.map(_.range(restaurant.rate), i => (
+                                        <div key={i}><i className="fas fa-star"/></div>
+                                    ))}
+                                    {_.map(_.range(5 - restaurant.rate), i => (
+                                        <div key={restaurant.rate + i}><i className="far fa-star"/></div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            )
-        }
+            </div>
+        )
     }
 }
 

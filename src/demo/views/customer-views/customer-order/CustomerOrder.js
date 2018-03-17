@@ -1,9 +1,8 @@
 import * as _ from 'lodash'
 import React from 'react'
-import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import RESTAURANTS from '../../../data/Restaurants'
-import {getRouteCustomerRestaurants, getRouteCustomerPayment, getRouteCustomerAddress} from '../../../Routes'
+import {getRouteCustomerRestaurants, getRouteCustomerPayment} from '../../../Routes'
+import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 
 import {setStep, setCurrentOrder} from '../../../state/Actions'
 
@@ -16,7 +15,7 @@ class CustomerOrder extends React.Component {
         const {demoId, restaurantId} = this.props.match.params
 
         this.demoId = demoId
-        this.restaurant = _.find(RESTAURANTS, ({id}) => id === restaurantId)
+        this.restaurant = RESTAURANT_BY_IDS[restaurantId]
 
         const {currentOrder} = this.props
 
@@ -65,12 +64,10 @@ class CustomerOrder extends React.Component {
     }
 
     onValidate() {
-
         const {orderIds, price} = this.state
 
         if (orderIds.length > 0) {
             const currentOrder = {
-                demoId: this.demoId,
                 customerId: this.demoId,
                 restaurantId: this.restaurant.id,
                 orderIds,
@@ -84,37 +81,32 @@ class CustomerOrder extends React.Component {
     }
 
     render() {
-        if (!this.restaurant) {
-            return <Redirect to={getRouteCustomerAddress(this.demoId)}/>
-        }
-        else {
-            const {orderIds, price} = this.state
+        const {orderIds, price} = this.state
 
-            return (
-                <div id="bf-demo-customer-order" className="view">
-                    <div>
-                        <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
-                        <div className="view-title">
-                            <div className="label">Welcome to <span>{this.restaurant.name}</span>!</div>
-                        </div>
-                        <div className="list">
-                            {this.restaurant.menu.map(menu => (
-                                <div key={menu.id} data-id={menu.id}
-                                     className={`item${orderIds.includes(menu.id) ? ' selected' : ''}`}
-                                     onClick={this.onChoose}>
-                                    <i className="fas fa-check"/>
-                                    <div className="name">{menu.name} ({menu.price}$)</div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="validate">
-                            <div>{price}$</div>
-                            <button onClick={this.onValidate} disabled={orderIds.length === 0}>VALIDATE</button>
-                        </div>
+        return (
+            <div id="bf-demo-customer-order" className="view">
+                <div>
+                    <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
+                    <div className="view-title">
+                        <div className="label">Welcome to <span>{this.restaurant.name}</span>!</div>
+                    </div>
+                    <div className="list">
+                        {this.restaurant.menu.map(menu => (
+                            <div key={menu.id} data-id={menu.id}
+                                 className={`item${orderIds.includes(menu.id) ? ' selected' : ''}`}
+                                 onClick={this.onChoose}>
+                                <i className="fas fa-check"/>
+                                <div className="name">{menu.name} ({menu.price}$)</div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="validate">
+                        <div>{price}$</div>
+                        <button onClick={this.onValidate} disabled={orderIds.length === 0}>VALIDATE</button>
                     </div>
                 </div>
-            )
-        }
+            </div>
+        )
     }
 }
 
