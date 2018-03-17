@@ -2,14 +2,11 @@
   & > div {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 
-    .go-back {
-      align-self: flex-start;
-    }
-
     .btn {
+      align-self: center;
       width: 200px;
       height: 200px;
       line-height: 200px;

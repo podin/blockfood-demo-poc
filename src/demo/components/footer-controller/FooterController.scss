@@ -57,10 +57,14 @@
     justify-content: center;
     
     .task {
-      font-family: "Open Sans", sans-serif;
+      font-family: Poppins, sans-serif;
       font-size: 1.1em;
       color: white;
       margin-bottom: 14px;
+
+      span {
+        margin-right: 5px;
+      }
     }
 
     .breadcrumb {

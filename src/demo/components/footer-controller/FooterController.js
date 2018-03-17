@@ -2,8 +2,6 @@ import React from 'react';
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 
-import {restart} from '../../state/Actions'
-
 import './FooterController.scss'
 
 class Footer extends React.Component {
@@ -14,7 +12,6 @@ class Footer extends React.Component {
     }
 
     onRestart() {
-        this.props.dispatch(restart())
         this.props.history.push('/')
     }
 
@@ -22,17 +19,17 @@ class Footer extends React.Component {
         const {location, step} = this.props
 
         const task = {
-            1: 'As a customer, choose a sector by typing an adress',
-            2: 'As a customer, choose a restaurant',
-            3: 'As a customer, choose your order in the selected restaurant and then, validate your order',
-            4: 'As a customer, proceed to the payment of your order'
+            1: 'As a customer, choose a sector by typing an adress.',
+            2: 'As a customer, choose a restaurant.',
+            3: 'As a customer, choose your order in the selected restaurant and then, validate your order.',
+            4: 'As a customer, proceed to the payment of your order.'
         }[step]
 
         return (
             <div id="bf-demo-footer" className={location.pathname !== '/' ? 'visible' : ''}>
                 <button className="restart" onClick={this.onRestart}><i className="fas fa-undo-alt"/>Restart</button>
                 <div className="progress">
-                    <div className="task">{step}/ {task}</div>
+                    <div className="task"><span>{step}.</span> {task}</div>
                     <div className="breadcrumb">
                         <div className={`icon customer${step >= 1 ? ' completed' : ''}`}></div>
                         <div className={`step${step >= 1 ? ' completed' : ''}`}>1</div>

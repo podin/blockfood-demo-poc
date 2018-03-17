@@ -2,10 +2,10 @@ import * as _ from 'lodash'
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {CUSTOMER_ADDRESS_ROUTE, CUSTOMER_RESTAURANT_MENU_ROUTE} from '../../Routes'
-import RESTAURANTS from '../../data/Restaurants'
+import {getRouteCustomerAddress, getRouteCustomerOrder} from '../../../Routes'
+import RESTAURANTS from '../../../data/Restaurants'
 
-import {setStep} from '../../state/Actions'
+import {setStep} from '../../../state/Actions'
 
 import './CustomerRestaurants.scss'
 
@@ -13,13 +13,14 @@ class CustomerRestaurants extends React.Component {
     constructor(props) {
         super(props)
 
+        this.demoId = this.props.match.params.demoId
+
         this.onGoBack = this.onGoBack.bind(this)
         this.onChoose = this.onChoose.bind(this)
     }
 
     onGoBack() {
-        const {demoId} = this.props.match.params
-        this.props.history.push(`/${demoId}/${CUSTOMER_ADDRESS_ROUTE}`)
+        this.props.history.push(getRouteCustomerAddress(this.demoId))
     }
 
     onChoose(event) {
@@ -31,8 +32,7 @@ class CustomerRestaurants extends React.Component {
             }
         }
 
-        const {demoId} = this.props.match.params
-        this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANT_MENU_ROUTE + restaurantId}/`)
+        this.props.history.push(getRouteCustomerOrder(this.demoId, restaurantId))
     }
 
     componentDidMount() {
@@ -43,8 +43,7 @@ class CustomerRestaurants extends React.Component {
         const {customerAddress} = this.props
 
         if (!customerAddress) {
-            const {demoId} = this.props.match.params
-            return <Redirect to={`/${demoId}/${CUSTOMER_ADDRESS_ROUTE}`}/>
+            return <Redirect to={getRouteCustomerAddress(this.demoId)}/>
         }
         else {
             return (

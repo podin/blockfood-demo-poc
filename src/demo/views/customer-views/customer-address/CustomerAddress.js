@@ -1,14 +1,16 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {CUSTOMER_RESTAURANTS_ROUTE} from '../../Routes'
+import {getRouteCustomerRestaurants} from '../../../Routes'
 
-import {setCustomerAddress} from '../../state/Actions'
+import {setCustomerAddress} from '../../../state/Actions'
 
 import './CustomerAddress.scss'
 
 class CustomerAddress extends React.Component {
     constructor(props) {
         super(props)
+
+        this.demoId = this.props.match.params.demoId
 
         this.state = {
             value: this.props.customerAddress
@@ -29,9 +31,7 @@ class CustomerAddress extends React.Component {
 
         if (value.length > 0) {
             this.props.dispatch(setCustomerAddress(value))
-
-            const {demoId} = this.props.match.params
-            this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANTS_ROUTE}`)
+            this.props.history.push(getRouteCustomerRestaurants(this.demoId))
         }
     }
 
@@ -46,7 +46,9 @@ class CustomerAddress extends React.Component {
                     </div>
                     <form onSubmit={this.onSubmit}>
                         <input type="text" placeholder="Where are you?" value={value} onChange={this.onChange}/>
-                        <button type="submit" disabled={value.length === 0}><i className="fas fa-search"/></button>
+                        <button type="submit" disabled={value.length === 0}>
+                            <i className="fas fa-search"/>
+                        </button>
                     </form>
                 </div>
             </div>

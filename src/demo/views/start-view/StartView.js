@@ -1,6 +1,9 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import Api from '../../api/Api'
-import {CUSTOMER_ADDRESS_ROUTE} from '../../Routes'
+import {getRouteCustomerAddress} from '../../Routes'
+
+import {restart} from '../../state/Actions'
 
 import './StartView.scss'
 
@@ -12,7 +15,11 @@ class StartView extends React.Component {
     }
 
     onStartDemo() {
-        Api.startDemo().then((demoId) => this.props.history.push(`/${demoId}/${CUSTOMER_ADDRESS_ROUTE}`))
+        Api.startDemo().then((demoId) => this.props.history.push(getRouteCustomerAddress(demoId)))
+    }
+
+    componentDidMount() {
+        this.props.dispatch(restart())
     }
 
     render() {
@@ -24,4 +31,4 @@ class StartView extends React.Component {
     }
 }
 
-export default StartView
+export default connect()(StartView)

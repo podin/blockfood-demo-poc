@@ -1,9 +1,9 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {CUSTOMER_ADDRESS_ROUTE, CUSTOMER_RESTAURANT_MENU_ROUTE} from '../../Routes'
+import {getRouteCustomerOrder, getRouteCustomerAddress} from '../../../Routes'
 
-import {setStep} from '../../state/Actions'
+import {setStep} from '../../../state/Actions'
 
 import './CustomerPayment.scss'
 
@@ -11,13 +11,14 @@ class CustomerPayment extends React.Component {
     constructor(props) {
         super(props)
 
+        this.demoId = this.props.match.params.demoId
+
         this.onGoBack = this.onGoBack.bind(this)
     }
 
     onGoBack() {
-        const {demoId} = this.props.match.params
         const {restaurantId} = this.props.currentOrder
-        this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANT_MENU_ROUTE + restaurantId}/`)
+        this.props.history.push(getRouteCustomerOrder(this.demoId, restaurantId))
     }
 
     componentDidMount() {
@@ -28,8 +29,7 @@ class CustomerPayment extends React.Component {
         const {currentOrder} = this.props
 
         if (!currentOrder) {
-            const {demoId} = this.props.match.params
-            return <Redirect to={`/${demoId}/${CUSTOMER_ADDRESS_ROUTE}`}/>
+            return <Redirect to={getRouteCustomerAddress(this.demoId)}/>
         }
         else {
             return (
@@ -37,7 +37,7 @@ class CustomerPayment extends React.Component {
                     <div>
                         <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
                         <div className="view-title">
-                            <div className="label">Proceed to the payment of your command</div>
+                            <div className="label">Proceed to the payment of your order</div>
                         </div>
                         <div className="btn"><i className="fas fa-dollar-sign"/></div>
                     </div>

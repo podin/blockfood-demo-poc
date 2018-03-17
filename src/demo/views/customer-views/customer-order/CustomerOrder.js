@@ -2,18 +2,21 @@ import * as _ from 'lodash'
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import RESTAURANTS from '../../data/Restaurants'
-import {CUSTOMER_ADDRESS_ROUTE, CUSTOMER_RESTAURANTS_ROUTE, CUSTOMER_PAYMENT_ROUTE} from '../../Routes'
+import RESTAURANTS from '../../../data/Restaurants'
+import {getRouteCustomerRestaurants, getRouteCustomerPayment, getRouteCustomerAddress} from '../../../Routes'
 
-import {setStep, setCurrentOrder} from '../../state/Actions'
+import {setStep, setCurrentOrder} from '../../../state/Actions'
 
-import './CustomerRestaurantMenu.scss'
+import './CustomerOrder.scss'
 
-class CustomerRestaurantMenu extends React.Component {
+class CustomerOrder extends React.Component {
     constructor(props) {
         super(props)
 
-        this.restaurant = _.find(RESTAURANTS, ({id}) => id === this.props.match.params.restaurantId)
+        const {demoId, restaurantId} = this.props.match.params
+
+        this.demoId = demoId
+        this.restaurant = _.find(RESTAURANTS, ({id}) => id === restaurantId)
 
         this.state = {
             orderIds: [],
@@ -26,8 +29,7 @@ class CustomerRestaurantMenu extends React.Component {
     }
 
     onGoBack() {
-        const {demoId} = this.props.match.params
-        this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANTS_ROUTE}`)
+        this.props.history.push(getRouteCustomerRestaurants(this.demoId))
     }
 
     onChoose(event) {
@@ -65,11 +67,9 @@ class CustomerRestaurantMenu extends React.Component {
         const {orderIds, price} = this.state
 
         if (orderIds.length > 0) {
-            const {demoId} = this.props.match.params
-
             const currentOrder = {
-                demoId,
-                userId: demoId,
+                demoId: this.demoId,
+                userId: this.demoId,
                 restaurantId: this.restaurant.id,
                 orderIds,
                 price
@@ -77,24 +77,23 @@ class CustomerRestaurantMenu extends React.Component {
 
             this.props.dispatch(setCurrentOrder(currentOrder))
 
-            this.props.history.push(`/${demoId}/${CUSTOMER_PAYMENT_ROUTE}`)
+            this.props.history.push(getRouteCustomerPayment(this.demoId))
         }
     }
 
     componentDidMount() {
-        this.props.dispatch(setStep(3))
+        this.restaurant && this.props.dispatch(setStep(3))
     }
 
     render() {
         if (!this.restaurant) {
-            const {demoId} = this.props.match.params
-            return <Redirect to={`/${demoId}/${CUSTOMER_ADDRESS_ROUTE}`}/>
+            return <Redirect to={getRouteCustomerAddress(this.demoId)}/>
         }
         else {
             const {orderIds, price} = this.state
 
             return (
-                <div id="bf-demo-customer-restaurant-menu" className="view">
+                <div id="bf-demo-customer-order" className="view">
                     <div>
                         <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
                         <div className="view-title">
@@ -121,4 +120,4 @@ class CustomerRestaurantMenu extends React.Component {
     }
 }
 
-export default connect()(CustomerRestaurantMenu)
+export default connect()(CustomerOrder)
