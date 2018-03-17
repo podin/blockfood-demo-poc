@@ -1,9 +1,12 @@
+import * as _ from 'lodash'
+import Storage from '../utils/Storage'
+
 import {RESTART, SET_STEP, SET_CUSTOMER_ADDRESS, SET_CURRENT_ORDER} from './Actions'
 
 const reduceStep = (state, action) => {
     if (action.allowBack || action.step > state.step) {
         const newState = {}
-        Object.assign(newState, state, {step: action.step})
+        _.assign(newState, state, {step: action.step})
         return newState
     }
     else {
@@ -12,14 +15,16 @@ const reduceStep = (state, action) => {
 }
 
 const reduceCustomerAddress = (state, action) => {
+    Storage.setCurrentAddress(action.customerAddress)
     const newState = {}
-    Object.assign(newState, state, {customerAddress: action.customerAddress})
+    _.assign(newState, state, {customerAddress: action.customerAddress})
     return newState
 }
 
 const reduceCurrentOrder = (state, action) => {
+    Storage.setCurrentOrder(action.currentOrder)
     const newState = {}
-    Object.assign(newState, state, {currentOrder: action.currentOrder})
+    _.assign(newState, state, {currentOrder: action.currentOrder})
     return newState
 }
 
@@ -29,9 +34,16 @@ const DEFAULT_STATE = {
     currentOrder: null
 }
 
-export const rootReducer = (state = DEFAULT_STATE, action) => {
+const INITIAL_STATE = {}
+_.assign(INITIAL_STATE, DEFAULT_STATE, {
+    customerAddress: Storage.getCurrentAddress() || '',
+    currentOrder: Storage.getCurrentOrder() || null
+})
+
+export const rootReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case RESTART:
+            Storage.clearAll()
             return DEFAULT_STATE
         case SET_STEP:
             return reduceStep(state, action)

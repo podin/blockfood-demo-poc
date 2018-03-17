@@ -49,7 +49,7 @@ class CustomerPayment extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentOrder: state.currentOrder || {}
+        currentOrder: state.currentOrder
     }
 }
 
