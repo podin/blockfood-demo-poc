@@ -1,0 +1,123 @@
+#bf-demo-customer-restaurant-menu {
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Poppins, sans-serif;
+      font-size: 2em;
+      color: #525252;
+      margin-bottom: 35px;
+
+      .label {
+        padding: 15px 0;
+        white-space: nowrap;
+        max-width: 1000px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      span {
+        color: black;
+      }
+
+      svg {
+        margin-right: 25px;
+        color: black;
+        opacity: 0.5;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .list {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 500px;
+
+      .item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 25px;
+        line-height: 1.5em;
+        cursor: pointer;
+        border-radius: 5px;
+        background-color: #ebebeb;
+        user-select: none;
+        margin: 25px 0;
+
+        .name {
+          font-weight: 700;
+        }
+
+        svg {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          opacity: 0;
+        }
+
+        &:hover {
+          svg {
+            opacity: 0.5;
+          }
+        }
+
+        &.selected {
+          svg {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .validate {
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50px;
+      padding-top: 50px;
+      border-top: 1px solid #d8d8d8;
+
+      div {
+        font-family: Poppins, sans-serif;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      button {
+        font-size: 1.5em;
+        background-color: white;
+        color: black;
+        padding: 5px 25px;
+        border-radius: 5px;
+        font-family: Poppins, sans-serif;
+        font-weight: bold;
+        border: 2px solid black;
+        cursor: pointer;
+        outline: none;
+
+        &:hover {
+          background-color: black;
+          color: white;
+        }
+      }
+    }
+  }
+}

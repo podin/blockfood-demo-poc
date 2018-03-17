@@ -2,7 +2,7 @@ import * as _ from 'lodash'
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {CUSTOMER_ADDRESS_ROUTE} from '../../Routes'
+import {CUSTOMER_ADDRESS_ROUTE, CUSTOMER_RESTAURANT_MENU_ROUTE} from '../../Routes'
 import RESTAURANTS from '../../data/Restaurants'
 
 import {setStep} from '../../state/Actions'
@@ -14,11 +14,25 @@ class CustomerRestaurants extends React.Component {
         super(props)
 
         this.onGoBack = this.onGoBack.bind(this)
+        this.onChoose = this.onChoose.bind(this)
     }
 
     onGoBack() {
         const {demoId} = this.props.match.params
         this.props.history.push(`/${demoId}/${CUSTOMER_ADDRESS_ROUTE}`)
+    }
+
+    onChoose(event) {
+        let target = event.target, restaurantId
+        while (!restaurantId) {
+            restaurantId = target.getAttribute('data-id')
+            if (!restaurantId) {
+                target = target.parentElement
+            }
+        }
+
+        const {demoId} = this.props.match.params
+        this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANT_MENU_ROUTE + restaurantId}/`)
     }
 
     componentDidMount() {
@@ -42,7 +56,7 @@ class CustomerRestaurants extends React.Component {
                         </h1>
                         <div className="list">
                             {RESTAURANTS.map(restaurant => (
-                                <div key={restaurant.id} className="item">
+                                <div key={restaurant.id} className="item" data-id={restaurant.id} onClick={this.onChoose}>
                                     <img src={restaurant.image} alt={restaurant.name}/>
                                     <div className="name">{restaurant.name}</div>
                                     <div className="type">{restaurant.type}</div>

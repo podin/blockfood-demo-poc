@@ -20,7 +20,8 @@ class Footer extends React.Component {
 
         const task = {
             1: 'As a customer, choose a sector by typing an adress',
-            2: 'As a customer, choose a restaurant'
+            2: 'As a customer, choose a restaurant',
+            3: 'As a customer, choose your order in the selected restaurant and then, validate your order'
         }[step]
 
         return (

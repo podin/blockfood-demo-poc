@@ -3,13 +3,15 @@ import {withRouter, Switch, Route, Redirect} from 'react-router-dom'
 import Api from './api/Api'
 import {
     CUSTOMER_ADDRESS_ROUTE,
-    CUSTOMER_RESTAURANT_ROUTE
+    CUSTOMER_RESTAURANTS_ROUTE,
+    CUSTOMER_RESTAURANT_MENU_ROUTE
 } from './Routes'
 import Loader from './components/loader/Loader'
 import Header from './components/header/Header'
 import StartView from './views/start-view/StartView'
 import CustomerAddress from './views/customer-views/CustomerAddress'
 import CustomerRestaurants from './views/customer-views/CustomerRestaurants'
+import CustomerRestaurantMenu from './views/customer-views/CustomerRestaurantMenu'
 import FooterController from './components/footer-controller/FooterController'
 
 import './MainView.scss'
@@ -53,7 +55,8 @@ class MainView extends React.Component {
                     <Switch>
                         <Route path="/" exact component={StartView}/>
                         <Route path={`/:demoId/${CUSTOMER_ADDRESS_ROUTE}`} exact component={CustomerAddress}/>
-                        <Route path={`/:demoId/${CUSTOMER_RESTAURANT_ROUTE}`} exact component={CustomerRestaurants}/>
+                        <Route path={`/:demoId/${CUSTOMER_RESTAURANTS_ROUTE}`} exact component={CustomerRestaurants}/>
+                        <Route path={`/:demoId/${CUSTOMER_RESTAURANT_MENU_ROUTE}:restaurantId/`} exact component={CustomerRestaurantMenu}/>
                         <Redirect to="/"/>
                     </Switch>
                     <Route path="/" component={FooterController}/>

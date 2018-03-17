@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {CUSTOMER_RESTAURANT_ROUTE} from '../../Routes'
+import {CUSTOMER_RESTAURANTS_ROUTE} from '../../Routes'
 
 import {setCustomerAddress, setStep} from '../../state/Actions'
 
@@ -32,7 +32,7 @@ class CustomerAddress extends React.Component {
             this.props.dispatch(setStep(2))
 
             const {demoId} = this.props.match.params
-            this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANT_ROUTE}`)
+            this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANTS_ROUTE}`)
         }
     }
 
