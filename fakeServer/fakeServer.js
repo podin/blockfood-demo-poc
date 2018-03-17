@@ -73,7 +73,7 @@ module.exports = function (app) {
         const uuid = uuidv1()
 
         const entry = {
-            orderId: uuid,
+            id: uuid,
             status: ORDER_STATUS.WAITING_RESTAURANT_VALIDATION,
             order: order
         }

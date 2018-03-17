@@ -1,0 +1,73 @@
+#bf-demo-restaurant-orders {
+  .list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    max-height: 300px;
+    padding: 30px;
+    overflow: auto;
+
+    .item {
+      flex-shrink: 0;
+      flex-grow: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 2px solid black;
+      border-radius: 5px;
+      padding: 30px;
+
+      &:not(:last-of-type) {
+        margin-bottom: 30px;
+      }
+
+      .icon {
+        font-size: 3em;
+        margin-right: 30px;
+      }
+
+      .properties {
+        line-height: 1.5em;
+
+        .id {
+          opacity: 0.5;
+          margin-bottom: 10px;
+        }
+
+        b {
+          width: 100px;
+          display: inline-block;
+          font-weight: bold;
+          margin-right: 10px;
+        }
+      }
+
+      &:not(.active) {
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: repeating-linear-gradient(
+                          -45deg,
+                          rgba(0, 0, 0, 0.2),
+                          rgba(0, 0, 0, 0.2) 10px,
+                          rgba(0, 0, 0, 0.3) 10px,
+                          rgba(0, 0, 0, 0.3) 20px
+          );
+          opacity: 0.5;
+        }
+      }
+
+      &.active:hover {
+        cursor: pointer;
+        background: black;
+        color: white;
+      }
+    }
+  }
+}
