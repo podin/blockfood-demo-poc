@@ -8,30 +8,41 @@ class Header extends React.Component {
     constructor(props) {
         super(props)
 
+        const {type, user} = this.getTypeAndUser()
+
         this.state = {
-            type: this.getType()
+            type,
+            user
         }
     }
 
-    getType(props) {
-        return _.find([
+    getTypeAndUser(props) {
+        const type = _.find([
                 CUSTOMER_ROUTES,
                 RESTAURANT_ROUTES,
                 COURIER_ROUTES
             ], route => (props || this.props).location.pathname.indexOf(route) !== -1) || null
+
+        const user = {
+            [CUSTOMER_ROUTES]: 'a hungry customer',
+            [RESTAURANT_ROUTES]: 'a passionate chef',
+            [COURIER_ROUTES]: 'a motivated courier'
+        }[type]
+
+        return {type, user}
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.location.pathname !== this.props.pathname) {
-            const nextType = this.getType(nextProps)
+            const {type, user} = this.getTypeAndUser(nextProps)
 
-            nextType && this.setState({type: nextType})
+            type && this.setState({type, user})
         }
     }
 
     render() {
         const {location} = this.props
-        const {type} = this.state
+        const {type, user} = this.state
 
         return (
             <header id="bf-demo-header" className={location.pathname !== '/' ? 'visible' : ''}>
@@ -43,7 +54,7 @@ class Header extends React.Component {
                 </div>
 
                 <div className="user">
-                    <i className="fas fa-user"/> Welcome <span>John/Jane Doe</span>
+                    <i className="fas fa-user"/> Welcome to <span>{user}</span>
                 </div>
             </header>
         )

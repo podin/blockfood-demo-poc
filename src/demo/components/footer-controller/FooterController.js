@@ -62,7 +62,9 @@ class Footer extends React.Component {
                         <div className={`step${step >= 13 ? ' completed' : ''}`}>13</div>
                     </div>
                 </div>
-                <button className={`next${true ? ' disabled' : ''}`}><i className="fas fa-hand-point-right"/>Next</button>
+                <div>
+                    <a href="http://blockfood.io" target="_blank" rel="noopener noreferrer">Visit blockfood.io</a>
+                </div>
                 {modal && (
                     <Modal onImmediateClose={modal.onModalClose} onClose={this.closeModal}>
                         {modal.id === 1 && (

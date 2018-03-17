@@ -130,4 +130,17 @@
       }
     }
   }
+
+  a {
+    width: 170px;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-family: Poppins, sans-serif;
+    text-align: right;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
