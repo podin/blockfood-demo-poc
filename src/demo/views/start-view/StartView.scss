@@ -8,6 +8,13 @@
   align-items: center;
   justify-content: center;
 
+  svg {
+    font-size: 3em;
+    color: #4b3f80;
+    animation-duration: 0.9s;
+    animation-timing-function: ease-in-out;
+  }
+
   button {
     font-size: 3em;
     background-color: white;

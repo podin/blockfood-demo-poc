@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 import {getRouteCustomerRestaurants} from '../../../Routes'
 
-import {setCustomerAddress} from '../../../state/Actions'
+import {setStep, setCustomerAddress} from '../../../state/Actions'
 
 import './CustomerAddress.scss'
 
@@ -51,6 +51,8 @@ class CustomerAddress extends React.Component {
 
     componentDidMount() {
         this.inputElement = ReactDOM.findDOMNode(this).querySelector('input')
+
+        this.props.dispatch(setStep(1))
     }
 
     render() {

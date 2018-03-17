@@ -1,9 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import Api from '../../api/Api'
+import doWithMinTime from '../../utils/DoWithMinTime'
 import {getRouteCustomerAddress} from '../../Routes'
 
-import {restart} from '../../state/Actions'
+import {restart, setModal} from '../../state/Actions'
 
 import './StartView.scss'
 
@@ -11,11 +12,20 @@ class StartView extends React.Component {
     constructor(props) {
         super(props)
 
+        this.state = {
+            loading: false
+        }
+
         this.onStartDemo = this.onStartDemo.bind(this)
     }
 
     onStartDemo() {
-        Api.startDemo().then((demoId) => this.props.history.push(getRouteCustomerAddress(demoId)))
+        this.setState({loading: true})
+
+        doWithMinTime(() => Api.startDemo()).then((demoId) => {
+            this.props.dispatch(setModal(1))
+            this.props.history.push(getRouteCustomerAddress(demoId))
+        })
     }
 
     componentDidMount() {
@@ -23,9 +33,15 @@ class StartView extends React.Component {
     }
 
     render() {
+        const {loading} = this.state
+
         return (
             <div id="bf-demo-start-view">
-                <button onClick={this.onStartDemo}>START DEMO</button>
+                {loading ? (
+                    <i className="fas fa-circle-notch fa-spin"/>
+                ) : (
+                    <button onClick={this.onStartDemo}>START DEMO</button>
+                )}
             </div>
         )
     }

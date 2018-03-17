@@ -1,6 +1,9 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import Modal from '../modal/Modal'
+
+import {setModal} from '../../state/Actions'
 
 import './FooterController.scss'
 
@@ -9,14 +12,19 @@ class Footer extends React.Component {
         super(props)
 
         this.onRestart = this.onRestart.bind(this)
+        this.closeModal = this.closeModal.bind(this)
     }
 
     onRestart() {
         this.props.history.push('/')
     }
 
+    closeModal() {
+        this.props.dispatch(setModal(null))
+    }
+
     render() {
-        const {location, step} = this.props
+        const {location, step, modal} = this.props
 
         const task = {
             1: 'As a customer, choose a sector by typing an adress.',
@@ -29,7 +37,9 @@ class Footer extends React.Component {
             <div id="bf-demo-footer" className={location.pathname !== '/' ? 'visible' : ''}>
                 <button className="restart" onClick={this.onRestart}><i className="fas fa-undo-alt"/>Restart</button>
                 <div className="progress">
-                    <div className="task"><span>{step}.</span> {task}</div>
+                    <div className="task">
+                        {step !== 0 && <div><span>{step}.</span> {task}</div>}
+                    </div>
                     <div className="breadcrumb">
                         <div className={`icon customer${step >= 1 ? ' completed' : ''}`}></div>
                         <div className={`step${step >= 1 ? ' completed' : ''}`}>1</div>
@@ -52,8 +62,19 @@ class Footer extends React.Component {
                         <div className={`step${step >= 13 ? ' completed' : ''}`}>13</div>
                     </div>
                 </div>
-                <button className={`next${true ? ' disabled' : ''}`}><i className="fas fa-hand-point-right"/>Next
-                </button>
+                <button className={`next${true ? ' disabled' : ''}`}><i className="fas fa-hand-point-right"/>Next</button>
+                {modal && (
+                    <Modal onClose={this.closeModal}>
+                        {modal === 1 && (
+                            <React.Fragment>
+                                <h1>Welcome to the demo of BlockFood</h1>
+                                <p>Play the role of a customer, a restaurant and a courier!</p>
+                                <p>Look at the bottom of your screen to see waht you have to do next.</p>
+                                <h3>Start right now as a hungry customer!</h3>
+                            </React.Fragment>
+                        )}
+                    </Modal>
+                )}
             </div>
         )
     }
@@ -61,7 +82,8 @@ class Footer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        step: state.step
+        step: state.step,
+        modal: state.modal
     }
 }
 

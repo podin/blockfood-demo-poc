@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import Storage from '../utils/Storage'
 
-import {RESTART, SET_STEP, SET_CUSTOMER_ADDRESS, SET_CURRENT_ORDER} from './Actions'
+import {RESTART, SET_STEP, SET_MODAL, SET_CUSTOMER_ADDRESS, SET_CURRENT_ORDER} from './Actions'
 
 const reduceStep = (state, action) => {
     if (action.allowBack || action.step > state.step) {
@@ -12,6 +12,12 @@ const reduceStep = (state, action) => {
     else {
         return state
     }
+}
+
+const reduceModal = (state, action) => {
+    const newState = {}
+    _.assign(newState, state, {modal: action.modal})
+    return newState
 }
 
 const reduceCustomerAddress = (state, action) => {
@@ -29,7 +35,8 @@ const reduceCurrentOrder = (state, action) => {
 }
 
 const DEFAULT_STATE = {
-    step: 1,
+    step: 0,
+    modal: null,
     customerAddress: '',
     currentOrder: null
 }
@@ -47,6 +54,8 @@ export const rootReducer = (state = INITIAL_STATE, action) => {
             return DEFAULT_STATE
         case SET_STEP:
             return reduceStep(state, action)
+        case SET_MODAL:
+            return reduceModal(state, action)
         case SET_CUSTOMER_ADDRESS:
             return reduceCustomerAddress(state, action)
         case SET_CURRENT_ORDER:
