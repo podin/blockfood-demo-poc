@@ -69,7 +69,7 @@ class CustomerOrder extends React.Component {
         if (orderIds.length > 0) {
             const currentOrder = {
                 demoId: this.demoId,
-                userId: this.demoId,
+                customerId: this.demoId,
                 restaurantId: this.restaurant.id,
                 orderIds,
                 price

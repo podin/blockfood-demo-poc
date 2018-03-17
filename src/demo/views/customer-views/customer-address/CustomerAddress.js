@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 import {getRouteCustomerRestaurants} from '../../../Routes'
 
@@ -17,11 +18,17 @@ class CustomerAddress extends React.Component {
         }
 
         this.onChange = this.onChange.bind(this)
+        this.clear = this.clear.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
 
     onChange(event) {
         this.setState({value: event.target.value})
+    }
+
+    clear() {
+        this.refocusInput = true
+        this.setState({value: ''})
     }
 
     onSubmit(event) {
@@ -35,6 +42,17 @@ class CustomerAddress extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        if (this.refocusInput) {
+            this.inputElement.focus()
+            this.refocusInput = false
+        }
+    }
+
+    componentDidMount() {
+        this.inputElement = ReactDOM.findDOMNode(this).querySelector('input')
+    }
+
     render() {
         const {value} = this.state
 
@@ -45,7 +63,10 @@ class CustomerAddress extends React.Component {
                         <div className="label">Find some restaurants</div>
                     </div>
                     <form onSubmit={this.onSubmit}>
-                        <input type="text" placeholder="Where are you?" value={value} onChange={this.onChange}/>
+                        <div>
+                            <input type="text" placeholder="Where are you?" value={value} onChange={this.onChange}/>
+                            {value.length > 0 && <div className="clear" onClick={this.clear}><i className="fas fa-times"/></div>}
+                        </div>
                         <button type="submit" disabled={value.length === 0}>
                             <i className="fas fa-search"/>
                         </button>

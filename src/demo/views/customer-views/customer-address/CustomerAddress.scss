@@ -27,8 +27,28 @@
       }
 
       input {
+        padding-right: 50px;
+
         &:focus {
           border-color: #333;
+        }
+      }
+
+      & > div {
+        position: relative;
+
+        .clear {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          font-size: 2em;
+          cursor: pointer;
+          opacity: 0.5;
+          z-index: 1;
+
+          &:hover {
+            opacity: 1;
+          }
         }
       }
 

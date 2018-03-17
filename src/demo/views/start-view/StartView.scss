@@ -19,6 +19,7 @@
     border: 5px solid #4b3f80;
     cursor: pointer;
     outline: none;
+    user-select: none;
 
     &:hover {
       background-color: #4b3f80;
