@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {getRouteCustomerAddress, getRouteCustomerOrder} from '../../../Routes'
 import RESTAURANTS from '../../../data/Restaurants'
 
-import {setStep} from '../../../state/Actions'
+import {setStep, setCurrentOrder} from '../../../state/Actions'
 
 import './CustomerRestaurants.scss'
 
@@ -15,14 +15,16 @@ class CustomerRestaurants extends React.Component {
         this.demoId = this.props.match.params.demoId
 
         this.onGoBack = this.onGoBack.bind(this)
-        this.onChoose = this.onChoose.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
     onGoBack() {
         this.props.history.replace(getRouteCustomerAddress(this.demoId))
     }
 
-    onChoose(event) {
+    onSubmit(event) {
+        const {currentOrder} = this.props
+
         let target = event.target, restaurantId
         while (!restaurantId) {
             restaurantId = target.getAttribute('data-id')
@@ -32,6 +34,9 @@ class CustomerRestaurants extends React.Component {
         }
 
         this.props.dispatch(setStep(3))
+        if (currentOrder && currentOrder.restaurantId !== restaurantId) {
+            this.props.dispatch(setCurrentOrder(null))
+        }
         this.props.history.replace(getRouteCustomerOrder(this.demoId, restaurantId))
     }
 
@@ -47,7 +52,7 @@ class CustomerRestaurants extends React.Component {
                     </div>
                     <div className="list">
                         {RESTAURANTS.map(restaurant => (
-                            <div key={restaurant.id} className="item" data-id={restaurant.id} onClick={this.onChoose}>
+                            <div key={restaurant.id} className="item" data-id={restaurant.id} onClick={this.onSubmit}>
                                 <img src={restaurant.image} alt={restaurant.name}/>
                                 <div className="name">{restaurant.name}</div>
                                 <div className="type">{restaurant.type}</div>
@@ -70,7 +75,8 @@ class CustomerRestaurants extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        customerAddress: state.customerAddress
+        customerAddress: state.customerAddress,
+        currentOrder: state.currentOrder
     }
 }
 
