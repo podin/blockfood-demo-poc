@@ -1,0 +1,84 @@
+#bf-demo-customer-restaurants {
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Poppins, sans-serif;
+      font-size: 2em;
+      color: #525252;
+      padding: 0 25px;
+      margin-bottom: 35px;
+
+      .label {
+        padding: 15px 0;
+        white-space: nowrap;
+        max-width: 1000px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      span {
+        color: black;
+      }
+
+      svg {
+        margin-right: 25px;
+        color: black;
+        opacity: 0.5;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .item {
+        padding: 20px;
+        line-height: 1.5em;
+        cursor: pointer;
+        border-radius: 20px;
+
+        &:hover {
+          background-color: #ebebeb;
+        }
+
+        img {
+          width: 300px;
+          height: 200px;
+        }
+
+        .name {
+          font-weight: 700;
+        }
+
+        .type {
+          font-weight: 400;
+          font-style: italic;
+          opacity: 0.7;
+        }
+
+        .rate {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
+
+        &:not(:last-of-type) {
+          margin-right: 50px;
+        }
+      }
+    }
+  }
+}

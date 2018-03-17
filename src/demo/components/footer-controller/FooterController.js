@@ -1,15 +1,12 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import './FooterController.scss'
 
 class Footer extends React.Component {
     constructor(props) {
         super(props)
-
-        this.state = {
-            step: 1
-        }
 
         this.onRestart = this.onRestart.bind(this)
     }
@@ -19,11 +16,11 @@ class Footer extends React.Component {
     }
 
     render() {
-        const {location} = this.props
-        const {step} = this.state
+        const {location, step} = this.props
 
         const task = {
-            1: 'As a customer, choose a sector by typing an adress'
+            1: 'As a customer, choose a sector by typing an adress',
+            2: 'As a customer, choose a restaurant'
         }[step]
 
         return (
@@ -60,4 +57,10 @@ class Footer extends React.Component {
     }
 }
 
-export default withRouter(Footer)
+const mapStateToProps = (state) => {
+    return {
+        step: state.step
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(Footer))

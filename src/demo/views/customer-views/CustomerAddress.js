@@ -1,5 +1,8 @@
-import React from 'react';
+import React from 'react'
+import {connect} from 'react-redux'
 import {CUSTOMER_RESTAURANT_ROUTE} from '../../Routes'
+
+import {setCustomerAddress, setStep} from '../../state/Actions'
 
 import './CustomerAddress.scss'
 
@@ -8,7 +11,7 @@ class CustomerAddress extends React.Component {
         super(props)
 
         this.state = {
-            value: ''
+            value: this.props.customerAddress
         }
 
         this.onChange = this.onChange.bind(this)
@@ -22,7 +25,12 @@ class CustomerAddress extends React.Component {
     onSubmit(event) {
         event.preventDefault()
 
-        if (this.state.value.length > 0) {
+        const {value} = this.state
+
+        if (value.length > 0) {
+            this.props.dispatch(setCustomerAddress(value))
+            this.props.dispatch(setStep(2))
+
             const {demoId} = this.props.match.params
             this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANT_ROUTE}`)
         }
@@ -33,15 +41,19 @@ class CustomerAddress extends React.Component {
 
         return (
             <div id="bf-demo-customer-address" className="view">
-
                 <form onSubmit={this.onSubmit}>
                     <input type="text" placeholder="Where..." value={value} onChange={this.onChange}/>
                     <button type="submit" disabled={value.length === 0}><i className="fas fa-search"/></button>
                 </form>
-
             </div>
         )
     }
 }
 
-export default CustomerAddress
+const mapStateToProps = (state) => {
+    return {
+        customerAddress: state.customerAddress
+    }
+}
+
+export default connect(mapStateToProps)(CustomerAddress)
