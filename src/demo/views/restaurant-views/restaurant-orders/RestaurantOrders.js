@@ -9,16 +9,19 @@ import './RestaurantOrders.scss'
 class RestaurantOrders extends React.Component {
     constructor(props) {
         super(props)
-
-        const {demoId, restaurantId} = this.props.match.params
-
-        this.demoId = demoId
-        this.restaurant = RESTAURANT_BY_IDS[restaurantId]
-
+        
         this.openOrder = this.openOrder.bind(this)
     }
 
+    getRestaurant() {
+        const {restaurantId} = this.props.match.params
+        return RESTAURANT_BY_IDS[restaurantId]
+    }
+
     openOrder(event) {
+        const {demoId} = this.props.match.params
+        const restaurant = this.getRestaurant()
+
         let target = event.target, orderId
         while (!orderId) {
             orderId = target.getAttribute('data-id')
@@ -27,10 +30,11 @@ class RestaurantOrders extends React.Component {
             }
         }
 
-        this.props.history.replace(getRouteRestaurantOrder(this.demoId, this.restaurant.id, orderId))
+        this.props.history.replace(getRouteRestaurantOrder(demoId, restaurant.id, orderId))
     }
 
     render() {
+        const restaurant = this.getRestaurant()
         const {restaurantOrders} = this.props
 
         const isDone = order => order.status === ORDER_STATUS.DONE
@@ -39,7 +43,7 @@ class RestaurantOrders extends React.Component {
             <div id="bf-demo-restaurant-orders" className="view">
                 <div>
                     <div className="view-title">
-                        <div className="label">List of orders for the restaurant: <span>{this.restaurant.name}</span></div>
+                        <div className="label">List of orders for the restaurant: <span>{restaurant.name}</span></div>
                     </div>
                     <div className="list">
                         {restaurantOrders.map(order => (

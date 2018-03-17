@@ -12,17 +12,17 @@ class CustomerRestaurants extends React.Component {
     constructor(props) {
         super(props)
 
-        this.demoId = this.props.match.params.demoId
-
         this.onGoBack = this.onGoBack.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
     }
 
     onGoBack() {
-        this.props.history.replace(getRouteCustomerAddress(this.demoId))
+        const {demoId} = this.props.match.params
+        this.props.history.replace(getRouteCustomerAddress(demoId))
     }
 
     onSubmit(event) {
+        const {demoId} = this.props.match.params
         const {currentOrder} = this.props
 
         let target = event.target, restaurantId
@@ -37,7 +37,7 @@ class CustomerRestaurants extends React.Component {
         if (currentOrder && currentOrder.restaurantId !== restaurantId) {
             this.props.dispatch(setCurrentOrder(null))
         }
-        this.props.history.replace(getRouteCustomerOrder(this.demoId, restaurantId))
+        this.props.history.replace(getRouteCustomerOrder(demoId, restaurantId))
     }
 
     render() {

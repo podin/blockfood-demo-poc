@@ -12,11 +12,6 @@ class CustomerOrder extends React.Component {
     constructor(props) {
         super(props)
 
-        const {demoId, restaurantId} = this.props.match.params
-
-        this.demoId = demoId
-        this.restaurant = RESTAURANT_BY_IDS[restaurantId]
-
         const {currentOrder} = this.props
 
         this.state = {
@@ -29,11 +24,18 @@ class CustomerOrder extends React.Component {
         this.onValidate = this.onValidate.bind(this)
     }
 
+    getRestaurant() {
+        const {restaurantId} = this.props.match.params
+        return RESTAURANT_BY_IDS[restaurantId]
+    }
+
     onGoBack() {
-        this.props.history.replace(getRouteCustomerRestaurants(this.demoId))
+        const {demoId} = this.props.match.params
+        this.props.history.replace(getRouteCustomerRestaurants(demoId))
     }
 
     onChoose(event) {
+        const restaurant = this.getRestaurant()
         const {orderIds} = this.state
 
         let target = event.target, menuId
@@ -52,7 +54,7 @@ class CustomerOrder extends React.Component {
             newOrderIds = [...orderIds, menuId]
         }
 
-        const newPrice = _.reduce(this.restaurant.menu, (total, menu) => {
+        const newPrice = _.reduce(restaurant.menu, (total, menu) => {
             if (newOrderIds.includes(menu.id)) {
                 total += menu.price
             }
@@ -64,23 +66,26 @@ class CustomerOrder extends React.Component {
     }
 
     onValidate() {
+        const {demoId} = this.props.match.params
+        const restaurant = this.getRestaurant()
         const {orderIds, price} = this.state
 
         if (orderIds.length > 0) {
             const currentOrder = {
-                customerId: this.demoId,
-                restaurantId: this.restaurant.id,
+                customerId: demoId,
+                restaurantId: restaurant.id,
                 orderIds,
                 price
             }
 
             this.props.dispatch(setStep(4))
             this.props.dispatch(setCurrentOrder(currentOrder))
-            this.props.history.replace(getRouteCustomerPayment(this.demoId))
+            this.props.history.replace(getRouteCustomerPayment(demoId))
         }
     }
 
     render() {
+        const restaurant = this.getRestaurant()
         const {orderIds, price} = this.state
 
         return (
@@ -88,10 +93,10 @@ class CustomerOrder extends React.Component {
                 <div>
                     <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
                     <div className="view-title">
-                        <div className="label">Welcome to <span>{this.restaurant.name}</span>!</div>
+                        <div className="label">Welcome to <span>{restaurant.name}</span>!</div>
                     </div>
                     <div className="list">
-                        {this.restaurant.menu.map(menu => (
+                        {restaurant.menu.map(menu => (
                             <div key={menu.id} data-id={menu.id}
                                  className={`item${orderIds.includes(menu.id) ? ' selected' : ''}`}
                                  onClick={this.onChoose}>

@@ -14,11 +14,6 @@ class RestaurantOrder extends React.Component {
     constructor(props) {
         super(props)
 
-        const {demoId, restaurantId} = this.props.match.params
-
-        this.demoId = demoId
-        this.restaurantId = restaurantId
-
         const order = this.getOrder()
         const isDone = this.isDone(order)
 
@@ -43,10 +38,12 @@ class RestaurantOrder extends React.Component {
     }
 
     onGoBack() {
-        this.props.history.replace(getRouteRestaurantOrders(this.demoId, this.restaurantId))
+        const {demoId, restaurantId} = this.props.match.params
+        this.props.history.replace(getRouteRestaurantOrders(demoId, restaurantId))
     }
 
     onSubmit() {
+        const {demoId} = this.props.match.params
         const {loading, order} = this.state
 
         if (!loading && !this.isDone(order)) {
@@ -69,7 +66,7 @@ class RestaurantOrder extends React.Component {
             }
 
             this.setState({loading: true})
-            doWithMinTime(() => Api.updateOrderStatus(this.demoId, order.id, newStatus)).then(onSuccess)
+            doWithMinTime(() => Api.updateOrderStatus(demoId, order.id, newStatus)).then(onSuccess)
         }
     }
 
