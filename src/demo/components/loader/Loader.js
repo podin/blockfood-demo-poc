@@ -22,8 +22,11 @@ export default class Loader extends React.Component {
         this.setState({visible: false})
     }
 
-    componentDidMount() {
-        setTimeout(() => this.setState({loading: false}), MIN_LOADING_TIME)
+    componentWillReceiveProps(nextProps) {
+        if (this.props.active && !nextProps.active) {
+            const delay = Math.max(MIN_LOADING_TIME - (+new Date() - this.startedAt), 0)
+            setTimeout(() => this.setState({loading: false}), delay)
+        }
     }
 
     render() {

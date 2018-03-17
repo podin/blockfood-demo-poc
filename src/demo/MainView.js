@@ -27,7 +27,8 @@ class MainView extends React.Component {
         Api.init(this.onError.bind(this))
 
         this.state = {
-            error: false
+            error: false,
+            ready: false
         }
 
         this.onRestart = this.onRestart.bind(this)
@@ -41,8 +42,12 @@ class MainView extends React.Component {
         window.location.href = window.location.origin
     }
 
+    componentDidMount() {
+        this.setState({ready: true})
+    }
+
     render() {
-        const {error} = this.state
+        const {error, ready} = this.state
 
         if (error) {
             return (
@@ -55,18 +60,22 @@ class MainView extends React.Component {
         else {
             return (
                 <React.Fragment>
-                    <Route path="/" component={Header}/>
-                    <Switch>
-                        <Route path="/" exact component={StartView}/>
-                        <Route path={CUSTOMER_ADDRESS_ROUTE} exact component={CustomerAddress}/>
-                        <Route path={CUSTOMER_RESTAURANTS_ROUTE} exact component={CustomerRestaurants}/>
-                        <Route path={CUSTOMER_RESTAURANT_ORDER_ROUTE} exact component={CustomerOrder}/>
-                        <Route path={CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
-                        <Route path={RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
-                        <Redirect to="/"/>
-                    </Switch>
-                    <Route path="/" component={FooterController}/>
-                    <Loader/>
+                    {ready && (
+                        <React.Fragment>
+                            <Route path="/" component={Header}/>
+                            <Switch>
+                                <Route path="/" exact component={StartView}/>
+                                <Route path={CUSTOMER_ADDRESS_ROUTE} exact component={CustomerAddress}/>
+                                <Route path={CUSTOMER_RESTAURANTS_ROUTE} exact component={CustomerRestaurants}/>
+                                <Route path={CUSTOMER_RESTAURANT_ORDER_ROUTE} exact component={CustomerOrder}/>
+                                <Route path={CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
+                                <Route path={RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
+                                <Redirect to="/"/>
+                            </Switch>
+                            <Route path="/" component={FooterController}/>
+                        </React.Fragment>
+                    )}
+                    <Loader active={!ready}/>
                 </React.Fragment>
             )
         }
