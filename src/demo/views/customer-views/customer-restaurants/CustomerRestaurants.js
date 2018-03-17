@@ -19,7 +19,7 @@ class CustomerRestaurants extends React.Component {
     }
 
     onGoBack() {
-        this.props.history.push(getRouteCustomerAddress(this.demoId))
+        this.props.history.replace(getRouteCustomerAddress(this.demoId))
     }
 
     onChoose(event) {
@@ -32,7 +32,7 @@ class CustomerRestaurants extends React.Component {
         }
 
         this.props.dispatch(setStep(3))
-        this.props.history.push(getRouteCustomerOrder(this.demoId, restaurantId))
+        this.props.history.replace(getRouteCustomerOrder(this.demoId, restaurantId))
     }
 
     render() {

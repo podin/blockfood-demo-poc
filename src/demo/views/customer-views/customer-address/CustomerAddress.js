@@ -39,7 +39,7 @@ class CustomerAddress extends React.Component {
         if (value.length > 0) {
             this.props.dispatch(setStep(2))
             this.props.dispatch(setCustomerAddress(value))
-            this.props.history.push(getRouteCustomerRestaurants(this.demoId))
+            this.props.history.replace(getRouteCustomerRestaurants(this.demoId))
         }
     }
 

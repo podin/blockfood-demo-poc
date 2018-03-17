@@ -19,7 +19,7 @@ class Footer extends React.Component {
     }
 
     onRestart() {
-        this.props.history.push('/')
+        this.props.history.replace('/')
     }
 
     closeModal() {
@@ -29,7 +29,7 @@ class Footer extends React.Component {
     onModalGo() {
         if (this.props.modal === 2) {
             this.props.dispatch(setStep(5))
-            this.props.history.push(getRouteRestaurantOrders(this.demoId))
+            this.props.history.replace(getRouteRestaurantOrders(this.demoId))
         }
     }
 

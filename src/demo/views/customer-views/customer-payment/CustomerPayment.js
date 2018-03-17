@@ -26,7 +26,7 @@ class CustomerPayment extends React.Component {
     onGoBack() {
         if (!this.state.submitted) {
             const {restaurantId} = this.props.currentOrder
-            this.props.history.push(getRouteCustomerOrder(this.demoId, restaurantId))
+            this.props.history.replace(getRouteCustomerOrder(this.demoId, restaurantId))
         }
     }
 

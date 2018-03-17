@@ -30,7 +30,7 @@ class CustomerOrder extends React.Component {
     }
 
     onGoBack() {
-        this.props.history.push(getRouteCustomerRestaurants(this.demoId))
+        this.props.history.replace(getRouteCustomerRestaurants(this.demoId))
     }
 
     onChoose(event) {
@@ -76,7 +76,7 @@ class CustomerOrder extends React.Component {
 
             this.props.dispatch(setStep(4))
             this.props.dispatch(setCurrentOrder(currentOrder))
-            this.props.history.push(getRouteCustomerPayment(this.demoId))
+            this.props.history.replace(getRouteCustomerPayment(this.demoId))
         }
     }
 
