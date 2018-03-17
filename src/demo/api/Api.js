@@ -13,8 +13,8 @@ class Api {
         return Http.post('/api/start-demo').then(({data}) => data).catch(this.onError)
     }
 
-    createNewOrder() {
-        return Promise.resolve().catch(this.onError)
+    createNewOrder(demoId, order) {
+        return Http.post(`/api/${demoId}/order`, order).then(({data}) => data).catch(this.onError)
     }
 }
 

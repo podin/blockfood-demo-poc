@@ -15,8 +15,12 @@ const reduceStep = (state, action) => {
 }
 
 const reduceModal = (state, action) => {
+    const newModal = action.modal ? {
+        id: action.modal,
+        onModalClose: action.onModalClose
+    } : null
     const newState = {}
-    _.assign(newState, state, {modal: action.modal})
+    _.assign(newState, state, {modal: newModal})
     return newState
 }
 

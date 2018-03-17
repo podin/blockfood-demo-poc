@@ -8,7 +8,7 @@ export const setStep = (step, allowBack = false) => ({type: SET_STEP, step, allo
 
 export const restart = () => ({type: RESTART})
 
-export const setModal = (modal) => ({type: SET_MODAL, modal})
+export const setModal = (modal, onModalClose) => ({type: SET_MODAL, modal, onModalClose})
 
 export const setCustomerAddress = (customerAddress) => ({type: SET_CUSTOMER_ADDRESS, customerAddress})
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {getRouteRestaurantOrders} from '../../Routes'
 import Modal from '../modal/Modal'
 
-import {setStep, setModal} from '../../state/Actions'
+import {setModal} from '../../state/Actions'
 
 import './FooterController.scss'
 
@@ -14,7 +13,6 @@ class Footer extends React.Component {
         this.demoId = this.props.match.params.demoId
 
         this.onRestart = this.onRestart.bind(this)
-        this.onModalGo = this.onModalGo.bind(this)
         this.closeModal = this.closeModal.bind(this)
     }
 
@@ -24,13 +22,6 @@ class Footer extends React.Component {
 
     closeModal() {
         this.props.dispatch(setModal(null))
-    }
-
-    onModalGo() {
-        if (this.props.modal === 2) {
-            this.props.dispatch(setStep(5))
-            this.props.history.replace(getRouteRestaurantOrders(this.demoId))
-        }
     }
 
     render() {
@@ -75,8 +66,8 @@ class Footer extends React.Component {
                 </div>
                 <button className={`next${true ? ' disabled' : ''}`}><i className="fas fa-hand-point-right"/>Next</button>
                 {modal && (
-                    <Modal onImmediateClose={this.onModalGo} onClose={this.closeModal}>
-                        {modal === 1 && (
+                    <Modal onImmediateClose={modal.onModalClose} onClose={this.closeModal}>
+                        {modal.id === 1 && (
                             <React.Fragment>
                                 <h1>Welcome to the demo of BlockFood</h1>
                                 <p>Play the role of a customer, a restaurant and a courier!</p>
@@ -84,7 +75,7 @@ class Footer extends React.Component {
                                 <h3>Start right now as a hungry customer!</h3>
                             </React.Fragment>
                         )}
-                        {modal === 2 && (
+                        {modal.id === 2 && (
                             <React.Fragment>
                                 <h1>Your order is now created!</h1>
                                 <p>It's time to become a restaurant in order to accept and prepare this order.</p>

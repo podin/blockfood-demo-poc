@@ -61,6 +61,7 @@ class MainView extends React.Component {
                 .then(step => {
                     if (step !== 0) {
                         this.props.dispatch(setStep(step))
+                        this.setState({ready: true})
                     }
                     else {
                         const newStep = _.findIndex([
