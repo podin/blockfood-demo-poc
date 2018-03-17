@@ -3,7 +3,13 @@ const uuidv1 = require('uuid/v1')
 const bodyParser = require('body-parser')
 const database = {}
 
-const ORDER_STATUS = {WAITING_RESTAURANT_VALIDATION: 'WAITING_RESTAURANT_VALIDATION'}
+const ORDER_STATUS = {
+    WAITING_RESTAURANT_VALIDATION: 'WAITING_RESTAURANT_VALIDATION',
+    COOKING: 'COOKING',
+    WAITING_COURIER: 'WAITING_COURIER',
+    DELIVERING: 'DELIVERING',
+    DONE: 'DONE'
+}
 
 module.exports = function (app) {
 
@@ -27,13 +33,19 @@ module.exports = function (app) {
         else if (data[0].status === ORDER_STATUS.WAITING_RESTAURANT_VALIDATION) {
             res.send('5')
         }
+        else if (data[0].status === ORDER_STATUS.COOKING) {
+            res.send('6')
+        }
+        else if (data[0].status === ORDER_STATUS.WAITING_COURIER) {
+            res.send('6') // TODO: 7
+        }
         else {
             res.sendStatus(500)
         }
     })
 
     const getRestaurantOrders = (data, restaurantId) => {
-        return _.filter(data, ({order}) => order.restaurantId === restaurantId)
+        return _.filter(data, ({details}) => details.restaurantId === restaurantId)
     }
 
     app.get('/api/:demoId/restaurant-orders/:restaurantId', function (req, res) {
@@ -64,7 +76,7 @@ module.exports = function (app) {
 
     app.post('/api/:demoId/order', function (req, res) {
         const {demoId} = req.params
-        const order = req.body
+        const details = req.body
 
         if (!database[demoId]) {
             res.sendStatus(403)
@@ -72,15 +84,43 @@ module.exports = function (app) {
 
         const uuid = uuidv1()
 
-        const entry = {
+        const order = {
             id: uuid,
             status: ORDER_STATUS.WAITING_RESTAURANT_VALIDATION,
-            order: order
+            details
         }
 
-        database[demoId].push(entry)
+        database[demoId].push(order)
 
-        res.send(getRestaurantOrders(database[demoId], order.restaurantId))
+        res.send(getRestaurantOrders(database[demoId], details.restaurantId))
+    })
+
+    app.put('/api/:demoId/order/:orderId', function (req, res) {
+        const {demoId, orderId} = req.params
+        const {status} = req.body
+
+        if (!database[demoId] || _.values(ORDER_STATUS).indexOf(status) === -1) {
+            res.sendStatus(403)
+        }
+
+        let findOrder = null
+        database[demoId] = _.map(database[demoId], order => {
+            if (order.id === orderId) {
+                findOrder = order
+                const newOrder = {}
+                _.assign(newOrder, order, {status})
+                return newOrder
+            }
+            else {
+                return order
+            }
+        })
+
+        if (!findOrder) {
+            res.sendStatus(403)
+        }
+
+        res.send(getRestaurantOrders(database[demoId], findOrder.details.restaurantId))
     })
 
 }

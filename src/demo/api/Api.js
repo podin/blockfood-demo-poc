@@ -20,6 +20,10 @@ class Api {
     createNewOrder(demoId, order) {
         return Http.post(`/api/${demoId}/order`, order).then(({data}) => data).catch(this.onError)
     }
+
+    updateOrderStatus(demoId, orderId, status) {
+        return Http.put(`/api/${demoId}/order/${orderId}`, {status}).then(({data}) => data).catch(this.onError)
+    }
 }
 
 export default new Api()

@@ -30,7 +30,8 @@ class Footer extends React.Component {
             2: 'As a customer, choose a restaurant.',
             3: 'As a customer, choose your order in the selected restaurant and then, validate your order.',
             4: 'As a customer, proceed to the payment of your order.',
-            5: 'As a restaurant, accept an order.'
+            5: 'As a restaurant, select a waiting order and accept it.',
+            6: 'As a restaurant, notify that the order is now ready to be delivred.'
         }[step]
 
         return (

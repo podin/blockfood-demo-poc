@@ -8,7 +8,8 @@ import {
     CUSTOMER_RESTAURANTS_ROUTE,
     CUSTOMER_RESTAURANT_ORDER_ROUTE,
     CUSTOMER_PAYMENT_ROUTE,
-    RESTAURANT_ORDERS_ROUTE
+    RESTAURANT_ORDERS_ROUTE,
+    RESTAURANT_ORDER_ROUTE
 } from './Routes'
 import Loader from './components/loader/Loader'
 import Header from './components/header/Header'
@@ -19,6 +20,7 @@ import CustomerRestaurants from './views/customer-views/customer-restaurants/Cus
 import CustomerOrder from './views/customer-views/customer-order/CustomerOrder'
 import CustomerPayment from './views/customer-views/customer-payment/CustomerPayment'
 import RestaurantOrders from './views/restaurant-views/restaurant-orders/RestaurantOrders'
+import RestaurantOrder from './views/restaurant-views/restaurant-order/RestaurantOrder'
 import FooterController from './components/footer-controller/FooterController'
 
 import {setStep, setRestaurantOrders} from './state/Actions'
@@ -61,14 +63,12 @@ class MainView extends React.Component {
                 .then(step => {
                     if (step >= 5 && step <= 6) {
                         const routes = [
-                            RESTAURANT_ORDERS_ROUTE
+                            RESTAURANT_ORDERS_ROUTE,
+                            RESTAURANT_ORDER_ROUTE
                         ]
+                        const routeIndex = _.findIndex(routes, route => this.getRouteMatch(route))
 
-                        const routeIndex = _.findIndex([
-                                RESTAURANT_ORDERS_ROUTE
-                            ], route => this.getRouteMatch(route))
-
-                        this.props.dispatch(setStep(routeIndex + 5))
+                        this.props.dispatch(setStep(step))
                         
                         const {restaurantId} = this.getRouteMatch(routes[routeIndex]).params
 
@@ -125,6 +125,7 @@ class MainView extends React.Component {
                                 <Route path={CUSTOMER_RESTAURANT_ORDER_ROUTE} exact component={CustomerOrder}/>
                                 <Route path={CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
                                 <Route path={RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
+                                <Route path={RESTAURANT_ORDER_ROUTE} exact component={RestaurantOrder}/>
                                 <Redirect to="/"/>
                             </Switch>
                             <Route path="/" component={FooterController}/>

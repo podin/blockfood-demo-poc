@@ -1,16 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {getRouteRestaurantOrder} from '../../../Routes'
 import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
+import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
 
 import './RestaurantOrders.scss'
-
-const ORDER_STATUS = {
-    WAITING_RESTAURANT_VALIDATION: 'WAITING_RESTAURANT_VALIDATION',
-    COOKING: 'COOKING',
-    WAITING_COURIER: 'WAITING_COURIER',
-    DELIVERING: 'DELIVERING',
-    DONE: 'DONE'
-}
 
 class RestaurantOrders extends React.Component {
     constructor(props) {
@@ -20,6 +14,20 @@ class RestaurantOrders extends React.Component {
 
         this.demoId = demoId
         this.restaurant = RESTAURANT_BY_IDS[restaurantId]
+
+        this.openOrder = this.openOrder.bind(this)
+    }
+
+    openOrder(event) {
+        let target = event.target, orderId
+        while (!orderId) {
+            orderId = target.getAttribute('data-id')
+            if (!orderId) {
+                target = target.parentElement
+            }
+        }
+
+        this.props.history.replace(getRouteRestaurantOrder(this.demoId, this.restaurant.id, orderId))
     }
 
     render() {
@@ -27,16 +35,6 @@ class RestaurantOrders extends React.Component {
 
         const isDone = order => order.status === ORDER_STATUS.DONE
 
-        const getStatus = order => {
-            return {
-                [ORDER_STATUS.WAITING_RESTAURANT_VALIDATION]: 'Waiting restaurant validation',
-                [ORDER_STATUS.COOKING]: 'In preparation',
-                [ORDER_STATUS.WAITING_COURIER]: 'Waiting an available courier',
-                [ORDER_STATUS.DELIVERING]: 'Delivering',
-                [ORDER_STATUS.DONE]: 'Done'
-            }[order.status]
-        }
-        
         return (
             <div id="bf-demo-restaurant-orders" className="view">
                 <div>
@@ -45,7 +43,8 @@ class RestaurantOrders extends React.Component {
                     </div>
                     <div className="list">
                         {restaurantOrders.map(order => (
-                            <div key={order.id} className={`item${!isDone(order) ? ' active' : ''}`}>
+                            <div key={order.id} data-id={order.id} className={`item${!isDone(order) ? ' active' : ''}`}
+                                 onClick={this.openOrder}>
                                 <div className="icon">
                                     <i className="fas fa-sticky-note"/>
                                 </div>
