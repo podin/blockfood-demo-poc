@@ -1,5 +1,6 @@
+const _ = require('lodash')
 const uuidv1 = require('uuid/v1')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
 const database = {}
 
 const ORDER_STATUS = {WAITING_RESTAURANT_VALIDATION: 'WAITING_RESTAURANT_VALIDATION'}
@@ -12,22 +13,44 @@ module.exports = function (app) {
     app.get('/api/:demoId/step', function (req, res) {
         const {demoId} = req.params
 
-        const db = database[demoId]
+        const data = database[demoId]
 
-        if (!db) {
+        if (!data) {
             res.sendStatus(403)
         }
-        else if (db.length === 0) {
+        else if (data.length === 0) {
             res.send('0')
         }
-        else if (db.length > 1) {
+        else if (data.length > 1) {
             res.send('14')
         }
-        else if (db[0].status === ORDER_STATUS.WAITING_RESTAURANT_VALIDATION) {
+        else if (data[0].status === ORDER_STATUS.WAITING_RESTAURANT_VALIDATION) {
             res.send('5')
         }
         else {
             res.sendStatus(500)
+        }
+    })
+
+    const getRestaurantOrders = (data, restaurantId) => {
+        return _.filter(data, ({order}) => order.restaurantId === restaurantId)
+    }
+
+    app.get('/api/:demoId/restaurant-orders/:restaurantId', function (req, res) {
+        const {demoId, restaurantId} = req.params
+        const data = database[demoId]
+
+        if (!data) {
+            res.sendStatus(403)
+        }
+
+        const restaurantOrders = getRestaurantOrders(data, restaurantId)
+
+        if (restaurantOrders.length === 0){
+            res.sendStatus(403)
+        }
+        else {
+            res.send(restaurantOrders)
         }
     })
 
@@ -43,6 +66,10 @@ module.exports = function (app) {
         const {demoId} = req.params
         const order = req.body
 
+        if (!database[demoId]) {
+            res.sendStatus(403)
+        }
+
         const uuid = uuidv1()
 
         const entry = {
@@ -53,7 +80,7 @@ module.exports = function (app) {
 
         database[demoId].push(entry)
 
-        res.send(entry)
+        res.send(getRestaurantOrders(database[demoId], order.restaurantId))
     })
 
 }

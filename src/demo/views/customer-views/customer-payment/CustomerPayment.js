@@ -4,7 +4,7 @@ import {getRouteCustomerOrder, getRouteRestaurantOrders} from '../../../Routes'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
-import {setStep, setModal} from '../../../state/Actions'
+import {setStep, setModal, setRestaurantOrders} from '../../../state/Actions'
 
 import './CustomerPayment.scss'
 
@@ -32,19 +32,25 @@ class CustomerPayment extends React.Component {
 
     onSubmit() {
         if (!this.state.submitted) {
-            const onSuccess = () => {
+            const {
+                currentOrder
+            } = this.props
+
+            const onSuccess = (restaurantOrders) => {
                 this.setState({success: true})
+
+                this.props.dispatch(setRestaurantOrders(restaurantOrders))
 
                 const onModalClose = () => {
                     this.props.dispatch(setStep(5))
-                    this.props.history.replace(getRouteRestaurantOrders(this.demoId))
+                    this.props.history.replace(getRouteRestaurantOrders(this.demoId, currentOrder.restaurantId))
                 }
 
                 setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 500)
             }
 
             this.setState({submitted: true})
-            doWithMinTime(() => Api.createNewOrder(this.demoId, this.props.currentOrder)).then(onSuccess)
+            doWithMinTime(() => Api.createNewOrder(this.demoId, currentOrder)).then(onSuccess)
         }
     }
 

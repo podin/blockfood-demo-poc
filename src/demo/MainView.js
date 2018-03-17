@@ -21,7 +21,7 @@ import CustomerPayment from './views/customer-views/customer-payment/CustomerPay
 import RestaurantOrders from './views/restaurant-views/restaurant-orders/RestaurantOrders'
 import FooterController from './components/footer-controller/FooterController'
 
-import {setStep} from './state/Actions'
+import {setStep, setRestaurantOrders} from './state/Actions'
 
 import './MainView.scss'
 
@@ -39,7 +39,7 @@ class MainView extends React.Component {
         this.onRestart = this.onRestart.bind(this)
     }
 
-    isRoute(path) {
+    getRouteMatch(path) {
         return matchPath(this.props.location.pathname, {path, exact: true})
     }
 
@@ -59,19 +59,34 @@ class MainView extends React.Component {
 
             Api.getStep(demoId)
                 .then(step => {
-                    if (step !== 0) {
-                        this.props.dispatch(setStep(step))
-                        this.setState({ready: true})
+                    if (step >= 5 && step <= 6) {
+                        const routes = [
+                            RESTAURANT_ORDERS_ROUTE
+                        ]
+
+                        const routeIndex = _.findIndex([
+                                RESTAURANT_ORDERS_ROUTE
+                            ], route => this.getRouteMatch(route))
+
+                        this.props.dispatch(setStep(routeIndex + 5))
+                        
+                        const {restaurantId} = this.getRouteMatch(routes[routeIndex]).params
+
+                        return Api.getRestaurantOrders(demoId, restaurantId)
+                            .then(restaurantOrders => {
+                                this.props.dispatch(setRestaurantOrders(restaurantOrders))
+                                this.setState({ready: true})
+                            })
                     }
                     else {
-                        const newStep = _.findIndex([
+                        const routeIndex = _.findIndex([
                             CUSTOMER_ADDRESS_ROUTE,
                             CUSTOMER_RESTAURANTS_ROUTE,
                             CUSTOMER_RESTAURANT_ORDER_ROUTE,
                             CUSTOMER_PAYMENT_ROUTE
-                        ], route => this.isRoute(route)) + 1
+                        ], route => this.getRouteMatch(route))
 
-                        this.props.dispatch(setStep(newStep))
+                        this.props.dispatch(setStep(routeIndex + 1))
                         this.setState({ready: true})
                     }
                 })

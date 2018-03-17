@@ -5,12 +5,16 @@ class Api {
         this.onError = onError
     }
 
+    startDemo() {
+        return Http.post('/api/start-demo').then(({data}) => data).catch(this.onError)
+    }
+
     getStep(demoId) {
         return Http.get(`/api/${demoId}/step`).then(({data}) => +data)
     }
-
-    startDemo() {
-        return Http.post('/api/start-demo').then(({data}) => data).catch(this.onError)
+    
+    getRestaurantOrders(demoId, restaurantId) {
+        return Http.get(`/api/${demoId}/restaurant-orders/${restaurantId}`).then(({data}) => data)
     }
 
     createNewOrder(demoId, order) {

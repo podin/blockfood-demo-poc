@@ -7,7 +7,7 @@ export const CUSTOMER_RESTAURANTS_ROUTE = `/:demoId/${CUSTOMER_ROUTES}-restauran
 export const CUSTOMER_RESTAURANT_ORDER_ROUTE = `/:demoId/${CUSTOMER_ROUTES}-restaurant/:restaurantId/`
 export const CUSTOMER_PAYMENT_ROUTE = `/:demoId/${CUSTOMER_ROUTES}-payment/`
 
-export const RESTAURANT_ORDERS_ROUTE = `/:demoId/${RESTAURANT_ROUTES}-orders/`
+export const RESTAURANT_ORDERS_ROUTE = `/:demoId/${RESTAURANT_ROUTES}-orders/:restaurantId/`
 
 export const getRouteCustomerAddress = (demoId) => {
     return CUSTOMER_ADDRESS_ROUTE.replace(':demoId', demoId)
@@ -25,6 +25,6 @@ export const getRouteCustomerPayment = (demoId) => {
     return CUSTOMER_PAYMENT_ROUTE.replace(':demoId', demoId)
 }
 
-export const getRouteRestaurantOrders = (demoId) => {
-    return RESTAURANT_ORDERS_ROUTE.replace(':demoId', demoId)
+export const getRouteRestaurantOrders = (demoId, restaurantId) => {
+    return RESTAURANT_ORDERS_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId)
 }

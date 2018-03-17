@@ -10,8 +10,6 @@ class Footer extends React.Component {
     constructor(props) {
         super(props)
 
-        this.demoId = this.props.match.params.demoId
-
         this.onRestart = this.onRestart.bind(this)
         this.closeModal = this.closeModal.bind(this)
     }
