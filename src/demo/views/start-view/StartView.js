@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import Api from '../../api/Api'
 import {CUSTOMER_ADDRESS_ROUTE} from '../../Routes'
 

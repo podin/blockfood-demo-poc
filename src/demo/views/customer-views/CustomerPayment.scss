@@ -1,0 +1,30 @@
+#bf-demo-customer-payment {
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .go-back {
+      align-self: flex-start;
+    }
+
+    .btn {
+      width: 200px;
+      height: 200px;
+      line-height: 200px;
+      text-align: center;
+      border: 10px solid black;
+      border-radius: 100%;
+      font-size: 10em;
+      cursor: pointer;
+      transition: transform 0.3s;
+
+      &:hover {
+        background: black;
+        color: white;
+        transform: scale(1.1);
+      }
+    }
+  }
+}

@@ -32,21 +32,6 @@ const menu = [
         id: 'zze84saqfgc',
         name: 'Menu 6',
         price: 8
-    },
-    {
-        id: 'sdftqrj43qsd78',
-        name: 'Menu 7',
-        price: 8
-    },
-    {
-        id: 'rvd44h5w9r',
-        name: 'Menu 8',
-        price: 10
-    },
-    {
-        id: 'asf584uj',
-        name: 'Menu 9',
-        price: 5
     }
 ]
 

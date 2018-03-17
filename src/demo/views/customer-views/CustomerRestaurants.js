@@ -36,7 +36,7 @@ class CustomerRestaurants extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(setStep(2))
+        this.props.customerAddress && this.props.dispatch(setStep(2))
     }
 
     render() {
@@ -50,10 +50,10 @@ class CustomerRestaurants extends React.Component {
             return (
                 <div id="bf-demo-customer-restaurants" className="view">
                     <div>
-                        <h1>
-                            <div onClick={this.onGoBack}><i className="fas fa-arrow-left"/></div>
+                        <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
+                        <div className="view-title">
                             <div className="label">{RESTAURANTS.length} restaurants found at: <span>{customerAddress}</span></div>
-                        </h1>
+                        </div>
                         <div className="list">
                             {RESTAURANTS.map(restaurant => (
                                 <div key={restaurant.id} className="item" data-id={restaurant.id} onClick={this.onChoose}>
@@ -80,7 +80,7 @@ class CustomerRestaurants extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        customerAddress: state.customerAddress || '5 Marble Street'
+        customerAddress: state.customerAddress
     }
 }
 

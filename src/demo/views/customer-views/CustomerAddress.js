@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {CUSTOMER_RESTAURANTS_ROUTE} from '../../Routes'
 
-import {setCustomerAddress, setStep} from '../../state/Actions'
+import {setCustomerAddress} from '../../state/Actions'
 
 import './CustomerAddress.scss'
 
@@ -29,7 +29,6 @@ class CustomerAddress extends React.Component {
 
         if (value.length > 0) {
             this.props.dispatch(setCustomerAddress(value))
-            this.props.dispatch(setStep(2))
 
             const {demoId} = this.props.match.params
             this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANTS_ROUTE}`)
@@ -41,10 +40,15 @@ class CustomerAddress extends React.Component {
 
         return (
             <div id="bf-demo-customer-address" className="view">
-                <form onSubmit={this.onSubmit}>
-                    <input type="text" placeholder="Where..." value={value} onChange={this.onChange}/>
-                    <button type="submit" disabled={value.length === 0}><i className="fas fa-search"/></button>
-                </form>
+                <div>
+                    <div className="view-title">
+                        <div className="label">Find some restaurants</div>
+                    </div>
+                    <form onSubmit={this.onSubmit}>
+                        <input type="text" placeholder="Where are you?" value={value} onChange={this.onChange}/>
+                        <button type="submit" disabled={value.length === 0}><i className="fas fa-search"/></button>
+                    </form>
+                </div>
             </div>
         )
     }

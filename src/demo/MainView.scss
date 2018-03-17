@@ -47,4 +47,53 @@
   align-items: center;
   justify-content: center;
   font-family: "Open sans", sans-serif;
+
+  .view-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Poppins, sans-serif;
+    font-size: 2em;
+    color: #525252;
+    margin-bottom: 35px;
+
+    .label {
+      padding: 15px 0;
+      white-space: nowrap;
+      max-width: 1000px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    span {
+      color: black;
+    }
+  }
+
+  .go-back {
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    user-select: none;
+
+    svg {
+      margin-right: 5px;
+      color: black;
+      cursor: pointer;
+    }
+
+    &:hover {
+      background: black;
+      color: white;
+
+      svg {
+        color: white;
+      }
+    }
+  }
 }

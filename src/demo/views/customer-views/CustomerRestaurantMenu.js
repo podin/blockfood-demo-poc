@@ -3,9 +3,9 @@ import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import RESTAURANTS from '../../data/Restaurants'
-import {CUSTOMER_ADDRESS_ROUTE, CUSTOMER_RESTAURANTS_ROUTE} from '../../Routes'
+import {CUSTOMER_ADDRESS_ROUTE, CUSTOMER_RESTAURANTS_ROUTE, CUSTOMER_PAYMENT_ROUTE} from '../../Routes'
 
-import {setStep} from '../../state/Actions'
+import {setStep, setCurrentOrder} from '../../state/Actions'
 
 import './CustomerRestaurantMenu.scss'
 
@@ -22,6 +22,7 @@ class CustomerRestaurantMenu extends React.Component {
 
         this.onGoBack = this.onGoBack.bind(this)
         this.onChoose = this.onChoose.bind(this)
+        this.onValidate = this.onValidate.bind(this)
     }
 
     onGoBack() {
@@ -59,6 +60,27 @@ class CustomerRestaurantMenu extends React.Component {
         this.setState({orderIds: newOrderIds, price: newPrice})
     }
 
+    onValidate() {
+
+        const {orderIds, price} = this.state
+
+        if (orderIds.length > 0) {
+            const {demoId} = this.props.match.params
+
+            const currentOrder = {
+                demoId,
+                userId: demoId,
+                restaurantId: this.restaurant.id,
+                orderIds,
+                price
+            }
+
+            this.props.dispatch(setCurrentOrder(currentOrder))
+
+            this.props.history.push(`/${demoId}/${CUSTOMER_PAYMENT_ROUTE}`)
+        }
+    }
+
     componentDidMount() {
         this.props.dispatch(setStep(3))
     }
@@ -74,10 +96,10 @@ class CustomerRestaurantMenu extends React.Component {
             return (
                 <div id="bf-demo-customer-restaurant-menu" className="view">
                     <div>
-                        <h1>
-                            <div onClick={this.onGoBack}><i className="fas fa-arrow-left"/></div>
-                            <div className="label">{this.restaurant.name}</div>
-                        </h1>
+                        <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
+                        <div className="view-title">
+                            <div className="label">Welcome to <span>{this.restaurant.name}</span>!</div>
+                        </div>
                         <div className="list">
                             {this.restaurant.menu.map(menu => (
                                 <div key={menu.id} data-id={menu.id}
@@ -90,7 +112,7 @@ class CustomerRestaurantMenu extends React.Component {
                         </div>
                         <div className="validate">
                             <div>{price}$</div>
-                            <button>VALIDATE</button>
+                            <button onClick={this.onValidate} disabled={orderIds.length === 0}>VALIDATE</button>
                         </div>
                     </div>
                 </div>
