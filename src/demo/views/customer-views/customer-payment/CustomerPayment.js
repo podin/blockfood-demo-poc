@@ -15,7 +15,7 @@ class CustomerPayment extends React.Component {
         this.demoId = this.props.match.params.demoId
 
         this.state = {
-            submitted: false,
+            loading: false,
             success: false
         }
 
@@ -24,14 +24,14 @@ class CustomerPayment extends React.Component {
     }
 
     onGoBack() {
-        if (!this.state.submitted) {
+        if (!this.state.loading) {
             const {restaurantId} = this.props.currentOrder
             this.props.history.replace(getRouteCustomerOrder(this.demoId, restaurantId))
         }
     }
 
     onSubmit() {
-        if (!this.state.submitted) {
+        if (!this.state.loading) {
             const {
                 currentOrder
             } = this.props
@@ -49,27 +49,27 @@ class CustomerPayment extends React.Component {
                 setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 500)
             }
 
-            this.setState({submitted: true})
+            this.setState({loading: true})
             doWithMinTime(() => Api.createNewOrder(this.demoId, currentOrder)).then(onSuccess)
         }
     }
 
     render() {
-        const {submitted, success} = this.state
+        const {loading, success} = this.state
 
         return (
             <div id="bf-demo-customer-payment" className="view">
                 <div>
-                    <div className={`go-back${submitted ? ' disabled' : ''}`} onClick={this.onGoBack}>
+                    <div className={`go-back${loading ? ' disabled' : ''}`} onClick={this.onGoBack}>
                         <i className="fas fa-arrow-left"/>Go back
                     </div>
                     <div className="view-title">
                         <div className="label">Proceed to the payment of your order</div>
                     </div>
-                    <div className={`btn${submitted ? ' submitted' : ''}`} onClick={this.onSubmit}>
+                    <div className={`btn-remote-action${loading ? ' loading' : ''}`} onClick={this.onSubmit}>
                         {success ? (
                             <i className="fas fa-check"/>
-                        ) : submitted ? (
+                        ) : loading ? (
                             <i className="fas fa-circle-notch fa-spin"/>
                         ) : (
                             <i className="fas fa-dollar-sign"/>

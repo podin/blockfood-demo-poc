@@ -92,16 +92,16 @@ class RestaurantOrder extends React.Component {
                     <div className="view-title view-title-status">
                         <div className="label">Status: <span>{getStatus(order)}</span></div>
                     </div>
-                    <div className={`btn${loading ? ' loading' : ''}`} onClick={this.onSubmit}>
+                    <div className={`btn-remote-action${loading ? ' loading' : ''}`} onClick={this.onSubmit}>
                         {success ? (
                             <i className="fas fa-check"/>
                         ) : loading ? (
                             <i className="fas fa-circle-notch fa-spin"/>
                         ) : order.status === ORDER_STATUS.WAITING_RESTAURANT_VALIDATION ? (
                             <i className="fas fa-check"/>
-                        ) : order.status === ORDER_STATUS.COOKING ? (
+                        ) : (
                             <i className="fas fa-utensils"/>
-                        ) : null}
+                        )}
                     </div>
                 </div>
             </div>

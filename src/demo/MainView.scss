@@ -96,4 +96,33 @@
       }
     }
   }
+
+  .btn-remote-action {
+    align-self: center;
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    border: 10px solid black;
+    border-radius: 100%;
+    font-size: 10em;
+    transition: transform 0.3s;
+
+    &.loading {
+      font-size: 2em;
+      border-color: transparent;
+
+      i {
+        animation-duration: 0.9s;
+        animation-timing-function: ease-in-out;
+      }
+    }
+
+    &:not(.loading):hover {
+      cursor: pointer;
+      background: black;
+      color: white;
+      transform: scale(1.1);
+    }
+  }
 }
