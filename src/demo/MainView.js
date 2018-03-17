@@ -1,7 +1,9 @@
 import React from 'react';
 import {withRouter, Switch, Route, Redirect} from 'react-router-dom'
 import Api from './api/Api'
+import {CUSTOMER_RESTAURANT_ROUTE} from './Routes'
 import Loader from './components/loader/Loader'
+import Header from './components/header/Header'
 import StartView from './views/start-view/StartView'
 import CustomerRestaurants from './views/customer-views/CustomerRestaurants'
 import FooterController from './components/footer-controller/FooterController'
@@ -43,12 +45,13 @@ class MainView extends React.Component {
         else {
             return (
                 <React.Fragment>
+                    <Route path="/" component={Header}/>
                     <Switch>
                         <Route path="/" exact component={StartView}/>
-                        <Route path="/:demoId/customer-restaurants/" exact component={CustomerRestaurants}/>
+                        <Route path={`/:demoId/${CUSTOMER_RESTAURANT_ROUTE}`} exact component={CustomerRestaurants}/>
                         <Redirect to="/"/>
                     </Switch>
-                    <Route path="/" render={ ( props ) => ( props.location.pathname !== '/') && <FooterController/> }/>
+                    <Route path="/" component={FooterController}/>
                     <Loader/>
                 </React.Fragment>
             )

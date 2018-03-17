@@ -1,5 +1,4 @@
 import React from 'react';
-import Template from '../../components/template/Template'
 
 class CustomerRestaurants extends React.Component {
     constructor(props) {
@@ -8,9 +7,7 @@ class CustomerRestaurants extends React.Component {
 
     render() {
         return (
-            <Template type="customer">
-                <div id="bf-demo-customer-restaurants"></div>
-            </Template>
+            <div id="bf-demo-customer-restaurants"></div>
         )
     }
 }

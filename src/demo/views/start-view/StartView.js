@@ -1,6 +1,6 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
 import Api from '../../api/Api'
+import {CUSTOMER_RESTAURANT_ROUTE} from '../../Routes'
 
 import './StartView.scss'
 
@@ -12,7 +12,7 @@ class StartView extends React.Component {
     }
 
     onStartDemo() {
-        Api.startDemo().then((demoId) => this.props.history.push(`${demoId}/customer-restaurants/`))
+        Api.startDemo().then((demoId) => this.props.history.push(`/${demoId}/${CUSTOMER_RESTAURANT_ROUTE}`))
     }
 
     render() {
@@ -24,4 +24,4 @@ class StartView extends React.Component {
     }
 }
 
-export default withRouter(StartView)
+export default StartView

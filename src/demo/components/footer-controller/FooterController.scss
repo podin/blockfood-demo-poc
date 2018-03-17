@@ -11,6 +11,12 @@
   align-items: center;
   justify-content: flex-start;
   padding: 0 25px;
+  transform: translateY(115px);
+  transition: transform 0.5s;
+
+  &.visible {
+    transform: translateY(0);
+  }
 
   button.restart {
     font-size: 1.5em;
