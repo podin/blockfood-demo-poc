@@ -1,8 +1,8 @@
-import * as _ from 'lodash'
 import React from 'react'
-import {withRouter, matchPath, Switch, Route, Redirect} from 'react-router-dom'
+import {withRouter, Switch, Route, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Api from './api/Api'
+import Init from './Init'
 import {
     CUSTOMER_ADDRESS_ROUTE,
     CUSTOMER_RESTAURANTS_ROUTE,
@@ -41,10 +41,6 @@ class MainView extends React.Component {
         this.onRestart = this.onRestart.bind(this)
     }
 
-    getRouteMatch(path) {
-        return matchPath(this.props.location.pathname, {path, exact: true})
-    }
-
     onError() {
         this.setState({error: true})
     }
@@ -54,53 +50,13 @@ class MainView extends React.Component {
     }
 
     componentDidMount() {
-        const {pathname} = this.props.location
+        Init(this.props).then(({step, orders, pathname}) => {
+            step !== null && this.props.dispatch(setStep(step))
+            orders !== null && this.props.dispatch(setOrders(orders))
+            pathname !== null && this.props.history.replace(pathname)
 
-        if (pathname !== '/') {
-            const demoId = pathname.split('/')[1]
-
-            Api.getStep(demoId)
-                .then(step => {
-                    if (step >= 5 && step <= 6) {
-                        const routes = [
-                            RESTAURANT_ORDERS_ROUTE,
-                            RESTAURANT_ORDER_ROUTE
-                        ]
-                        const routeIndex = _.findIndex(routes, route => this.getRouteMatch(route))
-
-                        this.props.dispatch(setStep(step))
-                        
-                        const {restaurantId} = this.getRouteMatch(routes[routeIndex]).params
-
-                        return Api.getOrderForRestaurant(demoId, restaurantId)
-                            .then(orders => {
-                                this.props.dispatch(setOrders(orders))
-                                this.setState({ready: true})
-                            })
-                    }
-                    else {
-                        const routeIndex = _.findIndex([
-                            CUSTOMER_ADDRESS_ROUTE,
-                            CUSTOMER_RESTAURANTS_ROUTE,
-                            CUSTOMER_RESTAURANT_ORDER_ROUTE,
-                            CUSTOMER_PAYMENT_ROUTE
-                        ], route => this.getRouteMatch(route))
-
-                        this.props.dispatch(setStep(routeIndex + 1))
-                        this.setState({ready: true})
-                    }
-                })
-                .catch(() => {
-                    // TODO: redirect to the first non breaking step
-
-                    this.props.history.replace('/')
-                    this.setState({ready: true})
-                })
-
-        }
-        else {
             this.setState({ready: true})
-        }
+        })
     }
 
     render() {

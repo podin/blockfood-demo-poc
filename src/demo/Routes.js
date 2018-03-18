@@ -7,8 +7,20 @@ export const CUSTOMER_RESTAURANTS_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/restauran
 export const CUSTOMER_RESTAURANT_ORDER_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/restaurant/:restaurantId/`
 export const CUSTOMER_PAYMENT_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/payment/`
 
+export const CUSTOMER_ROUTES_LIST = [
+    CUSTOMER_ADDRESS_ROUTE,
+    CUSTOMER_RESTAURANTS_ROUTE,
+    CUSTOMER_RESTAURANT_ORDER_ROUTE,
+    CUSTOMER_PAYMENT_ROUTE
+]
+
 export const RESTAURANT_ORDERS_ROUTE = `/:demoId/${RESTAURANT_ROUTES}/:restaurantId/`
 export const RESTAURANT_ORDER_ROUTE = `/:demoId/${RESTAURANT_ROUTES}/:restaurantId/order/:orderId`
+
+export const RESTAURANT_ROUTES_LIST = [
+    RESTAURANT_ORDERS_ROUTE,
+    RESTAURANT_ORDER_ROUTE
+]
 
 export const getRouteCustomerAddress = (demoId) => {
     return CUSTOMER_ADDRESS_ROUTE.replace(':demoId', demoId)
