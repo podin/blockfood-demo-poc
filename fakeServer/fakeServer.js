@@ -146,4 +146,15 @@ module.exports = function (app) {
         }
     })
 
+    app.get('/api/:demoId/orders', function (req, res) {
+        const {demoId} = req.params
+        const data = database[demoId]
+
+        if (!data) {
+            res.sendStatus(403)
+        }
+
+        res.send(data)
+    })
+
 }

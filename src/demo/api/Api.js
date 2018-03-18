@@ -12,6 +12,10 @@ class Api {
     getStep(demoId) {
         return Http.get(`/api/${demoId}/step`).then(({data}) => +data)
     }
+
+    getOrders(demoId) {
+        return Http.get(`/api/${demoId}/orders`).then(({data}) => data)
+    }
     
     getOrdersForRestaurant(demoId, restaurantId) {
         return Http.get(`/api/${demoId}/restaurant-orders/${restaurantId}`).then(({data}) => data)
