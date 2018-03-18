@@ -27,13 +27,13 @@ export default (props) => {
                         return Promise.resolve({step, orders})
                     })
                 }
-                else if (step >= 7 && step <= 10) {
+                else if (step >= 7 && step <= 9) {
                     return Api.getOrdersForCourier(demoId).then(orders => {
                         return Promise.resolve({step, orders})
                     })
                 }
                 else {
-                    // TODO
+                    throw new Error('// TODO')
                 }
             })
             .catch((err) => {

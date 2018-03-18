@@ -15,6 +15,7 @@ import CustomerPayment from './views/customer-views/customer-payment/CustomerPay
 import RestaurantOrders from './views/restaurant-views/restaurant-orders/RestaurantOrders'
 import RestaurantOrder from './views/restaurant-views/restaurant-order/RestaurantOrder'
 import CourierOrders from './views/courier-views/courier-orders/CourierOrders'
+import CourierOrder from './views/courier-views/courier-order/CourierOrder'
 import FooterController from './components/footer-controller/FooterController'
 
 import {setStep, setOrders} from './state/Actions'
@@ -79,6 +80,7 @@ class MainView extends React.Component {
                                 <Route path={Routes.RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
                                 <Route path={Routes.RESTAURANT_ORDER_ROUTE} exact component={RestaurantOrder}/>
                                 <Route path={Routes.COURIER_ORDERS_ROUTE} exact component={CourierOrders}/>
+                                <Route path={Routes.COURIER_ORDER_ROUTE} exact component={CourierOrder}/>
                                 <Redirect to="/"/>
                             </Switch>
                             <Route path="/" component={FooterController}/>

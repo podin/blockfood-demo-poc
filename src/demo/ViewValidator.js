@@ -38,6 +38,11 @@ class ViewValidator extends React.Component {
         else if (this.getRouteMatch(Routes.COURIER_ORDERS_ROUTE)) {
             return step >= 7 && step <= 10
         }
+        else if (this.getRouteMatch(Routes.COURIER_ORDER_ROUTE)) {
+            const {orderId} = this.getRouteMatch(Routes.COURIER_ORDER_ROUTE).params
+            const orderExists = !!_.find(orders, ({id, details}) => id === orderId)
+            return step >= 7 && step <= 10 && orderExists
+        }
         else {
             return true
         }

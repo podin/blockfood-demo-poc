@@ -90,6 +90,13 @@ class Footer extends React.Component {
                                 <h3>Don't wait any longer!</h3>
                             </React.Fragment>
                         )}
+                        {modal.id === 4 && (
+                            <React.Fragment>
+                                <h1>The demo is finished!</h1>
+                                <p>You are now free to play each role like you want.</p>
+                                <h3>Use the buttons in the bottom of your screen to switch.</h3>
+                            </React.Fragment>
+                        )}
                     </Modal>
                 )}
             </div>

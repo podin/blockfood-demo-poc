@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {getRouteCourierOrder} from '../../../Routes'
 import OrdersList from '../../../components/orders-list/OrdersList'
 
 class CourierOrders extends React.Component {
@@ -9,8 +10,18 @@ class CourierOrders extends React.Component {
         this.onSelect = this.onSelect.bind(this)
     }
 
-    onSelect() {
-        console.log('selected!')
+    onSelect(event) {
+        const {demoId} = this.props.match.params
+
+        let target = event.target, orderId
+        while (!orderId) {
+            orderId = target.getAttribute('data-id')
+            if (!orderId) {
+                target = target.parentElement
+            }
+        }
+
+        this.props.history.replace(getRouteCourierOrder(demoId, orderId))
     }
 
     render() {
