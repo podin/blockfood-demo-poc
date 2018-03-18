@@ -94,7 +94,10 @@ module.exports = function (app) {
 
         database[demoId].push(order)
 
-        res.send(getOrdersForRestaurant(database[demoId], details.restaurantId))
+        const ordersForRestaurant = getOrdersForRestaurant(database[demoId], details.restaurantId)
+        const ordersForCustomer = database[demoId]
+
+        res.send({ordersForRestaurant, ordersForCustomer})
     })
 
     app.put('/api/:demoId/order/:orderId', function (req, res) {

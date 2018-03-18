@@ -37,7 +37,7 @@ export const getRouteCustomerRestaurants = (demoId) => {
     return CUSTOMER_RESTAURANTS_ROUTE.replace(':demoId', demoId)
 }
 
-export const getRouteCustomerOrder = (demoId, restaurantId) => {
+export const getRouteCustomerOrderInProgress = (demoId, restaurantId) => {
     return CUSTOMER_ORDER_IN_PROGRESS_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId)
 }
 

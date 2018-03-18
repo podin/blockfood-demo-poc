@@ -34,7 +34,7 @@ export default (props) => {
                     const type = _.find([CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX], route => pathname.indexOf(route) !== -1)
 
                     if (type === CUSTOMER_PREFIX) {
-                        return Api.getOrders(demoId).then(orders => {
+                        return Api.getOrdersForCustomers(demoId).then(orders => {
                             return Promise.resolve({step, orders, orderType: CUSTOMER_PREFIX})
                         })
                     }

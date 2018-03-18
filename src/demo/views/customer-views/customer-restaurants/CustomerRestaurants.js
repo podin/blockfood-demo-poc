@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {connect} from 'react-redux'
-import {getRouteCustomerAddress, getRouteCustomerOrder} from '../../../Routes'
+import {getRouteCustomerAddress, getRouteCustomerOrderInProgress} from '../../../Routes'
 import RESTAURANTS from '../../../data/Restaurants'
 
 import {setStep, setOrderInProgress} from '../../../state/Actions'
@@ -37,7 +37,7 @@ class CustomerRestaurants extends React.Component {
         if (orderInProgress && orderInProgress.restaurantId !== restaurantId) {
             this.props.dispatch(setOrderInProgress(null))
         }
-        this.props.history.replace(getRouteCustomerOrder(demoId, restaurantId))
+        this.props.history.replace(getRouteCustomerOrderInProgress(demoId, restaurantId))
     }
 
     render() {

@@ -1,6 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {RESTAURANT_PREFIX, getRouteCustomerOrder, getRouteRestaurantOrders} from '../../../Routes'
+import {
+    CUSTOMER_PREFIX, RESTAURANT_PREFIX,
+    getRouteCustomerOrderInProgress, getRouteRestaurantOrders, getRouteCustomerOrders
+} from '../../../Routes'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
@@ -26,7 +29,7 @@ class CustomerPayment extends React.Component {
         if (!this.state.freeze) {
             const {demoId} = this.props.match.params
             const {restaurantId} = this.props.orderInProgress
-            this.props.history.replace(getRouteCustomerOrder(demoId, restaurantId))
+            this.props.history.replace(getRouteCustomerOrderInProgress(demoId, restaurantId))
         }
     }
 
@@ -36,9 +39,9 @@ class CustomerPayment extends React.Component {
             const {step} = this.props
             const {orderInProgress} = this.props
 
-            const onSuccess = (orders) => {
+            const onSuccess = ({ordersForRestaurant}) => {
                 this.setState({loading: false, isDone: true})
-                this.props.dispatch(setOrders(orders, RESTAURANT_PREFIX))
+                this.props.dispatch(setOrders(ordersForRestaurant, RESTAURANT_PREFIX))
 
                 const onModalClose = () => {
                     this.props.dispatch(setStep(5))
@@ -48,10 +51,10 @@ class CustomerPayment extends React.Component {
                 setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 200)
             }
 
-            const onFreeModeSuccess = () => {
+            const onFreeModeSuccess = ({ordersForCustomer}) => {
                 this.setState({loading: false, freeze: false, isDone: true})
-                // TODO: set orderInProgress = null
-                // TODO: redirect to the customer order list view
+                this.props.dispatch(setOrders(ordersForCustomer, CUSTOMER_PREFIX))
+                this.props.history.replace(getRouteCustomerOrders(demoId))
             }
 
             this.setState({loading: true, freeze: false})

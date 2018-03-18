@@ -3,7 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {
     CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX,
-    getRouteCustomerAddress, getRouteRestaurantOrders, getRouteCourierOrders,
+    getRouteCustomerOrders, getRouteRestaurantOrders, getRouteCourierOrders,
     getDemoIdFromPathname, getRestaurantIdFromPathname
 } from '../../Routes'
 import Api from '../../api/Api'
@@ -78,8 +78,8 @@ class Footer extends React.Component {
 
         let getOrders, routeToRedirect
         if (nextType === CUSTOMER_PREFIX) {
-            getOrders = () => Api.getOrders(demoId)
-            routeToRedirect = this.lastFreeModeRoutes[CUSTOMER_PREFIX] || getRouteCustomerAddress(demoId)
+            getOrders = () => Api.getOrdersForCustomers(demoId)
+            routeToRedirect = this.lastFreeModeRoutes[CUSTOMER_PREFIX] || getRouteCustomerOrders(demoId)
         }
         else if (nextType === RESTAURANT_PREFIX) {
             let restaurantId
@@ -130,9 +130,7 @@ class Footer extends React.Component {
     render() {
         const {location, step, modal} = this.props
         const {type, task, loadingFreeModeView} = this.state
-
-        // http://localhost:3000/4d62ae00-2ab5-11e8-b84f-e1ebcffe5fc4/courier-view/order/50823d80-2ab5-11e8-b84f-e1ebcffe5fc4
-
+        
         let firstBtn = false
         const getStep = (minStep, icon = null, btn = false) => {
             const isCompleted = step >= minStep

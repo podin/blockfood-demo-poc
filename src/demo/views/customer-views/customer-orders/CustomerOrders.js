@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {CUSTOMER_PREFIX, getRouteCustomerAddress} from '../../../Routes'
 import OrdersList from '../../../components/orders-list/OrdersList'
 
+import {setOrderInProgress} from '../../../state/Actions'
+
 class CourierOrders extends React.Component {
     constructor(props) {
         super(props)
@@ -13,6 +15,10 @@ class CourierOrders extends React.Component {
     onGoBack() {
         const {demoId} = this.props.match.params
         this.props.history.replace(getRouteCustomerAddress(demoId))
+    }
+
+    componentDidMount() {
+        this.props.orderInProgress && this.props.dispatch(setOrderInProgress(null))
     }
 
     render() {
@@ -28,7 +34,8 @@ class CourierOrders extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        orders: state.orders[CUSTOMER_PREFIX]
+        orders: state.orders[CUSTOMER_PREFIX],
+        orderInProgress: state.orderInProgress
     }
 }
 
