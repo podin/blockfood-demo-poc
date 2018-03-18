@@ -6,9 +6,9 @@ import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 
 import {setStep, setOrderInProgress} from '../../../state/Actions'
 
-import './CustomerOrder.scss'
+import './CustomerOrderInProgress.scss'
 
-class CustomerOrder extends React.Component {
+class CustomerOrderInProgress extends React.Component {
     constructor(props) {
         super(props)
 
@@ -89,7 +89,7 @@ class CustomerOrder extends React.Component {
         const {itemIds, price} = this.state
 
         return (
-            <div id="bf-demo-customer-order" className="view">
+            <div id="bf-demo-customer-order-in-progress" className="view">
                 <div>
                     <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
                     <div className="view-title">
@@ -121,4 +121,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(CustomerOrder)
+export default connect(mapStateToProps)(CustomerOrderInProgress)

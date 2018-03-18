@@ -10,7 +10,7 @@ import ViewValidator from './ViewValidator'
 import StartView from './views/start-view/StartView'
 import CustomerAddress from './views/customer-views/customer-address/CustomerAddress'
 import CustomerRestaurants from './views/customer-views/customer-restaurants/CustomerRestaurants'
-import CustomerOrder from './views/customer-views/customer-order/CustomerOrder'
+import CustomerOrderInProgress from './views/customer-views/customer-order-in-progress/CustomerOrderInProgress'
 import CustomerPayment from './views/customer-views/customer-payment/CustomerPayment'
 import RestaurantOrders from './views/restaurant-views/restaurant-orders/RestaurantOrders'
 import RestaurantOrder from './views/restaurant-views/restaurant-order/RestaurantOrder'
@@ -75,7 +75,7 @@ class MainView extends React.Component {
                                 <Route path="/" exact component={StartView}/>
                                 <Route path={Routes.CUSTOMER_ADDRESS_ROUTE} exact component={CustomerAddress}/>
                                 <Route path={Routes.CUSTOMER_RESTAURANTS_ROUTE} exact component={CustomerRestaurants}/>
-                                <Route path={Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE} exact component={CustomerOrder}/>
+                                <Route path={Routes.CUSTOMER_ORDER_IN_PROGRESS_ROUTE} exact component={CustomerOrderInProgress}/>
                                 <Route path={Routes.CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
                                 <Route path={Routes.RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
                                 <Route path={Routes.RESTAURANT_ORDER_ROUTE} exact component={RestaurantOrder}/>

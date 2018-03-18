@@ -7,13 +7,13 @@ export const COURIER_PREFIX = 'courier-view'
 
 export const CUSTOMER_ADDRESS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/`
 export const CUSTOMER_RESTAURANTS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/restaurants/`
-export const CUSTOMER_RESTAURANT_ORDER_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/restaurant/:restaurantId/`
+export const CUSTOMER_ORDER_IN_PROGRESS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/order-in-progress/:restaurantId/`
 export const CUSTOMER_PAYMENT_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/payment/`
 
 export const CUSTOMER_ROUTES_LIST = [
     CUSTOMER_ADDRESS_ROUTE,
     CUSTOMER_RESTAURANTS_ROUTE,
-    CUSTOMER_RESTAURANT_ORDER_ROUTE,
+    CUSTOMER_ORDER_IN_PROGRESS_ROUTE,
     CUSTOMER_PAYMENT_ROUTE
 ]
 
@@ -37,7 +37,7 @@ export const getRouteCustomerRestaurants = (demoId) => {
 }
 
 export const getRouteCustomerOrder = (demoId, restaurantId) => {
-    return CUSTOMER_RESTAURANT_ORDER_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId)
+    return CUSTOMER_ORDER_IN_PROGRESS_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId)
 }
 
 export const getRouteCustomerPayment = (demoId) => {

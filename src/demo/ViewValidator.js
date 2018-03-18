@@ -19,8 +19,8 @@ class ViewValidator extends React.Component {
         else if (this.getRouteMatch(Routes.CUSTOMER_RESTAURANTS_ROUTE)) {
             return (step === 10 || (step >= 1 && step <= 4))
         }
-        else if (this.getRouteMatch(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE)) {
-            const {restaurantId} = this.getRouteMatch(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE).params
+        else if (this.getRouteMatch(Routes.CUSTOMER_ORDER_IN_PROGRESS_ROUTE)) {
+            const {restaurantId} = this.getRouteMatch(Routes.CUSTOMER_ORDER_IN_PROGRESS_ROUTE).params
             return (step === 10 || (step >= 1 && step <= 4)) && !!RESTAURANT_BY_IDS[restaurantId]
         }
         else if (this.getRouteMatch(Routes.CUSTOMER_PAYMENT_ROUTE)) {
