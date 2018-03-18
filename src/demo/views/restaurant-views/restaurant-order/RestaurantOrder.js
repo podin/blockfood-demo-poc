@@ -16,11 +16,10 @@ class RestaurantOrder extends React.Component {
         super(props)
 
         const order = this.getOrder()
-        const isDone = this.isDone(order)
 
         this.state = {
-            loading: isDone,
-            success: isDone,
+            loading: false,
+            freeze: false,
             order
         }
 
@@ -44,7 +43,7 @@ class RestaurantOrder extends React.Component {
     }
 
     onGoBack() {
-        if (!this.state.loading) {
+        if (!this.state.freeze) {
             const {demoId, restaurantId} = this.props.match.params
             this.props.history.replace(getRouteRestaurantOrders(demoId, restaurantId))
         }
@@ -52,6 +51,7 @@ class RestaurantOrder extends React.Component {
 
     onSubmit() {
         const {demoId} = this.props.match.params
+        const {step} = this.props
         const {loading, order} = this.state
 
         if (!loading && !this.isDone(order)) {
@@ -61,15 +61,14 @@ class RestaurantOrder extends React.Component {
             }[order.status]
 
             const onSuccess = ({ordersForRestaurant, ordersForCourier}) => {
+                this.setState({loading: false})
                 this.props.dispatch(setOrders(ordersForRestaurant))
 
                 if (newStatus === ORDER_STATUS.COOKING) {
-                    this.setState({loading: false})
-                    this.props.dispatch(setStep(this.props.step + 1))
+                    this.setState({freeze: false})
+                    this.props.dispatch(setStep(step + 1))
                 }
                 else {
-                    this.setState({success: true})
-
                     const onModalClose = () => {
                         this.props.dispatch(setStep(7))
                         this.props.dispatch(setOrders(ordersForCourier))
@@ -80,8 +79,20 @@ class RestaurantOrder extends React.Component {
                 }
             }
 
-            this.setState({loading: true})
-            doWithMinTime(() => Api.updateOrderStatus(demoId, order.id, newStatus)).then(onSuccess)
+            const onFreeModeSuccess = ({ordersForRestaurant}) => {
+                this.setState({loading: false, freeze: false})
+                this.props.dispatch(setOrders(ordersForRestaurant))
+            }
+
+            this.setState({loading: true, freeze: true})
+            doWithMinTime(() => Api.updateOrderStatus(demoId, order.id, newStatus)).then(response => {
+                if (step === 10) {
+                    return onFreeModeSuccess(response)
+                }
+                else {
+                    return onSuccess(response)
+                }
+            })
         }
     }
 
@@ -93,14 +104,14 @@ class RestaurantOrder extends React.Component {
 
     render() {
         const restaurant = this.getRestaurant()
-        const {loading, success, order} = this.state
+        const {loading, freeze, order} = this.state
 
         const menus = _.map(order.details.itemIds, (itemId) => restaurant.menuByIds[itemId])
 
         return (
             <div id="bf-demo-restaurant-order" className="view">
                 <div>
-                    <div className={`go-back${loading ? ' disabled' : ''}`} onClick={this.onGoBack}>
+                    <div className={`go-back${freeze ? ' disabled' : ''}`} onClick={this.onGoBack}>
                         <i className="fas fa-arrow-left"/>Go back
                     </div>
                     <div className="view-title">
@@ -114,8 +125,8 @@ class RestaurantOrder extends React.Component {
                             ))}
                         </div>
                     </div>
-                    <div className={`btn-remote-action${loading ? ' loading' : ''}`} onClick={this.onSubmit}>
-                        {success ? (
+                    <div className={`btn-remote-action${loading || this.isDone(order) ? ' not-a-btn' : ''}`} onClick={this.onSubmit}>
+                        {this.isDone(order) ? (
                             <i className="fas fa-check"/>
                         ) : loading ? (
                             <i className="fas fa-circle-notch fa-spin"/>

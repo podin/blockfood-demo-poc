@@ -17,11 +17,13 @@ class Header extends React.Component {
     }
 
     getTypeAndUser(props) {
-        const type = _.find([
+        let type = _.find([
                 CUSTOMER_ROUTES,
                 RESTAURANT_ROUTES,
                 COURIER_ROUTES
             ], route => (props || this.props).location.pathname.indexOf(route) !== -1) || null
+
+        const rawType = type ? type.split('-')[0] : type
 
         const user = {
             [CUSTOMER_ROUTES]: 'a hungry customer',
@@ -29,7 +31,7 @@ class Header extends React.Component {
             [COURIER_ROUTES]: 'a motivated courier'
         }[type]
 
-        return {type, user}
+        return {type: rawType, user}
     }
 
     componentWillReceiveProps(nextProps) {

@@ -14,7 +14,8 @@ class CustomerPayment extends React.Component {
 
         this.state = {
             loading: false,
-            success: false
+            freeze: false,
+            isDone: false
         }
 
         this.onGoBack = this.onGoBack.bind(this)
@@ -22,7 +23,7 @@ class CustomerPayment extends React.Component {
     }
 
     onGoBack() {
-        if (!this.state.loading) {
+        if (!this.state.freeze) {
             const {demoId} = this.props.match.params
             const {restaurantId} = this.props.orderInProgress
             this.props.history.replace(getRouteCustomerOrder(demoId, restaurantId))
@@ -32,11 +33,11 @@ class CustomerPayment extends React.Component {
     onSubmit() {
         if (!this.state.loading) {
             const {demoId} = this.props.match.params
+            const {step} = this.props
             const {orderInProgress} = this.props
 
             const onSuccess = (orders) => {
-                this.setState({success: true})
-
+                this.setState({loading: false, isDone: true})
                 this.props.dispatch(setOrders(orders))
 
                 const onModalClose = () => {
@@ -47,25 +48,38 @@ class CustomerPayment extends React.Component {
                 setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 200)
             }
 
-            this.setState({loading: true})
-            doWithMinTime(() => Api.createNewOrder(demoId, orderInProgress)).then(onSuccess)
+            const onFreeModeSuccess = () => {
+                this.setState({loading: false, freeze: false, isDone: true})
+                // TODO: set orderInProgress = null
+                // TODO: redirect to the customer order list view
+            }
+
+            this.setState({loading: true, freeze: false})
+            doWithMinTime(() => Api.createNewOrder(demoId, orderInProgress)).then(response => {
+                if (step === 10) {
+                    return onFreeModeSuccess(response)
+                }
+                else {
+                    return onSuccess(response)
+                }
+            })
         }
     }
 
     render() {
-        const {loading, success} = this.state
+        const {loading, freeze, isDone} = this.state
 
         return (
             <div id="bf-demo-customer-payment" className="view">
                 <div>
-                    <div className={`go-back${loading ? ' disabled' : ''}`} onClick={this.onGoBack}>
+                    <div className={`go-back${freeze ? ' disabled' : ''}`} onClick={this.onGoBack}>
                         <i className="fas fa-arrow-left"/>Go back
                     </div>
                     <div className="view-title">
                         <div className="label">Proceed to the payment of your order</div>
                     </div>
-                    <div className={`btn-remote-action${loading ? ' loading' : ''}`} onClick={this.onSubmit}>
-                        {success ? (
+                    <div className={`btn-remote-action${(loading || isDone) ? ' not-a-btn' : ''}`} onClick={this.onSubmit}>
+                        {isDone ? (
                             <i className="fas fa-check"/>
                         ) : loading ? (
                             <i className="fas fa-circle-notch fa-spin"/>

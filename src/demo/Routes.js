@@ -1,6 +1,6 @@
-export const CUSTOMER_ROUTES = 'customer'
-export const RESTAURANT_ROUTES = 'restaurant'
-export const COURIER_ROUTES = 'courier'
+export const CUSTOMER_ROUTES = 'customer-view'
+export const RESTAURANT_ROUTES = 'restaurant-view'
+export const COURIER_ROUTES = 'courier-view'
 
 export const CUSTOMER_ADDRESS_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/`
 export const CUSTOMER_RESTAURANTS_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/restaurants/`

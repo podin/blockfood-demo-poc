@@ -61,28 +61,14 @@
       }
 
       &:not(.active) {
-        &:after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: repeating-linear-gradient(
-                          -45deg,
-                          rgba(0, 0, 0, 0.2),
-                          rgba(0, 0, 0, 0.2) 10px,
-                          rgba(0, 0, 0, 0.3) 10px,
-                          rgba(0, 0, 0, 0.3) 20px
-          );
-          opacity: 0.5;
-        }
+        opacity: 0.5;
       }
 
-      &.active:hover {
+      &:hover {
         cursor: pointer;
         background: black;
         color: white;
+        opacity: 1;
       }
     }
   }

@@ -75,7 +75,6 @@
     font-weight: bold;
     font-size: 1.2em;
     text-transform: uppercase;
-    cursor: pointer;
     border: 2px solid black;
     border-radius: 5px;
     padding: 5px 10px;
@@ -84,6 +83,10 @@
     i {
       margin-right: 7px;
       color: black;
+    }
+
+    &.disabled {
+      opacity: 0.3;
     }
 
     &:not(.disabled):hover {
@@ -108,7 +111,7 @@
     font-size: 10em;
     transition: transform 0.3s;
 
-    &.loading {
+    &.not-a-btn {
       font-size: 2em;
       border-color: transparent;
 
@@ -118,7 +121,7 @@
       }
     }
 
-    &:not(.loading):hover {
+    &:not(.not-a-btn):hover {
       cursor: pointer;
       background: black;
       color: white;
