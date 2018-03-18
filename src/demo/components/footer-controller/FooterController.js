@@ -26,13 +26,16 @@ class Footer extends React.Component {
         const {location, step, modal} = this.props
 
         const task = {
-            1: 'As a customer, choose a sector by typing an adress.',
+            1: 'As a customer, choose a sector by typing an address.',
             2: 'As a customer, choose a restaurant.',
             3: 'As a customer, choose your order in the selected restaurant and then, validate your order.',
             4: 'As a customer, proceed to the payment of your order.',
             5: 'As a restaurant, select a waiting order and accept it.',
-            6: 'As a restaurant, notify that the order is now ready to be delivred.',
-            7: 'As a courier, select a waitin order and accept it.'
+            6: 'As a restaurant, notify that the order is now ready to be delivered.',
+            7: 'As a courier, select a waiting order and accept it.',
+            8: 'As a courier, notify that the order is now picked and on its way to be delivered.',
+            9: 'As a courier, notify that the order is now delivered.',
+            10: 'As a customer, a restaurant or a courier, keep do whatever you want!'
         }[step]
 
         return (
@@ -55,13 +58,9 @@ class Footer extends React.Component {
                         <div className={`step${step >= 7 ? ' completed' : ''}`}>7</div>
                         <div className={`step${step >= 8 ? ' completed' : ''}`}>8</div>
                         <div className={`step${step >= 9 ? ' completed' : ''}`}>9</div>
-                        <div className={`step${step >= 10 ? ' completed' : ''}`}>10</div>
-                        <div className={`icon customer${step >= 11 ? ' completed' : ''}`}></div>
-                        <div className={`step${step >= 11 ? ' completed' : ''}`}>11</div>
-                        <div className={`icon restaurant${step >= 12 ? ' completed' : ''}`}></div>
-                        <div className={`step${step >= 12 ? ' completed' : ''}`}>12</div>
-                        <div className={`icon courier${step >= 13 ? ' completed' : ''}`}></div>
-                        <div className={`step${step >= 13 ? ' completed' : ''}`}>13</div>
+                        <div className={`icon customer${step >= 10 ? ' completed' : ''}`}></div>
+                        <div className={`icon last restaurant${step >= 10 ? ' completed' : ''}`}></div>
+                        <div className={`icon last courier${step >= 10 ? ' completed' : ''}`}></div>
                     </div>
                 </div>
                 <div>

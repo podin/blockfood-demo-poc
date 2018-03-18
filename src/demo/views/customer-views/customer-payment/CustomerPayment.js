@@ -44,7 +44,7 @@ class CustomerPayment extends React.Component {
                     this.props.history.replace(getRouteRestaurantOrders(demoId, orderInProgress.restaurantId))
                 }
 
-                setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 500)
+                setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 200)
             }
 
             this.setState({loading: true})

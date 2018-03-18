@@ -78,22 +78,26 @@
 
       & > * {
         position: relative;
-        margin-left: 15px;
+        margin-left: 25px;
         transition: opacity 0.3s;
         opacity: 1;
         user-select: none;
+
+        &.last {
+          margin-left: 0;
+        }
 
         &:not(.completed) {
           opacity: 0.3;
         }
 
-        &:not(:first-of-type):before {
+        &:not(.last):not(:first-of-type):before {
           content: '';
           position: absolute;
           top: calc((100% - 4px) / 2);
-          left: -15px;
+          left: -25px;
           height: 4px;
-          width: 15px;
+          width: 25px;
           background: white;
           z-index: -1;
         }

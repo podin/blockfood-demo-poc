@@ -70,7 +70,7 @@ class RestaurantOrder extends React.Component {
                         this.props.history.replace(getRouteCourierOrders(demoId))
                     }
 
-                    setTimeout(() => this.props.dispatch(setModal(3, onModalClose)), 500)
+                    setTimeout(() => this.props.dispatch(setModal(3, onModalClose)), 200)
                 }
             }
 
