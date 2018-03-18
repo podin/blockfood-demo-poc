@@ -24,7 +24,7 @@ class CustomerPayment extends React.Component {
     onGoBack() {
         if (!this.state.loading) {
             const {demoId} = this.props.match.params
-            const {restaurantId} = this.props.currentOrder
+            const {restaurantId} = this.props.orderInProgress
             this.props.history.replace(getRouteCustomerOrder(demoId, restaurantId))
         }
     }
@@ -32,7 +32,7 @@ class CustomerPayment extends React.Component {
     onSubmit() {
         if (!this.state.loading) {
             const {demoId} = this.props.match.params
-            const {currentOrder} = this.props
+            const {orderInProgress} = this.props
 
             const onSuccess = (restaurantOrders) => {
                 this.setState({success: true})
@@ -41,14 +41,14 @@ class CustomerPayment extends React.Component {
 
                 const onModalClose = () => {
                     this.props.dispatch(setStep(5))
-                    this.props.history.replace(getRouteRestaurantOrders(demoId, currentOrder.restaurantId))
+                    this.props.history.replace(getRouteRestaurantOrders(demoId, orderInProgress.restaurantId))
                 }
 
                 setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 500)
             }
 
             this.setState({loading: true})
-            doWithMinTime(() => Api.createNewOrder(demoId, currentOrder)).then(onSuccess)
+            doWithMinTime(() => Api.createNewOrder(demoId, orderInProgress)).then(onSuccess)
         }
     }
 
@@ -81,7 +81,7 @@ class CustomerPayment extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentOrder: state.currentOrder
+        orderInProgress: state.orderInProgress
     }
 }
 

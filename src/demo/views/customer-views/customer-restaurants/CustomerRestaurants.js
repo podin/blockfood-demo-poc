@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {getRouteCustomerAddress, getRouteCustomerOrder} from '../../../Routes'
 import RESTAURANTS from '../../../data/Restaurants'
 
-import {setStep, setCurrentOrder} from '../../../state/Actions'
+import {setStep, setOrderInProgress} from '../../../state/Actions'
 
 import './CustomerRestaurants.scss'
 
@@ -23,7 +23,7 @@ class CustomerRestaurants extends React.Component {
 
     onSubmit(event) {
         const {demoId} = this.props.match.params
-        const {currentOrder} = this.props
+        const {orderInProgress} = this.props
 
         let target = event.target, restaurantId
         while (!restaurantId) {
@@ -34,8 +34,8 @@ class CustomerRestaurants extends React.Component {
         }
 
         this.props.dispatch(setStep(3))
-        if (currentOrder && currentOrder.restaurantId !== restaurantId) {
-            this.props.dispatch(setCurrentOrder(null))
+        if (orderInProgress && orderInProgress.restaurantId !== restaurantId) {
+            this.props.dispatch(setOrderInProgress(null))
         }
         this.props.history.replace(getRouteCustomerOrder(demoId, restaurantId))
     }
@@ -76,7 +76,7 @@ class CustomerRestaurants extends React.Component {
 const mapStateToProps = (state) => {
     return {
         customerAddress: state.customerAddress,
-        currentOrder: state.currentOrder
+        orderInProgress: state.orderInProgress
     }
 }
 

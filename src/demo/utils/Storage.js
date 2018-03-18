@@ -37,12 +37,12 @@ class Storage {
         return this._readObjectFromSessionStorage('current-address')
     }
 
-    setCurrentOrder(currentOrder) {
-        this._writeObjectToSessionStorage('current-order', currentOrder)
+    setOrderInProgress(orderInProgress) {
+        this._writeObjectToSessionStorage('order-in-progress', orderInProgress)
     }
 
-    getCurrentOrder() {
-        return this._readObjectFromSessionStorage('current-order')
+    getOrderInProgress() {
+        return this._readObjectFromSessionStorage('order-in-progress')
     }
 
     clearAll() {

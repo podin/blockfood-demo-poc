@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {getRouteCustomerRestaurants, getRouteCustomerPayment} from '../../../Routes'
 import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 
-import {setStep, setCurrentOrder} from '../../../state/Actions'
+import {setStep, setOrderInProgress} from '../../../state/Actions'
 
 import './CustomerOrder.scss'
 
@@ -12,11 +12,11 @@ class CustomerOrder extends React.Component {
     constructor(props) {
         super(props)
 
-        const {currentOrder} = this.props
+        const {orderInProgress} = this.props
 
         this.state = {
-            orderIds: currentOrder ? currentOrder.orderIds : [],
-            price: currentOrder ? currentOrder.price : 0
+            orderIds: orderInProgress ? orderInProgress.orderIds : [],
+            price: orderInProgress ? orderInProgress.price : 0
         }
 
         this.onGoBack = this.onGoBack.bind(this)
@@ -71,7 +71,7 @@ class CustomerOrder extends React.Component {
         const {orderIds, price} = this.state
 
         if (orderIds.length > 0) {
-            const currentOrder = {
+            const orderInProgress = {
                 customerId: demoId,
                 restaurantId: restaurant.id,
                 orderIds,
@@ -79,7 +79,7 @@ class CustomerOrder extends React.Component {
             }
 
             this.props.dispatch(setStep(4))
-            this.props.dispatch(setCurrentOrder(currentOrder))
+            this.props.dispatch(setOrderInProgress(orderInProgress))
             this.props.history.replace(getRouteCustomerPayment(demoId))
         }
     }
@@ -117,7 +117,7 @@ class CustomerOrder extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentOrder: state.currentOrder
+        orderInProgress: state.orderInProgress
     }
 }
 
