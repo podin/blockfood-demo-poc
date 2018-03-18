@@ -7,7 +7,7 @@ import {
     SET_MODAL,
     SET_CUSTOMER_ADDRESS,
     SET_ORDER_IN_PROGRESS,
-    SET_RESTAURANT_ORDERS
+    SET_ORDERS
 } from './Actions'
 
 const reduceStep = (state, action) => {
@@ -45,9 +45,9 @@ const reduceOrderInProgress = (state, action) => {
     return newState
 }
 
-const reduceRestaurantOrders = (state, action) => {
+const reduceOrders = (state, action) => {
     const newState = {}
-    _.assign(newState, state, {restaurantOrders: action.restaurantOrders})
+    _.assign(newState, state, {orders: action.orders})
     return newState
 }
 
@@ -56,7 +56,7 @@ const DEFAULT_STATE = {
     modal: null,
     customerAddress: '',
     orderInProgress: null,
-    restaurantOrders: []
+    orders: []
 }
 
 const INITIAL_STATE = {}
@@ -78,8 +78,8 @@ export const rootReducer = (state = INITIAL_STATE, action) => {
             return reduceCustomerAddress(state, action)
         case SET_ORDER_IN_PROGRESS:
             return reduceOrderInProgress(state, action)
-        case SET_RESTAURANT_ORDERS:
-            return reduceRestaurantOrders(state, action)
+        case SET_ORDERS:
+            return reduceOrders(state, action)
         default:
             return state
     }

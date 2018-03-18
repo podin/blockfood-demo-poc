@@ -35,7 +35,7 @@ class RestaurantOrders extends React.Component {
 
     render() {
         const restaurant = this.getRestaurant()
-        const {restaurantOrders} = this.props
+        const {orders} = this.props
 
         const isDone = order => order.status === ORDER_STATUS.DONE
 
@@ -46,7 +46,7 @@ class RestaurantOrders extends React.Component {
                         <div className="label">List of orders for the restaurant: <span>{restaurant.name}</span></div>
                     </div>
                     <div className="list">
-                        {restaurantOrders.map(order => (
+                        {orders.map(order => (
                             <div key={order.id} data-id={order.id} className={`item${!isDone(order) ? ' active' : ''}`}
                                  onClick={this.openOrder}>
                                 <div className="icon">
@@ -70,7 +70,7 @@ class RestaurantOrders extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        restaurantOrders: state.restaurantOrders
+        orders: state.orders
     }
 }
 

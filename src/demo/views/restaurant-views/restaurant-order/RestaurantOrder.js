@@ -6,7 +6,7 @@ import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
-import {setStep, setModal, setRestaurantOrders} from '../../../state/Actions'
+import {setStep, setModal, setOrders} from '../../../state/Actions'
 
 import './RestaurantOrder.scss'
 
@@ -28,9 +28,9 @@ class RestaurantOrder extends React.Component {
     }
 
     getOrder(props) {
-        const {match, restaurantOrders} = (props || this.props)
+        const {match, orders} = (props || this.props)
         const {orderId} = match.params
-        return _.find(restaurantOrders, ({id}) => id === orderId)
+        return _.find(orders, ({id}) => id === orderId)
     }
 
     isDone(order) {
@@ -54,8 +54,8 @@ class RestaurantOrder extends React.Component {
                 [ORDER_STATUS.COOKING]: ORDER_STATUS.WAITING_COURIER
             }[order.status]
 
-            const onSuccess = (restaurantOrders) => {
-                this.props.dispatch(setRestaurantOrders(restaurantOrders))
+            const onSuccess = (orders) => {
+                this.props.dispatch(setOrders(orders))
 
                 if (newStatus === ORDER_STATUS.COOKING) {
                     this.setState({loading: false})
@@ -79,7 +79,7 @@ class RestaurantOrder extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(this.props.restaurantOrders, nextProps.restaurantOrders)) {
+        if (!_.isEqual(this.props.orders, nextProps.orders)) {
             this.setState({order: this.getOrder(nextProps)})
         }
     }
@@ -119,7 +119,7 @@ class RestaurantOrder extends React.Component {
 const mapStateToProps = (state) => {
     return {
         step: state.step,
-        restaurantOrders: state.restaurantOrders
+        orders: state.orders
     }
 }
 

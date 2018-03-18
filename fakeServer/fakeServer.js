@@ -44,7 +44,7 @@ module.exports = function (app) {
         }
     })
 
-    const getRestaurantOrders = (data, restaurantId) => {
+    const getOrdersForRestaurant = (data, restaurantId) => {
         return _.filter(data, ({details}) => details.restaurantId === restaurantId)
     }
 
@@ -56,7 +56,7 @@ module.exports = function (app) {
             res.sendStatus(403)
         }
 
-        const restaurantOrders = getRestaurantOrders(data, restaurantId)
+        const restaurantOrders = getOrdersForRestaurant(data, restaurantId)
 
         if (restaurantOrders.length === 0){
             res.sendStatus(403)
@@ -92,7 +92,7 @@ module.exports = function (app) {
 
         database[demoId].push(order)
 
-        res.send(getRestaurantOrders(database[demoId], details.restaurantId))
+        res.send(getOrdersForRestaurant(database[demoId], details.restaurantId))
     })
 
     app.put('/api/:demoId/order/:orderId', function (req, res) {
@@ -120,7 +120,7 @@ module.exports = function (app) {
             res.sendStatus(403)
         }
 
-        res.send(getRestaurantOrders(database[demoId], findOrder.details.restaurantId))
+        res.send(getOrdersForRestaurant(database[demoId], findOrder.details.restaurantId))
     })
 
 }

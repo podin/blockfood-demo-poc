@@ -23,7 +23,7 @@ import RestaurantOrders from './views/restaurant-views/restaurant-orders/Restaur
 import RestaurantOrder from './views/restaurant-views/restaurant-order/RestaurantOrder'
 import FooterController from './components/footer-controller/FooterController'
 
-import {setStep, setRestaurantOrders} from './state/Actions'
+import {setStep, setOrders} from './state/Actions'
 
 import './MainView.scss'
 
@@ -72,9 +72,9 @@ class MainView extends React.Component {
                         
                         const {restaurantId} = this.getRouteMatch(routes[routeIndex]).params
 
-                        return Api.getRestaurantOrders(demoId, restaurantId)
-                            .then(restaurantOrders => {
-                                this.props.dispatch(setRestaurantOrders(restaurantOrders))
+                        return Api.getOrderForRestaurant(demoId, restaurantId)
+                            .then(orders => {
+                                this.props.dispatch(setOrders(orders))
                                 this.setState({ready: true})
                             })
                     }

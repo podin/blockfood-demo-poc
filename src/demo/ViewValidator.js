@@ -11,7 +11,7 @@ class ViewValidator extends React.Component {
     }
 
     isValid() {
-        const {step, customerAddress, orderInProgress, restaurantOrders} = this.props
+        const {step, customerAddress, orderInProgress, orders} = this.props
 
         if (this.getRouteMatch(Routes.CUSTOMER_ADDRESS_ROUTE)) {
             return step >= 1 && step <= 4
@@ -32,7 +32,7 @@ class ViewValidator extends React.Component {
         }
         else if (this.getRouteMatch(Routes.RESTAURANT_ORDER_ROUTE)) {
             const {restaurantId, orderId} = this.getRouteMatch(Routes.RESTAURANT_ORDER_ROUTE).params
-            const orderExists = !!_.find(restaurantOrders, ({id, details}) => id === orderId && details.restaurantId === restaurantId)
+            const orderExists = !!_.find(orders, ({id, details}) => id === orderId && details.restaurantId === restaurantId)
             return step >= 5 && step <= 6 && orderExists
         }
         else {

@@ -13,7 +13,7 @@ class Api {
         return Http.get(`/api/${demoId}/step`).then(({data}) => +data)
     }
     
-    getRestaurantOrders(demoId, restaurantId) {
+    getOrderForRestaurant(demoId, restaurantId) {
         return Http.get(`/api/${demoId}/restaurant-orders/${restaurantId}`).then(({data}) => data)
     }
 

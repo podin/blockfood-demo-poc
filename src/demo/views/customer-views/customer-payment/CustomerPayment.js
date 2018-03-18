@@ -4,7 +4,7 @@ import {getRouteCustomerOrder, getRouteRestaurantOrders} from '../../../Routes'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
-import {setStep, setModal, setRestaurantOrders} from '../../../state/Actions'
+import {setStep, setModal, setOrders} from '../../../state/Actions'
 
 import './CustomerPayment.scss'
 
@@ -34,10 +34,10 @@ class CustomerPayment extends React.Component {
             const {demoId} = this.props.match.params
             const {orderInProgress} = this.props
 
-            const onSuccess = (restaurantOrders) => {
+            const onSuccess = (orders) => {
                 this.setState({success: true})
 
-                this.props.dispatch(setRestaurantOrders(restaurantOrders))
+                this.props.dispatch(setOrders(orders))
 
                 const onModalClose = () => {
                     this.props.dispatch(setStep(5))
