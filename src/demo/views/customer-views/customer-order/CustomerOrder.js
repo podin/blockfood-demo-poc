@@ -15,7 +15,7 @@ class CustomerOrder extends React.Component {
         const {orderInProgress} = this.props
 
         this.state = {
-            orderIds: orderInProgress ? orderInProgress.orderIds : [],
+            itemIds: orderInProgress ? orderInProgress.itemIds : [],
             price: orderInProgress ? orderInProgress.price : 0
         }
 
@@ -36,7 +36,7 @@ class CustomerOrder extends React.Component {
 
     onChoose(event) {
         const restaurant = this.getRestaurant()
-        const {orderIds} = this.state
+        const {itemIds} = this.state
 
         let target = event.target, menuId
         while (!menuId) {
@@ -47,11 +47,11 @@ class CustomerOrder extends React.Component {
         }
 
         let newOrderIds
-        if (orderIds.includes(menuId)) {
-            newOrderIds = _.without(orderIds, menuId)
+        if (itemIds.includes(menuId)) {
+            newOrderIds = _.without(itemIds, menuId)
         }
         else {
-            newOrderIds = [...orderIds, menuId]
+            newOrderIds = [...itemIds, menuId]
         }
 
         const newPrice = _.reduce(restaurant.menus, (total, menu) => {
@@ -62,19 +62,19 @@ class CustomerOrder extends React.Component {
             return total
         }, 0)
 
-        this.setState({orderIds: newOrderIds, price: newPrice})
+        this.setState({itemIds: newOrderIds, price: newPrice})
     }
 
     onValidate() {
         const {demoId} = this.props.match.params
         const restaurant = this.getRestaurant()
-        const {orderIds, price} = this.state
+        const {itemIds, price} = this.state
 
-        if (orderIds.length > 0) {
+        if (itemIds.length > 0) {
             const orderInProgress = {
                 customerId: demoId,
                 restaurantId: restaurant.id,
-                itemIds: orderIds,
+                itemIds: itemIds,
                 price
             }
 
@@ -86,7 +86,7 @@ class CustomerOrder extends React.Component {
 
     render() {
         const restaurant = this.getRestaurant()
-        const {orderIds, price} = this.state
+        const {itemIds, price} = this.state
 
         return (
             <div id="bf-demo-customer-order" className="view">
@@ -98,7 +98,7 @@ class CustomerOrder extends React.Component {
                     <div className="list">
                         {restaurant.menus.map(menu => (
                             <div key={menu.id} data-id={menu.id}
-                                 className={`item${orderIds.includes(menu.id) ? ' selected' : ''}`}
+                                 className={`item${itemIds.includes(menu.id) ? ' selected' : ''}`}
                                  onClick={this.onChoose}>
                                 <i className="fas fa-check"/>
                                 <div className="name">{menu.name} ({menu.price}$)</div>
@@ -107,7 +107,7 @@ class CustomerOrder extends React.Component {
                     </div>
                     <div className="validate">
                         <div>{price}$</div>
-                        <button onClick={this.onValidate} disabled={orderIds.length === 0}>VALIDATE</button>
+                        <button onClick={this.onValidate} disabled={itemIds.length === 0}>VALIDATE</button>
                     </div>
                 </div>
             </div>
