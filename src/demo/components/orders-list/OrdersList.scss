@@ -50,10 +50,14 @@
       .properties {
         .id {
           opacity: 0.5;
-          margin-bottom: 15px;
+        }
+
+        .restaurant {
+          margin-top: 15px;
         }
 
         .status {
+          margin-top: 30px;
           font-size: 1.3em;
           text-align: center;
           line-height: 1.4em;

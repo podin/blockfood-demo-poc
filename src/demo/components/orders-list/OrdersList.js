@@ -1,11 +1,13 @@
 import React from 'react'
 import {getStatus, isDone} from '../../data/OrderStatus'
+import {RESTAURANT_BY_IDS} from '../../data/Restaurants'
 
 import './OrdersList.scss'
 
 class OrdersList extends React.Component {
     render() {
         const {title, orders, onGoBack, onSelect} = this.props
+        const options = this.props.options || {}
 
         return (
             <div className="orders-list">
@@ -27,6 +29,11 @@ class OrdersList extends React.Component {
                             </div>
                             <div className="properties">
                                 <div className="id"><b>Id:</b> {order.id}</div>
+                                {options.showRestaurantName && (
+                                    <div className="restaurant">
+                                        <b>Restaurant:</b> {RESTAURANT_BY_IDS[order.details.restaurantId].name}
+                                    </div>
+                                )}
                                 <div className="status">
                                     <b>Status:</b> <br/> {getStatus(order)}
                                 </div>

@@ -24,9 +24,13 @@ class CourierOrders extends React.Component {
     render() {
         const {orders} = this.props
 
+        const options = {
+            showRestaurantName: true
+        }
+
         return (
             <div id="bf-demo-customer-orders" className="view">
-                <OrdersList title="List of orders" orders={orders} onGoBack={this.onGoBack}/>
+                <OrdersList title="List of orders" orders={orders} onGoBack={this.onGoBack} options={options}/>
             </div>
         )
     }
