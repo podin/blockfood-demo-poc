@@ -5,17 +5,23 @@ import './OrdersList.scss'
 
 class OrdersList extends React.Component {
     render() {
-        const {title, orders, onSelect} = this.props
+        const {title, orders, onGoBack, onSelect} = this.props
 
         return (
             <div className="orders-list">
+                {onGoBack && (
+                    <div className="go-back" onClick={onGoBack}>
+                        <i className="fas fa-arrow-left"/>Go back
+                    </div>
+                )}
                 <div className="view-title">
                     <div className="label">{title}</div>
                 </div>
                 <div className="list">
                     {orders.map(order => (
-                        <div key={order.id} data-id={order.id} className={`item${!isDone(order) ? ' active' : ''}`}
-                             onClick={onSelect}>
+                        <div key={order.id} data-id={order.id}
+                             className={`item${onSelect ? ' selectable' : ''}${!isDone(order) ? ' active' : ''}`}
+                             onClick={onSelect ? onSelect : null}>
                             <div className="icon">
                                 <i className="far fa-sticky-note"/>
                             </div>

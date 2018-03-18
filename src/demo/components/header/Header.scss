@@ -76,6 +76,9 @@
   }
 
   .user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     font-family: "Open Sans", sans-serif;
     font-size: 1.2em;
 
@@ -85,6 +88,26 @@
 
     span {
       font-weight: bold;
+    }
+
+    .btn {
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+      margin-right: 25px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+
+      i {
+        margin-right: 10px;
+      }
+
+      &:hover {
+        background: black;
+        color: white;
+      }
     }
   }
 }

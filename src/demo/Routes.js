@@ -9,6 +9,7 @@ export const CUSTOMER_ADDRESS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/`
 export const CUSTOMER_RESTAURANTS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/restaurants/`
 export const CUSTOMER_ORDER_IN_PROGRESS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/order-in-progress/:restaurantId/`
 export const CUSTOMER_PAYMENT_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/payment/`
+export const CUSTOMER_ORDERS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/orders/`
 
 export const CUSTOMER_ROUTES_LIST = [
     CUSTOMER_ADDRESS_ROUTE,
@@ -42,6 +43,10 @@ export const getRouteCustomerOrder = (demoId, restaurantId) => {
 
 export const getRouteCustomerPayment = (demoId) => {
     return CUSTOMER_PAYMENT_ROUTE.replace(':demoId', demoId)
+}
+
+export const getRouteCustomerOrders = (demoId) => {
+    return CUSTOMER_ORDERS_ROUTE.replace(':demoId', demoId)
 }
 
 export const getRouteRestaurantOrders = (demoId, restaurantId) => {

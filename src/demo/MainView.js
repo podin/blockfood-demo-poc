@@ -12,6 +12,7 @@ import CustomerAddress from './views/customer-views/customer-address/CustomerAdd
 import CustomerRestaurants from './views/customer-views/customer-restaurants/CustomerRestaurants'
 import CustomerOrderInProgress from './views/customer-views/customer-order-in-progress/CustomerOrderInProgress'
 import CustomerPayment from './views/customer-views/customer-payment/CustomerPayment'
+import CustomerOrders from './views/customer-views/customer-orders/CustomerOrders'
 import RestaurantOrders from './views/restaurant-views/restaurant-orders/RestaurantOrders'
 import RestaurantOrder from './views/restaurant-views/restaurant-order/RestaurantOrder'
 import CourierOrders from './views/courier-views/courier-orders/CourierOrders'
@@ -77,6 +78,7 @@ class MainView extends React.Component {
                                 <Route path={Routes.CUSTOMER_RESTAURANTS_ROUTE} exact component={CustomerRestaurants}/>
                                 <Route path={Routes.CUSTOMER_ORDER_IN_PROGRESS_ROUTE} exact component={CustomerOrderInProgress}/>
                                 <Route path={Routes.CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
+                                <Route path={Routes.CUSTOMER_ORDERS_ROUTE} exact component={CustomerOrders}/>
                                 <Route path={Routes.RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
                                 <Route path={Routes.RESTAURANT_ORDER_ROUTE} exact component={RestaurantOrder}/>
                                 <Route path={Routes.COURIER_ORDERS_ROUTE} exact component={CourierOrders}/>

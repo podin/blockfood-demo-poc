@@ -1,6 +1,10 @@
-import * as _ from 'lodash';
-import React from 'react';
-import {CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX} from '../../Routes'
+import * as _ from 'lodash'
+import React from 'react'
+import {connect} from 'react-redux'
+import {
+    CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX,
+    getDemoIdFromPathname, getRouteCustomerOrders
+} from '../../Routes'
 
 import './Header.scss'
 
@@ -14,6 +18,8 @@ class Header extends React.Component {
             type,
             user
         }
+
+        this.onViewCustomerOrders = this.onViewCustomerOrders.bind(this)
     }
 
     getTypeAndUser(props) {
@@ -23,15 +29,18 @@ class Header extends React.Component {
                 COURIER_PREFIX
             ], route => (props || this.props).location.pathname.indexOf(route) !== -1) || null
 
-        const rawType = type ? type.split('-')[0] : type
-
         const user = {
             [CUSTOMER_PREFIX]: 'a hungry customer',
             [RESTAURANT_PREFIX]: 'a passionate chef',
             [COURIER_PREFIX]: 'a motivated courier'
         }[type]
 
-        return {type: rawType, user}
+        return {type, user}
+    }
+
+    onViewCustomerOrders() {
+        const demoId = getDemoIdFromPathname(this.props.location.pathname)
+        this.props.history.replace(getRouteCustomerOrders(demoId))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -43,24 +52,36 @@ class Header extends React.Component {
     }
 
     render() {
-        const {location} = this.props
+        const {location, step} = this.props
         const {type, user} = this.state
+
+        const rawType = type && type.split('-')[0]
 
         return (
             <header id="bf-demo-header" className={location.pathname !== '/' ? 'visible' : ''}>
                 <div className="logo">
                     <div className="name">
-                        <i className={type}/>
-                        <div>Block<span>Food</span><span>/{type}</span></div>
+                        <i className={rawType}/>
+                        <div>Block<span>Food</span><span>/{rawType}</span></div>
                     </div>
                 </div>
-
                 <div className="user">
-                    <i className="fas fa-user"/> Welcome to <span>{user}</span>
+                    {type === CUSTOMER_PREFIX && step === 10 && (
+                        <div className="btn" onClick={this.onViewCustomerOrders}>
+                            <i className="fas fa-sticky-note"/>View orders
+                        </div>
+                    )}
+                    <div><i className="fas fa-user"/> Welcome to <span>{user}</span></div>
                 </div>
             </header>
         )
     }
 }
 
-export default Header
+const mapStateToProps = (state) => {
+    return {
+        step: state.step
+    }
+}
+
+export default connect(mapStateToProps)(Header)
