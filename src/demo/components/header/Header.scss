@@ -79,18 +79,62 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-family: "Open Sans", sans-serif;
-    font-size: 1.2em;
 
-    i {
-      margin-right: 3px;
+    .username {
+      font-family: "Open Sans", sans-serif;
+      font-size: 1.2em;
+
+      i {
+        margin-right: 3px;
+      }
+
+      span {
+        font-weight: bold;
+      }
     }
 
-    span {
-      font-weight: bold;
+    .select {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 1.5em;
+        margin-right: 5px;
+      }
+
+      .Select {
+        width: 200px;
+        margin-right: 25px;
+
+        &, * {
+          font-family: "Open Sans", sans-serif;
+          font-weight: bold;
+          color: black;
+        }
+
+        .Select-control {
+          border: 2px solid black;
+          box-shadow: none !important;
+        }
+
+        .Select-menu-outer {
+          border: 2px solid black;
+          border-top: none;
+        }
+
+        .Select-option.is-focused {
+          background-color: lightgray;
+        }
+
+        .Select-arrow {
+          border-top-color: black;
+        }
+      }
     }
 
     .btn {
+      font-family: "Open Sans", sans-serif;
       text-transform: uppercase;
       padding: 5px 10px;
       border: 2px solid black;

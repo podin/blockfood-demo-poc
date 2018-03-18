@@ -25,6 +25,10 @@ const getOrdersForCourier = (data) => {
     ].indexOf(status) !== -1)
 }
 
+const isFreeMode = (data) => {
+    return data.length > 1 || _.find(data, ({status}) => status === ORDER_STATUS.DONE)
+}
+
 module.exports = function (app) {
 
     app.use(bodyParser.urlencoded({extended: false}))
@@ -60,7 +64,7 @@ module.exports = function (app) {
 
         const restaurantOrders = getOrdersForRestaurant(data, restaurantId)
 
-        if (restaurantOrders.length === 0){
+        if (restaurantOrders.length === 0 && !isFreeMode(data)){
             res.sendStatus(403)
         }
         else {
@@ -141,7 +145,7 @@ module.exports = function (app) {
 
         const courierOrders = getOrdersForCourier(data)
 
-        if (courierOrders.length === 0) {
+        if (courierOrders.length === 0 && !isFreeMode(data)) {
             res.sendStatus(403)
         }
         else {

@@ -7,8 +7,8 @@ import {
     getDemoIdFromPathname, getRestaurantIdFromPathname
 } from '../../Routes'
 import Api from '../../api/Api'
-import Modal from '../modal/Modal'
 import doWithMinTime from '../../utils/DoWithMinTime'
+import Modal from '../modal/Modal'
 
 import {setModal, setOrders} from '../../state/Actions'
 

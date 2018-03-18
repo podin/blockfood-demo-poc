@@ -33,7 +33,7 @@ class OrdersList extends React.Component {
                             </div>
                         </div>
                     ))}
-
+                    {orders.length === 0 && <div className="empty">No orders found...</div>}
                 </div>
             </div>
         )

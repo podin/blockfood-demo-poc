@@ -1,12 +1,23 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {connect} from 'react-redux'
+import Select from 'react-select'
+import 'react-select/dist/react-select.css'
 import {
     CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX,
-    getDemoIdFromPathname, getRouteCustomerOrders
+    getDemoIdFromPathname, getRestaurantIdFromPathname, getRouteCustomerOrders,
+    getRouteRestaurantOrders
 } from '../../Routes'
+import RESTAURANTS from '../../data/Restaurants'
+import Api from '../../api/Api'
+import doWithMinTime from '../../utils/DoWithMinTime'
+import Modal from '../modal/Modal'
+
+import {setOrders} from '../../state/Actions'
 
 import './Header.scss'
+
+const RESTAURANTS_SELECT_VALUE = _.map(RESTAURANTS, restaurant => ({value: restaurant.id, label: restaurant.name}))
 
 class Header extends React.Component {
     constructor(props) {
@@ -16,10 +27,14 @@ class Header extends React.Component {
 
         this.state = {
             type,
-            user
+            user,
+            loadingFreeModeRestaurant: null
         }
 
         this.onViewCustomerOrders = this.onViewCustomerOrders.bind(this)
+        this.onRestaurantChange = this.onRestaurantChange.bind(this)
+        this.onModalFreeModeLoadRestaurantInitialized = this.onModalFreeModeLoadRestaurantInitialized.bind(this)
+        this.onModalFreeModeClose = this.onModalFreeModeClose.bind(this)
     }
 
     getTypeAndUser(props) {
@@ -43,6 +58,25 @@ class Header extends React.Component {
         this.props.history.replace(getRouteCustomerOrders(demoId))
     }
 
+    onRestaurantChange({value: restaurantId}) {
+        const demoId = getDemoIdFromPathname(this.props.location.pathname)
+
+        this.setState({loadingFreeModeRestaurant: restaurantId})
+        doWithMinTime(() => Api.getOrdersForRestaurant(demoId, restaurantId)).then((orders) => {
+            this.props.dispatch(setOrders(orders, RESTAURANT_PREFIX))
+            this.props.history.replace(getRouteRestaurantOrders(demoId, restaurantId))
+            this.loadingFreeModerestaurantModalRef.close()
+        })
+    }
+
+    onModalFreeModeLoadRestaurantInitialized(ref) {
+        this.loadingFreeModerestaurantModalRef = ref
+    }
+
+    onModalFreeModeClose() {
+        this.setState({loadingFreeModeRestaurant: null})
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.location.pathname !== this.props.location.pathname) {
             const {type, user} = this.getTypeAndUser(nextProps)
@@ -53,9 +87,11 @@ class Header extends React.Component {
 
     render() {
         const {location, step} = this.props
-        const {type, user} = this.state
+        const {type, user, loadingFreeModeRestaurant} = this.state
 
         const rawType = type && type.split('-')[0]
+
+        const restaurantId = getRestaurantIdFromPathname(location.pathname)
 
         return (
             <header id="bf-demo-header" className={location.pathname !== '/' ? 'visible' : ''}>
@@ -71,8 +107,24 @@ class Header extends React.Component {
                             <i className="fas fa-sticky-note"/>View orders
                         </div>
                     )}
-                    <div><i className="fas fa-user"/> Welcome to <span>{user}</span></div>
+                    {type === RESTAURANT_PREFIX && step === 10 && (
+                        <div className="select">
+                            <i className="fas fa-home"/>
+                            <Select
+                                name="form-field-name"
+                                value={loadingFreeModeRestaurant || restaurantId}
+                                onChange={this.onRestaurantChange}
+                                options={RESTAURANTS_SELECT_VALUE}
+                                clearable={false} searchable={false}/>
+                        </div>
+                    )}
+                    <div className="username"><i className="fas fa-user"/> Welcome to <span>{user}</span></div>
                 </div>
+                {loadingFreeModeRestaurant && (
+                    <Modal ref={this.onModalFreeModeLoadRestaurantInitialized} noButton onClose={this.onModalFreeModeClose}>
+                        <h1 className="centered">Loading...</h1>
+                    </Modal>
+                )}
             </header>
         )
     }
