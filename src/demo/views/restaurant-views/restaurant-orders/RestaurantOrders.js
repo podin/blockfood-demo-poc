@@ -2,15 +2,13 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getRouteRestaurantOrder} from '../../../Routes'
 import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
-import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
-
-import './RestaurantOrders.scss'
+import OrdersList from '../../../components/orders-list/OrdersList'
 
 class RestaurantOrders extends React.Component {
     constructor(props) {
         super(props)
         
-        this.openOrder = this.openOrder.bind(this)
+        this.onSelect = this.onSelect.bind(this)
     }
 
     getRestaurant() {
@@ -18,7 +16,7 @@ class RestaurantOrders extends React.Component {
         return RESTAURANT_BY_IDS[restaurantId]
     }
 
-    openOrder(event) {
+    onSelect(event) {
         const {demoId} = this.props.match.params
         const restaurant = this.getRestaurant()
 
@@ -37,32 +35,15 @@ class RestaurantOrders extends React.Component {
         const restaurant = this.getRestaurant()
         const {orders} = this.props
 
-        const isDone = order => order.status === ORDER_STATUS.DONE
+        const title = (
+            <React.Fragment>
+                List of orders for the restaurant: <span>{restaurant.name}</span>
+            </React.Fragment>
+        )
 
         return (
             <div id="bf-demo-restaurant-orders" className="view">
-                <div>
-                    <div className="view-title">
-                        <div className="label">List of orders for the restaurant: <span>{restaurant.name}</span></div>
-                    </div>
-                    <div className="list">
-                        {orders.map(order => (
-                            <div key={order.id} data-id={order.id} className={`item${!isDone(order) ? ' active' : ''}`}
-                                 onClick={this.openOrder}>
-                                <div className="icon">
-                                    <i className="far fa-sticky-note"/>
-                                </div>
-                                <div className="properties">
-                                    <div className="id"><b>Order id:</b> {order.id}</div>
-                                    <div className="status">
-                                        <b>Order status:</b> {getStatus(order)}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-
-                    </div>
-                </div>
+                <OrdersList title={title} orders={orders} onSelect={this.onSelect}/>
             </div>
         )
     }

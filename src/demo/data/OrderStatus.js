@@ -17,3 +17,5 @@ export const getStatus = order => {
         [ORDER_STATUS.DONE]: 'Done'
     }[order.status]
 }
+
+export const isDone = order => order.status === ORDER_STATUS.DONE
