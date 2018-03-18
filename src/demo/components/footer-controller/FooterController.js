@@ -2,7 +2,7 @@ import * as _ from 'lodash'
 import React from 'react'
 import {connect} from 'react-redux'
 import {
-    CUSTOMER_ROUTES, RESTAURANT_ROUTES, COURIER_ROUTES,
+    CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX,
     getRouteCustomerAddress, getRouteRestaurantOrders, getRouteCourierOrders,
     getDemoIdFromPathname, getRestaurantIdFromPathname
 } from '../../Routes'
@@ -19,9 +19,9 @@ class Footer extends React.Component {
         super(props)
 
         this.lastFreeModeRoutes = {
-            [CUSTOMER_ROUTES]: null,
-            [RESTAURANT_ROUTES]: null,
-            [COURIER_ROUTES]: null
+            [CUSTOMER_PREFIX]: null,
+            [RESTAURANT_PREFIX]: null,
+            [COURIER_PREFIX]: null
         }
 
         this.state = {
@@ -39,9 +39,9 @@ class Footer extends React.Component {
 
     getType(pathname) {
         return _.find([
-                CUSTOMER_ROUTES,
-                RESTAURANT_ROUTES,
-                COURIER_ROUTES
+                CUSTOMER_PREFIX,
+                RESTAURANT_PREFIX,
+                COURIER_PREFIX
             ], route => pathname.indexOf(route) !== -1) || null
     }
 
@@ -77,30 +77,30 @@ class Footer extends React.Component {
         this.lastFreeModeRoutes[this.state.type] = pathname
 
         let getOrders, routeToRedirect
-        if (nextType === CUSTOMER_ROUTES) {
+        if (nextType === CUSTOMER_PREFIX) {
             getOrders = () => Api.getOrders(demoId)
-            routeToRedirect = this.lastFreeModeRoutes[CUSTOMER_ROUTES] || getRouteCustomerAddress(demoId)
+            routeToRedirect = this.lastFreeModeRoutes[CUSTOMER_PREFIX] || getRouteCustomerAddress(demoId)
         }
-        else if (nextType === RESTAURANT_ROUTES) {
+        else if (nextType === RESTAURANT_PREFIX) {
             let restaurantId
-            if (this.lastFreeModeRoutes[RESTAURANT_ROUTES]) {
-                restaurantId = getRestaurantIdFromPathname(this.lastFreeModeRoutes[RESTAURANT_ROUTES])
+            if (this.lastFreeModeRoutes[RESTAURANT_PREFIX]) {
+                restaurantId = getRestaurantIdFromPathname(this.lastFreeModeRoutes[RESTAURANT_PREFIX])
             }
             else {
-                restaurantId = this.props.orders[0].details.restaurantId
+                restaurantId = _.find(this.props.orders, ordersList => ordersList.length > 0)[0].details.restaurantId
             }
 
             getOrders = () => Api.getOrdersForRestaurant(demoId, restaurantId)
-            routeToRedirect = this.lastFreeModeRoutes[RESTAURANT_ROUTES] || getRouteRestaurantOrders(demoId, restaurantId)
+            routeToRedirect = this.lastFreeModeRoutes[RESTAURANT_PREFIX] || getRouteRestaurantOrders(demoId, restaurantId)
         }
-        else if (nextType === COURIER_ROUTES){
+        else if (nextType === COURIER_PREFIX){
             getOrders = () => Api.getOrdersForCourier(demoId)
-            routeToRedirect = this.lastFreeModeRoutes[COURIER_ROUTES] || getRouteCourierOrders(demoId)
+            routeToRedirect = this.lastFreeModeRoutes[COURIER_PREFIX] || getRouteCourierOrders(demoId)
         }
 
         this.setState({loadingFreeModeView: nextType})
         doWithMinTime(() => getOrders()).then((orders) => {
-            this.props.dispatch(setOrders(orders))
+            this.props.dispatch(setOrders(orders, nextType))
             this.props.history.replace(routeToRedirect)
             this.loadingFreeModeViewModalRef.close()
         })
@@ -166,21 +166,21 @@ class Footer extends React.Component {
                         <div><span>{step}.</span> {task}</div>
                     </div>
                     <div className="breadcrumb">
-                        {getStep(1, CUSTOMER_ROUTES)}
+                        {getStep(1, CUSTOMER_PREFIX)}
                         {getStep(1)}
                         {getStep(2)}
                         {getStep(3)}
                         {getStep(4)}
-                        {getStep(5, RESTAURANT_ROUTES)}
+                        {getStep(5, RESTAURANT_PREFIX)}
                         {getStep(5)}
                         {getStep(6)}
-                        {getStep(7, COURIER_ROUTES)}
+                        {getStep(7, COURIER_PREFIX)}
                         {getStep(7)}
                         {getStep(8)}
                         {getStep(9)}
-                        {getStep(10, CUSTOMER_ROUTES, true)}
-                        {getStep(10, RESTAURANT_ROUTES, true)}
-                        {getStep(10, COURIER_ROUTES, true)}
+                        {getStep(10, CUSTOMER_PREFIX, true)}
+                        {getStep(10, RESTAURANT_PREFIX, true)}
+                        {getStep(10, COURIER_PREFIX, true)}
                     </div>
                 </div>
                 <div>

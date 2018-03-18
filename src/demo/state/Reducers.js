@@ -1,5 +1,6 @@
 import * as _ from 'lodash'
 import Storage from '../utils/Storage'
+import {CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX} from '../Routes'
 
 import {
     RESTART,
@@ -46,8 +47,10 @@ const reduceOrderInProgress = (state, action) => {
 }
 
 const reduceOrders = (state, action) => {
+    const newOrders = {}
+    _.assign(newOrders, state.orders, {[action.ordersType]: action.orders})
     const newState = {}
-    _.assign(newState, state, {orders: action.orders})
+    _.assign(newState, state, {orders: newOrders})
     return newState
 }
 
@@ -56,7 +59,11 @@ const DEFAULT_STATE = {
     modal: null,
     customerAddress: '',
     orderInProgress: null,
-    orders: []
+    orders: {
+        [CUSTOMER_PREFIX]: [],
+        [RESTAURANT_PREFIX]: [],
+        [COURIER_PREFIX]: []
+    }
 }
 
 const INITIAL_STATE = {}

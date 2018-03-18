@@ -32,7 +32,7 @@ class ViewValidator extends React.Component {
         }
         else if (this.getRouteMatch(Routes.RESTAURANT_ORDER_ROUTE)) {
             const {restaurantId, orderId} = this.getRouteMatch(Routes.RESTAURANT_ORDER_ROUTE).params
-            const orderExists = !!_.find(orders, ({id, details}) => id === orderId && details.restaurantId === restaurantId)
+            const orderExists = !!_.find(orders[Routes.RESTAURANT_PREFIX], ({id, details}) => id === orderId && details.restaurantId === restaurantId)
             return (step === 10 || (step >= 5 && step <= 6)) && orderExists
         }
         else if (this.getRouteMatch(Routes.COURIER_ORDERS_ROUTE)) {
@@ -40,7 +40,7 @@ class ViewValidator extends React.Component {
         }
         else if (this.getRouteMatch(Routes.COURIER_ORDER_ROUTE)) {
             const {orderId} = this.getRouteMatch(Routes.COURIER_ORDER_ROUTE).params
-            const orderExists = !!_.find(orders, ({id, details}) => id === orderId)
+            const orderExists = !!_.find(orders[Routes.COURIER_PREFIX], ({id, details}) => id === orderId)
             return (step === 10 || (step >= 7 && step <= 9)) && orderExists
         }
         else {

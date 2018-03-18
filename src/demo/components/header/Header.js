@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import React from 'react';
-import {CUSTOMER_ROUTES, RESTAURANT_ROUTES, COURIER_ROUTES} from '../../Routes'
+import {CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX} from '../../Routes'
 
 import './Header.scss'
 
@@ -18,17 +18,17 @@ class Header extends React.Component {
 
     getTypeAndUser(props) {
         const type = _.find([
-                CUSTOMER_ROUTES,
-                RESTAURANT_ROUTES,
-                COURIER_ROUTES
+                CUSTOMER_PREFIX,
+                RESTAURANT_PREFIX,
+                COURIER_PREFIX
             ], route => (props || this.props).location.pathname.indexOf(route) !== -1) || null
 
         const rawType = type ? type.split('-')[0] : type
 
         const user = {
-            [CUSTOMER_ROUTES]: 'a hungry customer',
-            [RESTAURANT_ROUTES]: 'a passionate chef',
-            [COURIER_ROUTES]: 'a motivated courier'
+            [CUSTOMER_PREFIX]: 'a hungry customer',
+            [RESTAURANT_PREFIX]: 'a passionate chef',
+            [COURIER_PREFIX]: 'a motivated courier'
         }[type]
 
         return {type: rawType, user}

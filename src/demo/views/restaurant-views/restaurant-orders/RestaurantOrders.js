@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getRouteRestaurantOrder} from '../../../Routes'
+import {RESTAURANT_PREFIX, getRouteRestaurantOrder} from '../../../Routes'
 import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 import OrdersList from '../../../components/orders-list/OrdersList'
 
@@ -51,7 +51,7 @@ class RestaurantOrders extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        orders: state.orders
+        orders: state.orders[RESTAURANT_PREFIX]
     }
 }
 

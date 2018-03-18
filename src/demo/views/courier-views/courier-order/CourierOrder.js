@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {connect} from 'react-redux'
-import {getRouteCourierOrders} from '../../../Routes'
+import {COURIER_PREFIX, getRouteCourierOrders} from '../../../Routes'
 import ORDER_STATUS, {getStatus, isDone} from '../../../data/OrderStatus'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
@@ -53,7 +53,7 @@ class RestaurantOrder extends React.Component {
 
             const onSuccess = ({ordersForCourier}) => {
                 this.setState({loading: false})
-                this.props.dispatch(setOrders(ordersForCourier))
+                this.props.dispatch(setOrders(ordersForCourier, COURIER_PREFIX))
 
                 if (newStatus === ORDER_STATUS.PICKING || newStatus === ORDER_STATUS.DELIVERING) {
                     this.setState({freeze: false})
@@ -71,7 +71,7 @@ class RestaurantOrder extends React.Component {
 
             const onFreeModeSuccess = ({ordersForCourier}) => {
                 this.setState({loading: false, freeze: false})
-                this.props.dispatch(setOrders(ordersForCourier))
+                this.props.dispatch(setOrders(ordersForCourier, COURIER_PREFIX))
             }
 
             this.setState({loading: true, freeze: true})
@@ -129,7 +129,7 @@ class RestaurantOrder extends React.Component {
 const mapStateToProps = (state) => {
     return {
         step: state.step,
-        orders: state.orders
+        orders: state.orders[COURIER_PREFIX]
     }
 }
 

@@ -1,7 +1,10 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {connect} from 'react-redux'
-import {getRouteRestaurantOrders, getRouteCourierOrders} from '../../../Routes'
+import {
+    RESTAURANT_PREFIX, COURIER_PREFIX,
+    getRouteRestaurantOrders, getRouteCourierOrders
+} from '../../../Routes'
 import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
 import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 import Api from '../../../api/Api'
@@ -62,7 +65,7 @@ class RestaurantOrder extends React.Component {
 
             const onSuccess = ({ordersForRestaurant, ordersForCourier}) => {
                 this.setState({loading: false})
-                this.props.dispatch(setOrders(ordersForRestaurant))
+                this.props.dispatch(setOrders(ordersForRestaurant, RESTAURANT_PREFIX))
 
                 if (newStatus === ORDER_STATUS.COOKING) {
                     this.setState({freeze: false})
@@ -71,7 +74,7 @@ class RestaurantOrder extends React.Component {
                 else {
                     const onModalClose = () => {
                         this.props.dispatch(setStep(7))
-                        this.props.dispatch(setOrders(ordersForCourier))
+                        this.props.dispatch(setOrders(ordersForCourier, COURIER_PREFIX))
                         this.props.history.replace(getRouteCourierOrders(demoId))
                     }
 
@@ -81,7 +84,7 @@ class RestaurantOrder extends React.Component {
 
             const onFreeModeSuccess = ({ordersForRestaurant}) => {
                 this.setState({loading: false, freeze: false})
-                this.props.dispatch(setOrders(ordersForRestaurant))
+                this.props.dispatch(setOrders(ordersForRestaurant, RESTAURANT_PREFIX))
             }
 
             this.setState({loading: true, freeze: true})
@@ -148,7 +151,7 @@ class RestaurantOrder extends React.Component {
 const mapStateToProps = (state) => {
     return {
         step: state.step,
-        orders: state.orders
+        orders: state.orders[RESTAURANT_PREFIX]
     }
 }
 

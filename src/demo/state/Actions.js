@@ -13,6 +13,6 @@ export const setCustomerAddress = (customerAddress) => ({type: SET_CUSTOMER_ADDR
 
 export const setOrderInProgress = (orderInProgress) => ({type: SET_ORDER_IN_PROGRESS, orderInProgress})
 
-export const setOrders = (orders) => ({type: SET_ORDERS, orders})
+export const setOrders = (orders, ordersType) => ({type: SET_ORDERS, orders, ordersType})
 
 export const restart = () => ({type: RESTART})

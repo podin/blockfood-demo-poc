@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getRouteCustomerOrder, getRouteRestaurantOrders} from '../../../Routes'
+import {RESTAURANT_PREFIX, getRouteCustomerOrder, getRouteRestaurantOrders} from '../../../Routes'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
@@ -38,7 +38,7 @@ class CustomerPayment extends React.Component {
 
             const onSuccess = (orders) => {
                 this.setState({loading: false, isDone: true})
-                this.props.dispatch(setOrders(orders))
+                this.props.dispatch(setOrders(orders, RESTAURANT_PREFIX))
 
                 const onModalClose = () => {
                     this.props.dispatch(setStep(5))
@@ -95,6 +95,7 @@ class CustomerPayment extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        step: state.step,
         orderInProgress: state.orderInProgress
     }
 }

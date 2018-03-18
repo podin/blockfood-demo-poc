@@ -1,14 +1,14 @@
 import * as _ from 'lodash'
 import {matchPath} from 'react-router-dom'
 
-export const CUSTOMER_ROUTES = 'customer-view'
-export const RESTAURANT_ROUTES = 'restaurant-view'
-export const COURIER_ROUTES = 'courier-view'
+export const CUSTOMER_PREFIX = 'customer-view'
+export const RESTAURANT_PREFIX = 'restaurant-view'
+export const COURIER_PREFIX = 'courier-view'
 
-export const CUSTOMER_ADDRESS_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/`
-export const CUSTOMER_RESTAURANTS_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/restaurants/`
-export const CUSTOMER_RESTAURANT_ORDER_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/restaurant/:restaurantId/`
-export const CUSTOMER_PAYMENT_ROUTE = `/:demoId/${CUSTOMER_ROUTES}/payment/`
+export const CUSTOMER_ADDRESS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/`
+export const CUSTOMER_RESTAURANTS_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/restaurants/`
+export const CUSTOMER_RESTAURANT_ORDER_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/restaurant/:restaurantId/`
+export const CUSTOMER_PAYMENT_ROUTE = `/:demoId/${CUSTOMER_PREFIX}/payment/`
 
 export const CUSTOMER_ROUTES_LIST = [
     CUSTOMER_ADDRESS_ROUTE,
@@ -17,21 +17,16 @@ export const CUSTOMER_ROUTES_LIST = [
     CUSTOMER_PAYMENT_ROUTE
 ]
 
-export const RESTAURANT_ORDERS_ROUTE = `/:demoId/${RESTAURANT_ROUTES}/:restaurantId/`
-export const RESTAURANT_ORDER_ROUTE = `/:demoId/${RESTAURANT_ROUTES}/:restaurantId/order/:orderId`
+export const RESTAURANT_ORDERS_ROUTE = `/:demoId/${RESTAURANT_PREFIX}/:restaurantId/`
+export const RESTAURANT_ORDER_ROUTE = `/:demoId/${RESTAURANT_PREFIX}/:restaurantId/order/:orderId`
 
 export const RESTAURANT_ROUTES_LIST = [
     RESTAURANT_ORDERS_ROUTE,
     RESTAURANT_ORDER_ROUTE
 ]
 
-export const COURIER_ORDERS_ROUTE = `/:demoId/${COURIER_ROUTES}/`
-export const COURIER_ORDER_ROUTE = `/:demoId/${COURIER_ROUTES}/order/:orderId`
-
-export const COURIER_ROUTES_LIST = [
-    COURIER_ORDERS_ROUTE,
-    COURIER_ORDER_ROUTE
-]
+export const COURIER_ORDERS_ROUTE = `/:demoId/${COURIER_PREFIX}/`
+export const COURIER_ORDER_ROUTE = `/:demoId/${COURIER_PREFIX}/order/:orderId`
 
 export const getRouteCustomerAddress = (demoId) => {
     return CUSTOMER_ADDRESS_ROUTE.replace(':demoId', demoId)
