@@ -54,7 +54,7 @@ class CustomerOrder extends React.Component {
             newOrderIds = [...orderIds, menuId]
         }
 
-        const newPrice = _.reduce(restaurant.menu, (total, menu) => {
+        const newPrice = _.reduce(restaurant.menus, (total, menu) => {
             if (newOrderIds.includes(menu.id)) {
                 total += menu.price
             }

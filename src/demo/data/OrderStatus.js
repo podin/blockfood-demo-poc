@@ -2,6 +2,7 @@ const ORDER_STATUS = {
     WAITING_RESTAURANT_VALIDATION: 'WAITING_RESTAURANT_VALIDATION',
     COOKING: 'COOKING',
     WAITING_COURIER: 'WAITING_COURIER',
+    PICKING: 'PICKING',
     DELIVERING: 'DELIVERING',
     DONE: 'DONE'
 }
@@ -13,6 +14,7 @@ export const getStatus = order => {
         [ORDER_STATUS.WAITING_RESTAURANT_VALIDATION]: 'Waiting restaurant validation',
         [ORDER_STATUS.COOKING]: 'In preparation',
         [ORDER_STATUS.WAITING_COURIER]: 'Waiting for a courier',
+        [ORDER_STATUS.PICKING]: 'Picking',
         [ORDER_STATUS.DELIVERING]: 'Delivering',
         [ORDER_STATUS.DONE]: 'Done'
     }[order.status]

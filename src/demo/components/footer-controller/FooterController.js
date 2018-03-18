@@ -58,7 +58,7 @@ class Footer extends React.Component {
                         <div className={`step${step >= 7 ? ' completed' : ''}`}>7</div>
                         <div className={`step${step >= 8 ? ' completed' : ''}`}>8</div>
                         <div className={`step${step >= 9 ? ' completed' : ''}`}>9</div>
-                        <div className={`icon customer${step >= 10 ? ' completed' : ''}`}></div>
+                        <div className={`icon last sep customer${step >= 10 ? ' completed' : ''}`}></div>
                         <div className={`icon last restaurant${step >= 10 ? ' completed' : ''}`}></div>
                         <div className={`icon last courier${step >= 10 ? ' completed' : ''}`}></div>
                     </div>

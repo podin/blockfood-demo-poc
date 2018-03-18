@@ -7,6 +7,7 @@ const ORDER_STATUS = {
     WAITING_RESTAURANT_VALIDATION: 'WAITING_RESTAURANT_VALIDATION',
     COOKING: 'COOKING',
     WAITING_COURIER: 'WAITING_COURIER',
+    PICKING: 'PICKING',
     DELIVERING: 'DELIVERING',
     DONE: 'DONE'
 }
@@ -18,6 +19,7 @@ const getOrdersForRestaurant = (data, restaurantId) => {
 const getOrdersForCourier = (data) => {
     return _.filter(data, ({status}) => [
         ORDER_STATUS.WAITING_COURIER,
+        ORDER_STATUS.PICKING,
         ORDER_STATUS.DELIVERING,
         ORDER_STATUS.DONE
     ].indexOf(status) !== -1)
@@ -40,19 +42,11 @@ module.exports = function (app) {
             res.send('0')
         }
         else if (data.length > 1) {
-            res.send('14')
-        }
-        else if (data[0].status === ORDER_STATUS.WAITING_RESTAURANT_VALIDATION) {
-            res.send('5')
-        }
-        else if (data[0].status === ORDER_STATUS.COOKING) {
-            res.send('6')
-        }
-        else if (data[0].status === ORDER_STATUS.WAITING_COURIER) {
-            res.send('7')
+            res.send('10')
         }
         else {
-            res.sendStatus(500)
+            const step = _.findIndex(_.values(ORDER_STATUS), status => status === data[0].status)
+            res.send((step + 5) + '')
         }
     })
 
