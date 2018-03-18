@@ -17,7 +17,7 @@ class Header extends React.Component {
     }
 
     getTypeAndUser(props) {
-        let type = _.find([
+        const type = _.find([
                 CUSTOMER_ROUTES,
                 RESTAURANT_ROUTES,
                 COURIER_ROUTES
@@ -35,7 +35,7 @@ class Header extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.location.pathname !== this.props.pathname) {
+        if (nextProps.location.pathname !== this.props.location.pathname) {
             const {type, user} = this.getTypeAndUser(nextProps)
 
             type && this.setState({type, user})

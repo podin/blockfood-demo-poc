@@ -1,3 +1,6 @@
+import * as _ from 'lodash'
+import {matchPath} from 'react-router-dom'
+
 export const CUSTOMER_ROUTES = 'customer-view'
 export const RESTAURANT_ROUTES = 'restaurant-view'
 export const COURIER_ROUTES = 'courier-view'
@@ -24,6 +27,11 @@ export const RESTAURANT_ROUTES_LIST = [
 
 export const COURIER_ORDERS_ROUTE = `/:demoId/${COURIER_ROUTES}/`
 export const COURIER_ORDER_ROUTE = `/:demoId/${COURIER_ROUTES}/order/:orderId`
+
+export const COURIER_ROUTES_LIST = [
+    COURIER_ORDERS_ROUTE,
+    COURIER_ORDER_ROUTE
+]
 
 export const getRouteCustomerAddress = (demoId) => {
     return CUSTOMER_ADDRESS_ROUTE.replace(':demoId', demoId)
@@ -55,4 +63,31 @@ export const getRouteCourierOrders = (demoId) => {
 
 export const getRouteCourierOrder = (demoId, orderId) => {
     return COURIER_ORDER_ROUTE.replace(':demoId', demoId).replace(':orderId', orderId)
+}
+
+export const getDemoIdFromPathname = (pathname) => {
+    const match = matchPath(pathname, {path: '/:demoId'})
+    return match ? match.params.demoId : null
+}
+
+export const getCustomerRouteIndex = (pathname) => {
+    return _.findIndex(CUSTOMER_ROUTES_LIST, path => matchPath(pathname, {path, exact: true}))
+}
+
+export const getRestaurantIdFromPathname = (pathname) => {
+    let restaurantId = null
+
+    _.find(RESTAURANT_ROUTES_LIST, path => {
+        const match = matchPath(pathname, {path})
+
+        if (match) {
+            restaurantId = match.params.restaurantId
+            return true
+        }
+        else {
+            return false
+        }
+    })
+
+    return restaurantId
 }

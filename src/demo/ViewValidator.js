@@ -14,34 +14,34 @@ class ViewValidator extends React.Component {
         const {step, orderInProgress, orders} = this.props
 
         if (this.getRouteMatch(Routes.CUSTOMER_ADDRESS_ROUTE)) {
-            return step >= 1 && step <= 4
+            return (step === 10 || (step >= 1 && step <= 4))
         }
         else if (this.getRouteMatch(Routes.CUSTOMER_RESTAURANTS_ROUTE)) {
-            return step >= 1 && step <= 4
+            return (step === 10 || (step >= 1 && step <= 4))
         }
         else if (this.getRouteMatch(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE)) {
             const {restaurantId} = this.getRouteMatch(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE).params
-            return step >= 1 && step <= 4 && !!RESTAURANT_BY_IDS[restaurantId]
+            return (step === 10 || (step >= 1 && step <= 4)) && !!RESTAURANT_BY_IDS[restaurantId]
         }
         else if (this.getRouteMatch(Routes.CUSTOMER_PAYMENT_ROUTE)) {
-            return step >= 1 && step <= 4 && !!orderInProgress
+            return (step === 10 || (step >= 1 && step <= 4)) && !!orderInProgress
         }
         else if (this.getRouteMatch(Routes.RESTAURANT_ORDERS_ROUTE)) {
             const {restaurantId} = this.getRouteMatch(Routes.RESTAURANT_ORDERS_ROUTE).params
-            return step >= 5 && step <= 6 && !!RESTAURANT_BY_IDS[restaurantId]
+            return (step === 10 || (step >= 5 && step <= 6)) && !!RESTAURANT_BY_IDS[restaurantId]
         }
         else if (this.getRouteMatch(Routes.RESTAURANT_ORDER_ROUTE)) {
             const {restaurantId, orderId} = this.getRouteMatch(Routes.RESTAURANT_ORDER_ROUTE).params
             const orderExists = !!_.find(orders, ({id, details}) => id === orderId && details.restaurantId === restaurantId)
-            return step >= 5 && step <= 6 && orderExists
+            return (step === 10 || (step >= 5 && step <= 6)) && orderExists
         }
         else if (this.getRouteMatch(Routes.COURIER_ORDERS_ROUTE)) {
-            return step >= 7 && step <= 10
+            return (step === 10 || (step >= 7 && step <= 9))
         }
         else if (this.getRouteMatch(Routes.COURIER_ORDER_ROUTE)) {
             const {orderId} = this.getRouteMatch(Routes.COURIER_ORDER_ROUTE).params
             const orderExists = !!_.find(orders, ({id, details}) => id === orderId)
-            return step >= 7 && step <= 10 && orderExists
+            return (step === 10 || (step >= 7 && step <= 9)) && orderExists
         }
         else {
             return true

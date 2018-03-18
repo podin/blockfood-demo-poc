@@ -1,19 +1,10 @@
 import * as _ from 'lodash'
-import {matchPath} from 'react-router-dom'
+import {getCustomerRouteIndex, getRestaurantIdFromPathname} from './Routes'
 import Api from './api/Api'
-import {
-    CUSTOMER_ROUTES, RESTAURANT_ROUTES, COURIER_ROUTES,
-    CUSTOMER_ROUTES_LIST, RESTAURANT_ROUTES_LIST
-} from './Routes'
-
-const getRouteMatch = (props, path) => {
-    return matchPath(props.location.pathname, {path, exact: true})
-}
+import {CUSTOMER_ROUTES, RESTAURANT_ROUTES, COURIER_ROUTES} from './Routes'
 
 const getOrdersForRestaurant = (props, demoId) => {
-    const routeIndex = _.findIndex(RESTAURANT_ROUTES_LIST, route => getRouteMatch(props, route))
-    const {restaurantId} = getRouteMatch(props, RESTAURANT_ROUTES_LIST[routeIndex]).params
-
+    const restaurantId = getRestaurantIdFromPathname(props.location.pathname)
     return Api.getOrdersForRestaurant(demoId, restaurantId)
 }
 
@@ -26,7 +17,7 @@ export default (props) => {
         return Api.getStep(demoId)
             .then(step => {
                 if (step === 0) {
-                    const routeIndex = _.findIndex(CUSTOMER_ROUTES_LIST, route => getRouteMatch(props, route))
+                    const routeIndex = getCustomerRouteIndex(props.location.pathname)
                     return Promise.resolve({step: routeIndex + 1, orders: []})
                 }
                 else if (step >= 5 && step <= 6) {

@@ -98,8 +98,7 @@
           z-index: -1;
         }
 
-        &.last {
-
+        &.btn {
           &.sep {
             margin-left: 100px;
 
@@ -109,16 +108,22 @@
             }
           }
 
-          //&:after {
-          //  content: '';
-          //  position: absolute;
-          //  top: -7px;
-          //  left: -7px;
-          //  width: calc(100% + 8px);
-          //  height: calc(100% + 8px);
-          //  border-radius: 100%;
-          //  border: 3px solid white;
-          //}
+          &.enable:not(.active):hover {
+            cursor: pointer;
+          }
+
+          &.active, &.enable:hover {
+            &:after {
+              content: '';
+              position: absolute;
+              top: -7px;
+              left: -7px;
+              width: calc(100% + 8px);
+              height: calc(100% + 8px);
+              border-radius: 100%;
+              border: 3px solid white;
+            }
+          }
         }
       }
 
@@ -129,15 +134,15 @@
         background-size: 65%;
         border-radius: 100%;
 
-        &.customer {
+        &.customer-view {
           background-image: url('../../style/images/customer.svg');
         }
 
-        &.restaurant {
+        &.restaurant-view {
           background-image: url('../../style/images/restaurant.svg');
         }
 
-        &.courier {
+        &.courier-view {
           background-image: url('../../style/images/courier.svg');
         }
       }
