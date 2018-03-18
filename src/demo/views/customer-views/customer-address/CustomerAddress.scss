@@ -67,5 +67,17 @@
         }
       }
     }
+
+    .all {
+      font-family: Poppins, sans-serif;
+      font-size: 1.2em;
+      font-style: italic;
+      margin-top: 20px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

@@ -48,7 +48,13 @@ class CustomerRestaurants extends React.Component {
                 <div>
                     <div className="go-back" onClick={this.onGoBack}><i className="fas fa-arrow-left"/>Go back</div>
                     <div className="view-title">
-                        <div className="label">{RESTAURANTS.length} restaurants found at: <span>{customerAddress}</span></div>
+                        {customerAddress ? (
+                            <div className="label">
+                                {RESTAURANTS.length} restaurants found at: <span>{customerAddress}</span>
+                            </div>
+                        ) : (
+                            <div className="label">All restaurants</div>
+                        )}
                     </div>
                     <div className="list">
                         {RESTAURANTS.map(restaurant => (

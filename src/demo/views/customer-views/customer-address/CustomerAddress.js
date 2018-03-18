@@ -18,6 +18,7 @@ class CustomerAddress extends React.Component {
         this.onChange = this.onChange.bind(this)
         this.clear = this.clear.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+        this.submitAll = this.submitAll.bind(this)
     }
 
     onChange(event) {
@@ -41,6 +42,14 @@ class CustomerAddress extends React.Component {
             this.props.dispatch(setCustomerAddress(value))
             this.props.history.replace(getRouteCustomerRestaurants(demoId))
         }
+    }
+
+    submitAll() {
+        const {demoId} = this.props.match.params
+
+        this.props.dispatch(setStep(2))
+        this.props.dispatch(setCustomerAddress(''))
+        this.props.history.replace(getRouteCustomerRestaurants(demoId))
     }
 
     componentDidUpdate() {
@@ -72,6 +81,7 @@ class CustomerAddress extends React.Component {
                             <i className="fas fa-search"/>
                         </button>
                     </form>
+                    <div className="all" onClick={this.submitAll}>Browse all restaurants</div>
                 </div>
             </div>
         )

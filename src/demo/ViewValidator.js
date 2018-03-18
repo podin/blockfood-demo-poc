@@ -11,20 +11,20 @@ class ViewValidator extends React.Component {
     }
 
     isValid() {
-        const {step, customerAddress, orderInProgress, orders} = this.props
+        const {step, orderInProgress, orders} = this.props
 
         if (this.getRouteMatch(Routes.CUSTOMER_ADDRESS_ROUTE)) {
             return step >= 1 && step <= 4
         }
         else if (this.getRouteMatch(Routes.CUSTOMER_RESTAURANTS_ROUTE)) {
-            return step >= 1 && step <= 4 && !!customerAddress
+            return step >= 1 && step <= 4
         }
         else if (this.getRouteMatch(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE)) {
             const {restaurantId} = this.getRouteMatch(Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE).params
-            return step >= 1 && step <= 4 && !!customerAddress && !!RESTAURANT_BY_IDS[restaurantId]
+            return step >= 1 && step <= 4 && !!RESTAURANT_BY_IDS[restaurantId]
         }
         else if (this.getRouteMatch(Routes.CUSTOMER_PAYMENT_ROUTE)) {
-            return step >= 1 && step <= 4 && !!customerAddress && !!orderInProgress
+            return step >= 1 && step <= 4 && !!orderInProgress
         }
         else if (this.getRouteMatch(Routes.RESTAURANT_ORDERS_ROUTE)) {
             const {restaurantId} = this.getRouteMatch(Routes.RESTAURANT_ORDERS_ROUTE).params
@@ -50,6 +50,4 @@ class ViewValidator extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => state
-
-export default withRouter(connect(mapStateToProps)(ViewValidator))
+export default withRouter(connect((state) => state)(ViewValidator))
