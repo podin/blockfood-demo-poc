@@ -1,27 +1,76 @@
 #bf-demo-courier-order {
   & > div {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
 
-    .view-title-status {
-      margin-top: 50px;
-    }
+    .map {
+      position: relative;
+      width: 690px;
+      height: 497px;
+      background: url('../../../style/images/map.svg');
+      background-size: cover;
+      margin-left: 50px;
+      border: 5px solid black;
+      border-radius: 25px;
 
-    .btn-remote-action {
-      i.fa-hand-rock {
-        font-size: 0.95em;
-        position: relative;
-        top: -5px;
-        left: -4px;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('../../../style/images/map-path.png');
+        background-size: contain;
+        opacity: 0.5;
       }
 
-      i.fa-flag-checkered {
-        font-size: 0.85em;
-        position: relative;
-        top: -8px;
-        left: 2px;
+      .icon-restaurant {
+        position: absolute;
+        top: 55px;
+        left: 55px;
+        width: 50px;
+        height: 50px;
+        background: url('../../../style/images/map-restaurant.svg');
+        background-size: contain;
+      }
+
+      .icon-client {
+        position: absolute;
+        bottom: 199px;
+        right: 225px;
+        width: 50px;
+        height: 50px;
+        background: url('../../../style/images/map-client.svg');
+        background-size: contain;
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+
+      .view-title-status {
+        margin-top: 50px;
+      }
+
+      .btn-remote-action {
+        i.fa-hand-rock {
+          font-size: 0.95em;
+          position: relative;
+          top: -5px;
+          left: -4px;
+        }
+
+        i.fa-flag-checkered {
+          font-size: 0.85em;
+          position: relative;
+          top: -8px;
+          left: 2px;
+        }
       }
     }
   }

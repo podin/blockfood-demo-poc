@@ -22,8 +22,8 @@ class RestaurantOrder extends React.Component {
             order
         }
 
-        this.onSubmit = this.onSubmit.bind(this)
         this.onGoBack = this.onGoBack.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
     getOrder(props) {
@@ -98,27 +98,33 @@ class RestaurantOrder extends React.Component {
         return (
             <div id="bf-demo-courier-order" className="view">
                 <div>
-                    <div className={`go-back${freeze ? ' disabled' : ''}`} onClick={this.onGoBack}>
-                        <i className="fas fa-arrow-left"/>Go back
+                    <div className="content">
+                        <div className={`go-back${freeze ? ' disabled' : ''}`} onClick={this.onGoBack}>
+                            <i className="fas fa-arrow-left"/>Go back
+                        </div>
+                        <div className="view-title">
+                            <div className="label">Id: <span>{order.id}</span></div>
+                        </div>
+                        <div className={`btn-remote-action${(loading || isDone(order)) ? ' not-a-btn' : ''}`} onClick={this.onSubmit}>
+                            {isDone(order) ? (
+                                <i className="fas fa-check"/>
+                            ) : loading ? (
+                                <i className="fas fa-circle-notch fa-spin"/>
+                            ) : order.status === ORDER_STATUS.WAITING_COURIER ? (
+                                <i className="fas fa-check"/>
+                            ) : order.status === ORDER_STATUS.PICKING ? (
+                                <i className="fas fa-hand-rock"/>
+                            ) : (
+                                <i className="fas fa-flag-checkered"/>
+                            )}
+                        </div>
+                        <div className="view-title view-title-status">
+                            <div className="label">Status: <span>{getStatus(order)}</span></div>
+                        </div>
                     </div>
-                    <div className="view-title">
-                        <div className="label">Id: <span>{order.id}</span></div>
-                    </div>
-                    <div className={`btn-remote-action${(loading || isDone(order)) ? ' not-a-btn' : ''}`} onClick={this.onSubmit}>
-                        {isDone(order) ? (
-                            <i className="fas fa-check"/>
-                        ) : loading ? (
-                            <i className="fas fa-circle-notch fa-spin"/>
-                        ) : order.status === ORDER_STATUS.WAITING_COURIER ? (
-                            <i className="fas fa-check"/>
-                        ) : order.status === ORDER_STATUS.PICKING ? (
-                            <i className="fas fa-hand-rock"/>
-                        ) : (
-                            <i className="fas fa-flag-checkered"/>
-                        )}
-                    </div>
-                    <div className="view-title view-title-status">
-                        <div className="label">Status: <span>{getStatus(order)}</span></div>
+                    <div className="map">
+                        <i className="icon-restaurant"/>
+                        <i className="icon-client"/>
                     </div>
                 </div>
             </div>
