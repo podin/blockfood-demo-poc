@@ -20,9 +20,9 @@ class OrdersList extends React.Component {
                                 <i className="far fa-sticky-note"/>
                             </div>
                             <div className="properties">
-                                <div className="id"><b>Order id:</b> {order.id}</div>
+                                <div className="id"><b>Id:</b> {order.id}</div>
                                 <div className="status">
-                                    <b>Order status:</b> {getStatus(order)}
+                                    <b>Status:</b> <br/> {getStatus(order)}
                                 </div>
                             </div>
                         </div>

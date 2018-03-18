@@ -3,6 +3,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getRouteRestaurantOrders, getRouteCourierOrders} from '../../../Routes'
 import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
+import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
@@ -25,6 +26,11 @@ class RestaurantOrder extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this)
         this.onGoBack = this.onGoBack.bind(this)
+    }
+
+    getRestaurant() {
+        const {restaurantId} = this.props.match.params
+        return RESTAURANT_BY_IDS[restaurantId]
     }
 
     getOrder(props) {
@@ -86,7 +92,10 @@ class RestaurantOrder extends React.Component {
     }
 
     render() {
+        const restaurant = this.getRestaurant()
         const {loading, success, order} = this.state
+
+        const menus = _.map(order.details.itemIds, (itemId) => restaurant.menuByIds[itemId])
 
         return (
             <div id="bf-demo-restaurant-order" className="view">
@@ -95,7 +104,15 @@ class RestaurantOrder extends React.Component {
                         <i className="fas fa-arrow-left"/>Go back
                     </div>
                     <div className="view-title">
-                        <div className="label">Order <span>{order.id}</span></div>
+                        <div className="label">Id: <span>{order.id}</span></div>
+                    </div>
+                    <div className="view-title details">
+                        <div className="label">Detail:</div>
+                        <div className="menu-list">
+                            {menus.map(menu => (
+                                <div key={menu.id} className="menu">{menu.name}</div>
+                            ))}
+                        </div>
                     </div>
                     <div className={`btn-remote-action${loading ? ' loading' : ''}`} onClick={this.onSubmit}>
                         {success ? (

@@ -74,7 +74,7 @@ class CustomerOrder extends React.Component {
             const orderInProgress = {
                 customerId: demoId,
                 restaurantId: restaurant.id,
-                orderIds,
+                itemIds: orderIds,
                 price
             }
 
@@ -96,7 +96,7 @@ class CustomerOrder extends React.Component {
                         <div className="label">Welcome to <span>{restaurant.name}</span>!</div>
                     </div>
                     <div className="list">
-                        {restaurant.menu.map(menu => (
+                        {restaurant.menus.map(menu => (
                             <div key={menu.id} data-id={menu.id}
                                  className={`item${orderIds.includes(menu.id) ? ' selected' : ''}`}
                                  onClick={this.onChoose}>

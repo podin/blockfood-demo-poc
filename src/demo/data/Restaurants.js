@@ -4,7 +4,7 @@ import image1 from '../style/images/resto-1.jpg'
 import image2 from '../style/images/resto-2.jpg'
 import image3 from '../style/images/resto-3.jpg'
 
-const menu = [
+const MENUS = [
     {
         id: 'dsf4654sfc',
         name: 'Menu 1',
@@ -37,6 +37,8 @@ const menu = [
     }
 ]
 
+const MENU_BY_IDS = _.keyBy(MENUS, ({id}) => id)
+
 const RESTAURANTS = [
     {
         id: 'adhh45rt',
@@ -44,7 +46,8 @@ const RESTAURANTS = [
         name: 'Wokbar',
         type: 'Thai food',
         rate: 4,
-        menu
+        menus: MENUS,
+        menuByIds: MENU_BY_IDS
     },
     {
         id: 'qqx14d88d',
@@ -52,7 +55,8 @@ const RESTAURANTS = [
         name: 'Los Pollos Hermanos',
         type: 'Mexican food',
         rate: 5,
-        menu
+        menus: MENUS,
+        menuByIds: MENU_BY_IDS
     },
     {
         id: 'pparrd8r4g',
@@ -60,7 +64,8 @@ const RESTAURANTS = [
         name: 'PastaFiesta',
         type: 'Italian food',
         rate: 3,
-        menu
+        menus: MENUS,
+        menuByIds: MENU_BY_IDS
     }
 ]
 
