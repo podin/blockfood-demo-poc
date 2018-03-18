@@ -3,14 +3,7 @@ import {withRouter, Switch, Route, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Api from './api/Api'
 import Init from './Init'
-import {
-    CUSTOMER_ADDRESS_ROUTE,
-    CUSTOMER_RESTAURANTS_ROUTE,
-    CUSTOMER_RESTAURANT_ORDER_ROUTE,
-    CUSTOMER_PAYMENT_ROUTE,
-    RESTAURANT_ORDERS_ROUTE,
-    RESTAURANT_ORDER_ROUTE
-} from './Routes'
+import * as Routes from './Routes'
 import Loader from './components/loader/Loader'
 import Header from './components/header/Header'
 import ViewValidator from './ViewValidator'
@@ -21,6 +14,7 @@ import CustomerOrder from './views/customer-views/customer-order/CustomerOrder'
 import CustomerPayment from './views/customer-views/customer-payment/CustomerPayment'
 import RestaurantOrders from './views/restaurant-views/restaurant-orders/RestaurantOrders'
 import RestaurantOrder from './views/restaurant-views/restaurant-order/RestaurantOrder'
+import CourierOrders from './views/courier-views/courier-orders/CourierOrders'
 import FooterController from './components/footer-controller/FooterController'
 
 import {setStep, setOrders} from './state/Actions'
@@ -78,12 +72,13 @@ class MainView extends React.Component {
                             <Route path="/" component={Header}/>
                             <Switch>
                                 <Route path="/" exact component={StartView}/>
-                                <Route path={CUSTOMER_ADDRESS_ROUTE} exact component={CustomerAddress}/>
-                                <Route path={CUSTOMER_RESTAURANTS_ROUTE} exact component={CustomerRestaurants}/>
-                                <Route path={CUSTOMER_RESTAURANT_ORDER_ROUTE} exact component={CustomerOrder}/>
-                                <Route path={CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
-                                <Route path={RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
-                                <Route path={RESTAURANT_ORDER_ROUTE} exact component={RestaurantOrder}/>
+                                <Route path={Routes.CUSTOMER_ADDRESS_ROUTE} exact component={CustomerAddress}/>
+                                <Route path={Routes.CUSTOMER_RESTAURANTS_ROUTE} exact component={CustomerRestaurants}/>
+                                <Route path={Routes.CUSTOMER_RESTAURANT_ORDER_ROUTE} exact component={CustomerOrder}/>
+                                <Route path={Routes.CUSTOMER_PAYMENT_ROUTE} exact component={CustomerPayment}/>
+                                <Route path={Routes.RESTAURANT_ORDERS_ROUTE} exact component={RestaurantOrders}/>
+                                <Route path={Routes.RESTAURANT_ORDER_ROUTE} exact component={RestaurantOrder}/>
+                                <Route path={Routes.COURIER_ORDERS_ROUTE} exact component={CourierOrders}/>
                                 <Redirect to="/"/>
                             </Switch>
                             <Route path="/" component={FooterController}/>

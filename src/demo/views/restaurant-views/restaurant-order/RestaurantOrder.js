@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {connect} from 'react-redux'
-import {getRouteRestaurantOrders} from '../../../Routes'
+import {getRouteRestaurantOrders, getRouteCourierOrders} from '../../../Routes'
 import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
@@ -54,8 +54,8 @@ class RestaurantOrder extends React.Component {
                 [ORDER_STATUS.COOKING]: ORDER_STATUS.WAITING_COURIER
             }[order.status]
 
-            const onSuccess = (orders) => {
-                this.props.dispatch(setOrders(orders))
+            const onSuccess = ({ordersForRestaurant, ordersForCourier}) => {
+                this.props.dispatch(setOrders(ordersForRestaurant))
 
                 if (newStatus === ORDER_STATUS.COOKING) {
                     this.setState({loading: false})
@@ -66,7 +66,8 @@ class RestaurantOrder extends React.Component {
 
                     const onModalClose = () => {
                         this.props.dispatch(setStep(7))
-                        // TODO: go to courier page
+                        this.props.dispatch(setOrders(ordersForCourier))
+                        this.props.history.replace(getRouteCourierOrders(demoId))
                     }
 
                     setTimeout(() => this.props.dispatch(setModal(3, onModalClose)), 500)

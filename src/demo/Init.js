@@ -23,12 +23,14 @@ export default (props) => {
                     const routeIndex = _.findIndex(RESTAURANT_ROUTES_LIST, route => getRouteMatch(props, route))
                     const {restaurantId} = getRouteMatch(props, RESTAURANT_ROUTES_LIST[routeIndex]).params
 
-                    return Api.getOrderForRestaurant(demoId, restaurantId).then(orders => {
+                    return Api.getOrdersForRestaurant(demoId, restaurantId).then(orders => {
                         return Promise.resolve({step, orders})
                     })
                 }
                 else if (step >= 7 && step <= 10) {
-                    // TODO
+                    return Api.getOrdersForCourier(demoId).then(orders => {
+                        return Promise.resolve({step, orders})
+                    })
                 }
                 else {
                     // TODO

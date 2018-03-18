@@ -35,6 +35,9 @@ class ViewValidator extends React.Component {
             const orderExists = !!_.find(orders, ({id, details}) => id === orderId && details.restaurantId === restaurantId)
             return step >= 5 && step <= 6 && orderExists
         }
+        else if (this.getRouteMatch(Routes.COURIER_ORDERS_ROUTE)) {
+            return step >= 7 && step <= 10
+        }
         else {
             return true
         }

@@ -22,6 +22,14 @@ export const RESTAURANT_ROUTES_LIST = [
     RESTAURANT_ORDER_ROUTE
 ]
 
+export const COURIER_ORDERS_ROUTE = `/:demoId/${COURIER_ROUTES}/`
+export const COURIER_ORDER_ROUTE = `/:demoId/${COURIER_ROUTES}/order/:orderId`
+
+export const COURIER_ROUTES_LIST = [
+    COURIER_ORDERS_ROUTE,
+    COURIER_ORDER_ROUTE
+]
+
 export const getRouteCustomerAddress = (demoId) => {
     return CUSTOMER_ADDRESS_ROUTE.replace(':demoId', demoId)
 }
@@ -44,4 +52,12 @@ export const getRouteRestaurantOrders = (demoId, restaurantId) => {
 
 export const getRouteRestaurantOrder = (demoId, restaurantId, orderId) => {
     return RESTAURANT_ORDER_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId).replace(':orderId', orderId)
+}
+
+export const getRouteCourierOrders = (demoId) => {
+    return COURIER_ORDERS_ROUTE.replace(':demoId', demoId)
+}
+
+export const getRouteCourierOrder = (demoId, orderId) => {
+    return COURIER_ORDER_ROUTE.replace(':demoId', demoId).replace(':orderId', orderId)
 }

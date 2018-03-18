@@ -11,6 +11,18 @@ const ORDER_STATUS = {
     DONE: 'DONE'
 }
 
+const getOrdersForRestaurant = (data, restaurantId) => {
+    return _.filter(data, ({details}) => details.restaurantId === restaurantId)
+}
+
+const getOrdersForCourier = (data) => {
+    return _.filter(data, ({status}) => [
+        ORDER_STATUS.WAITING_COURIER,
+        ORDER_STATUS.DELIVERING,
+        ORDER_STATUS.DONE
+    ].indexOf(status) !== -1)
+}
+
 module.exports = function (app) {
 
     app.use(bodyParser.urlencoded({extended: false}))
@@ -43,10 +55,6 @@ module.exports = function (app) {
             res.sendStatus(500)
         }
     })
-
-    const getOrdersForRestaurant = (data, restaurantId) => {
-        return _.filter(data, ({details}) => details.restaurantId === restaurantId)
-    }
 
     app.get('/api/:demoId/restaurant-orders/:restaurantId', function (req, res) {
         const {demoId, restaurantId} = req.params
@@ -120,7 +128,28 @@ module.exports = function (app) {
             res.sendStatus(403)
         }
 
-        res.send(getOrdersForRestaurant(database[demoId], findOrder.details.restaurantId))
+        const ordersForRestaurant = getOrdersForRestaurant(database[demoId], findOrder.details.restaurantId)
+        const ordersForCourier = getOrdersForCourier(database[demoId])
+
+        res.send({ordersForRestaurant, ordersForCourier})
+    })
+
+    app.get('/api/:demoId/courier-orders', function (req, res) {
+        const {demoId} = req.params
+        const data = database[demoId]
+
+        if (!data) {
+            res.sendStatus(403)
+        }
+
+        const courierOrders = getOrdersForCourier(data)
+
+        if (courierOrders.length === 0) {
+            res.sendStatus(403)
+        }
+        else {
+            res.send(courierOrders)
+        }
     })
 
 }
