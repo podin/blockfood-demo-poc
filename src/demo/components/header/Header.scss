@@ -13,6 +13,7 @@
   box-sizing: border-box;
   transform: translateY(-90px);
   transition: transform 0.5s;
+  z-index: 1;
 
   &.visible {
     transform: translateY(0);

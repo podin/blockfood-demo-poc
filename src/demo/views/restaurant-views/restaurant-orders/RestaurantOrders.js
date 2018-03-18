@@ -50,7 +50,7 @@ class RestaurantOrders extends React.Component {
                             <div key={order.id} data-id={order.id} className={`item${!isDone(order) ? ' active' : ''}`}
                                  onClick={this.openOrder}>
                                 <div className="icon">
-                                    <i className="fas fa-sticky-note"/>
+                                    <i className="far fa-sticky-note"/>
                                 </div>
                                 <div className="properties">
                                     <div className="id"><b>Order id:</b> {order.id}</div>

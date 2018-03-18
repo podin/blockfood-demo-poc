@@ -96,9 +96,6 @@ class RestaurantOrder extends React.Component {
                     <div className="view-title">
                         <div className="label">Order <span>{order.id}</span></div>
                     </div>
-                    <div className="view-title view-title-status">
-                        <div className="label">Status: <span>{getStatus(order)}</span></div>
-                    </div>
                     <div className={`btn-remote-action${loading ? ' loading' : ''}`} onClick={this.onSubmit}>
                         {success ? (
                             <i className="fas fa-check"/>
@@ -109,6 +106,9 @@ class RestaurantOrder extends React.Component {
                         ) : (
                             <i className="fas fa-utensils"/>
                         )}
+                    </div>
+                    <div className="view-title view-title-status">
+                        <div className="label">Status: <span>{getStatus(order)}</span></div>
                     </div>
                 </div>
             </div>
