@@ -3,11 +3,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getRouteCourierOrders} from '../../../Routes'
 import ORDER_STATUS, {getStatus, isDone} from '../../../data/OrderStatus'
+import {STEP_INFOS} from '../../../data/Steps'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
 import {selectOrdersForCourier} from '../../../state/Selectors'
-import {setStep, setModal, setOrders} from '../../../state/Actions'
+import {setStep, setStepInfo, setOrders} from '../../../state/Actions'
 
 import './CourierOrder.scss'
 
@@ -59,12 +60,12 @@ class RestaurantOrder extends React.Component {
                     this.props.dispatch(setStep(step + 1))
                 }
                 else {
-                    const onModalClose = () => {
+                    const onStepInfoClose = () => {
                         this.setState({freeze: false})
                         this.props.dispatch(setStep(10))
                     }
 
-                    setTimeout(() => this.props.dispatch(setModal(4, onModalClose)), 200)
+                    setTimeout(() => this.props.dispatch(setStepInfo(STEP_INFOS.START_FREE_MODE, onStepInfoClose)), 200)
                 }
             }
 

@@ -6,9 +6,10 @@ import {
     getRestaurantIdFromPathname,
     getRouteCustomerOrders, getRouteRestaurantOrders, getRouteCourierOrders
 } from '../../Routes'
+import {getStepInfoPopupMessage} from '../../data/Steps'
 import Modal from '../modal/Modal'
 
-import {setModal} from '../../state/Actions'
+import {setStepInfo} from '../../state/Actions'
 
 import './FooterController.scss'
 
@@ -60,7 +61,7 @@ class Footer extends React.Component {
     }
 
     closeModal() {
-        this.props.dispatch(setModal(null))
+        this.props.dispatch(setStepInfo(null))
     }
 
     onLoadFreeModeView(event) {
@@ -106,7 +107,7 @@ class Footer extends React.Component {
     }
 
     render() {
-        const {location, step, modal} = this.props
+        const {location, step, stepInfo} = this.props
         const {type, task} = this.state
         
         let firstBtn = false
@@ -162,34 +163,9 @@ class Footer extends React.Component {
                 <div>
                     <a href="http://blockfood.io" target="_blank" rel="noopener noreferrer">Visit blockfood.io</a>
                 </div>
-                {modal && (
-                    <Modal onImmediateClose={modal.onModalClose} onClose={this.closeModal}>
-                        {modal.id === 1 ? (
-                            <React.Fragment>
-                                <h1>Welcome to the demo of BlockFood</h1>
-                                <p>Play the role of a customer, a restaurant and a courier!</p>
-                                <p>Look at the bottom of your screen to see what you have to do next.</p>
-                                <h3>Start right now as a hungry customer!</h3>
-                            </React.Fragment>
-                        ) : modal.id === 2 ? (
-                            <React.Fragment>
-                                <h1>Your order is now created!</h1>
-                                <p>It's time to become a restaurant in order to accept and prepare this order.</p>
-                                <h3>Let's go! Chef!</h3>
-                            </React.Fragment>
-                        ) : modal.id === 3 ? (
-                            <React.Fragment>
-                                <h1>Your order is now cooked and ready!</h1>
-                                <p>You are going to become another player once again: a courier.</p>
-                                <h3>Don't wait any longer!</h3>
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                                <h1>The demo is finished!</h1>
-                                <p>You are now free to play each role like you want.</p>
-                                <h3>Use the buttons in the bottom of your screen to switch.</h3>
-                            </React.Fragment>
-                        )}
+                {stepInfo && (
+                    <Modal onImmediateClose={stepInfo.onClose} onClose={this.closeModal}>
+                        {getStepInfoPopupMessage(stepInfo.id)}
                     </Modal>
                 )}
             </div>
@@ -200,7 +176,7 @@ class Footer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         step: state.step,
-        modal: state.modal,
+        stepInfo: state.stepInfo,
         orders: state.orders
     }
 }

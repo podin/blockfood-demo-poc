@@ -4,7 +4,7 @@ import Storage from '../utils/Storage'
 import {
     RESTART,
     SET_STEP,
-    SET_MODAL,
+    SET_STEP_INFO,
     SET_CUSTOMER_ADDRESS,
     SET_ORDER_IN_PROGRESS,
     SET_ORDERS
@@ -21,13 +21,13 @@ const reduceStep = (state, action) => {
     }
 }
 
-const reduceModal = (state, action) => {
-    const newModal = action.modal ? {
-        id: action.modal,
-        onModalClose: action.onModalClose
+const reduceStepInfoPopup = (state, action) => {
+    const newModal = action.id ? {
+        id: action.id,
+        onClose: action.onClose
     } : null
     const newState = {}
-    _.assign(newState, state, {modal: newModal})
+    _.assign(newState, state, {stepInfo: newModal})
     return newState
 }
 
@@ -53,7 +53,7 @@ const reduceOrders = (state, action) => {
 
 const DEFAULT_STATE = {
     step: 0,
-    modal: null,
+    stepInfo: null,
     customerAddress: '',
     orderInProgress: null,
     orders: []
@@ -72,8 +72,8 @@ export const rootReducer = (state = INITIAL_STATE, action) => {
             return DEFAULT_STATE
         case SET_STEP:
             return reduceStep(state, action)
-        case SET_MODAL:
-            return reduceModal(state, action)
+        case SET_STEP_INFO:
+            return reduceStepInfoPopup(state, action)
         case SET_CUSTOMER_ADDRESS:
             return reduceCustomerAddress(state, action)
         case SET_ORDER_IN_PROGRESS:

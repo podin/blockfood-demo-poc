@@ -1,10 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getRouteCustomerOrderInProgress, getRouteRestaurantOrders, getRouteCustomerOrders} from '../../../Routes'
+import {STEP_INFOS} from '../../../data/Steps'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
-import {setStep, setModal, setOrders} from '../../../state/Actions'
+import {setStep, setStepInfo, setOrders} from '../../../state/Actions'
 
 import './CustomerPayment.scss'
 
@@ -38,12 +39,12 @@ class CustomerPayment extends React.Component {
                 this.setState({loading: false, isDone: true})
                 this.props.dispatch(setOrders(orders))
 
-                const onModalClose = () => {
+                const onStepInfoClose = () => {
                     this.props.dispatch(setStep(5))
                     this.props.history.replace(getRouteRestaurantOrders(orderInProgress.restaurantId))
                 }
 
-                setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 200)
+                setTimeout(() => this.props.dispatch(setStepInfo(STEP_INFOS.START_AS_RESTAURANT, onStepInfoClose)), 200)
             }
 
             const onFreeModeSuccess = (orders) => {

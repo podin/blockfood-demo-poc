@@ -1,10 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {getRouteCustomerAddress} from '../../Routes'
+import {STEP_INFOS} from '../../data/Steps'
 import Api from '../../api/Api'
 import doWithMinTime from '../../utils/DoWithMinTime'
-import {getRouteCustomerAddress} from '../../Routes'
 
-import {restart, setStep, setModal} from '../../state/Actions'
+import {restart, setStep, setStepInfo} from '../../state/Actions'
 
 import './StartView.scss'
 
@@ -24,7 +25,7 @@ class StartView extends React.Component {
 
         doWithMinTime(() => Api.startDemo()).then(() => {
             this.props.dispatch(setStep(1))
-            this.props.dispatch(setModal(1))
+            this.props.dispatch(setStepInfo(STEP_INFOS.START_AS_CUSTOMER))
             this.props.history.push(getRouteCustomerAddress())
         })
     }
