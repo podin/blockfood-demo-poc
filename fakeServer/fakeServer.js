@@ -12,23 +12,6 @@ const ORDER_STATUS = {
     DONE: 'DONE'
 }
 
-const getOrdersForRestaurant = (data, restaurantId) => {
-    return _.filter(data, ({details}) => details.restaurantId === restaurantId)
-}
-
-const getOrdersForCourier = (data) => {
-    return _.filter(data, ({status}) => [
-        ORDER_STATUS.WAITING_COURIER,
-        ORDER_STATUS.PICKING,
-        ORDER_STATUS.DELIVERING,
-        ORDER_STATUS.DONE
-    ].indexOf(status) !== -1)
-}
-
-const isFreeMode = (data) => {
-    return data.length > 1 || _.find(data, ({status}) => status === ORDER_STATUS.DONE)
-}
-
 module.exports = function (app) {
 
     app.use(bodyParser.urlencoded({extended: false}))
@@ -37,38 +20,20 @@ module.exports = function (app) {
     app.get('/api/:demoId/step', function (req, res) {
         const {demoId} = req.params
 
-        const data = database[demoId]
+        const orders = database[demoId]
 
-        if (!data) {
+        if (!orders) {
             res.sendStatus(403)
         }
-        else if (data.length === 0) {
+        else if (orders.length === 0) {
             res.send('0')
         }
-        else if (data.length > 1) {
+        else if (orders.length > 1) {
             res.send('10')
         }
         else {
-            const step = _.findIndex(_.values(ORDER_STATUS), status => status === data[0].status)
+            const step = _.findIndex(_.values(ORDER_STATUS), status => status === orders[0].status)
             res.send((step + 5) + '')
-        }
-    })
-
-    app.get('/api/:demoId/restaurant-orders/:restaurantId', function (req, res) {
-        const {demoId, restaurantId} = req.params
-        const data = database[demoId]
-
-        if (!data) {
-            res.sendStatus(403)
-        }
-
-        const restaurantOrders = getOrdersForRestaurant(data, restaurantId)
-
-        if (restaurantOrders.length === 0 && !isFreeMode(data)){
-            res.sendStatus(403)
-        }
-        else {
-            res.send(restaurantOrders)
         }
     })
 
@@ -84,84 +49,69 @@ module.exports = function (app) {
         const {demoId} = req.params
         const details = req.body
 
-        if (!database[demoId]) {
+        const orders = database[demoId]
+
+        if (!orders) {
             res.sendStatus(403)
         }
+        else {
+            const newOrder = {
+                id: uuidv1(),
+                status: ORDER_STATUS.WAITING_RESTAURANT_VALIDATION,
+                details
+            }
 
-        const uuid = uuidv1()
+            const newOrders = database[demoId] = [...orders, newOrder]
 
-        const order = {
-            id: uuid,
-            status: ORDER_STATUS.WAITING_RESTAURANT_VALIDATION,
-            details
+            res.send(newOrders)
         }
-
-        database[demoId].push(order)
-
-        const ordersForRestaurant = getOrdersForRestaurant(database[demoId], details.restaurantId)
-        const ordersForCustomer = database[demoId]
-
-        res.send({ordersForRestaurant, ordersForCustomer})
     })
 
     app.put('/api/:demoId/order/:orderId', function (req, res) {
         const {demoId, orderId} = req.params
+
         const {status} = req.body
+        const isStatusValid = _.values(ORDER_STATUS).indexOf(status) !== -1
 
-        if (!database[demoId] || _.values(ORDER_STATUS).indexOf(status) === -1) {
-            res.sendStatus(403)
-        }
+        const orders = database[demoId]
 
-        let findOrder = null
-        database[demoId] = _.map(database[demoId], order => {
-            if (order.id === orderId) {
-                findOrder = order
-                const newOrder = {}
-                _.assign(newOrder, order, {status})
-                return newOrder
-            }
-            else {
-                return order
-            }
-        })
-
-        if (!findOrder) {
-            res.sendStatus(403)
-        }
-
-        const ordersForRestaurant = getOrdersForRestaurant(database[demoId], findOrder.details.restaurantId)
-        const ordersForCourier = getOrdersForCourier(database[demoId])
-
-        res.send({ordersForRestaurant, ordersForCourier})
-    })
-
-    app.get('/api/:demoId/courier-orders', function (req, res) {
-        const {demoId} = req.params
-        const data = database[demoId]
-
-        if (!data) {
-            res.sendStatus(403)
-        }
-
-        const courierOrders = getOrdersForCourier(data)
-
-        if (courierOrders.length === 0 && !isFreeMode(data)) {
+        if (!orders || !isStatusValid) {
             res.sendStatus(403)
         }
         else {
-            res.send(courierOrders)
+            let orderFound = null
+            const newOrders = _.map(orders, order => {
+                if (order.id === orderId) {
+                    orderFound = order
+                    const newOrder = {}
+                    _.assign(newOrder, order, {status})
+                    return newOrder
+                }
+                else {
+                    return order
+                }
+            })
+
+            if (!orderFound) {
+                res.sendStatus(403)
+            }
+            else {
+                database[demoId] = newOrders
+                res.send(newOrders)
+            }
         }
     })
 
     app.get('/api/:demoId/orders', function (req, res) {
         const {demoId} = req.params
-        const data = database[demoId]
+        const orders = database[demoId]
 
-        if (!data) {
+        if (!orders || orders.length === 0) {
             res.sendStatus(403)
         }
-
-        res.send(data)
+        else {
+            res.send(orders)
+        }
     })
 
 }

@@ -46,9 +46,9 @@ class MainView extends React.Component {
     }
 
     componentDidMount() {
-        Init(this.props).then(({step, orders, orderType, pathname}) => {
+        Init(this.props).then(({step, orders, pathname}) => {
             step !== null && this.props.dispatch(setStep(step))
-            orders !== null && this.props.dispatch(setOrders(orders, orderType))
+            orders !== null && this.props.dispatch(setOrders(orders))
             pathname !== null && this.props.history.replace(pathname)
 
             this.setState({ready: true})

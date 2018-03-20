@@ -1,15 +1,13 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {connect} from 'react-redux'
-import {
-    RESTAURANT_PREFIX, COURIER_PREFIX,
-    getRouteRestaurantOrders, getRouteCourierOrders
-} from '../../../Routes'
+import {getRouteRestaurantOrders, getRouteCourierOrders} from '../../../Routes'
 import ORDER_STATUS, {getStatus} from '../../../data/OrderStatus'
 import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
+import {selectOrdersByRestaurantId} from '../../../state/Selectors'
 import {setStep, setModal, setOrders} from '../../../state/Actions'
 
 import './RestaurantOrder.scss'
@@ -63,9 +61,9 @@ class RestaurantOrder extends React.Component {
                 [ORDER_STATUS.COOKING]: ORDER_STATUS.WAITING_COURIER
             }[order.status]
 
-            const onSuccess = ({ordersForRestaurant, ordersForCourier}) => {
+            const onSuccess = (orders) => {
                 this.setState({loading: false})
-                this.props.dispatch(setOrders(ordersForRestaurant, RESTAURANT_PREFIX))
+                this.props.dispatch(setOrders(orders))
 
                 if (newStatus === ORDER_STATUS.COOKING) {
                     this.setState({freeze: false})
@@ -74,7 +72,6 @@ class RestaurantOrder extends React.Component {
                 else {
                     const onModalClose = () => {
                         this.props.dispatch(setStep(7))
-                        this.props.dispatch(setOrders(ordersForCourier, COURIER_PREFIX))
                         this.props.history.replace(getRouteCourierOrders(demoId))
                     }
 
@@ -82,9 +79,9 @@ class RestaurantOrder extends React.Component {
                 }
             }
 
-            const onFreeModeSuccess = ({ordersForRestaurant}) => {
+            const onFreeModeSuccess = (orders) => {
                 this.setState({loading: false, freeze: false})
-                this.props.dispatch(setOrders(ordersForRestaurant, RESTAURANT_PREFIX))
+                this.props.dispatch(setOrders(orders))
             }
 
             this.setState({loading: true, freeze: true})
@@ -148,10 +145,12 @@ class RestaurantOrder extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+    const {restaurantId} = props.match.params
+
     return {
         step: state.step,
-        orders: state.orders[RESTAURANT_PREFIX]
+        orders: selectOrdersByRestaurantId(state.orders, restaurantId)
     }
 }
 

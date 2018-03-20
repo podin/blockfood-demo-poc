@@ -1,8 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {RESTAURANT_PREFIX, getRouteRestaurantOrder} from '../../../Routes'
+import {getRouteRestaurantOrder} from '../../../Routes'
 import {RESTAURANT_BY_IDS} from '../../../data/Restaurants'
 import OrdersList from '../../../components/orders-list/OrdersList'
+
+import {selectOrdersByRestaurantId} from '../../../state/Selectors'
 
 class RestaurantOrders extends React.Component {
     constructor(props) {
@@ -49,9 +51,11 @@ class RestaurantOrders extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+    const {restaurantId} = props.match.params
+
     return {
-        orders: state.orders[RESTAURANT_PREFIX]
+        orders: selectOrdersByRestaurantId(state.orders, restaurantId)
     }
 }
 

@@ -1,9 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {
-    CUSTOMER_PREFIX, RESTAURANT_PREFIX,
-    getRouteCustomerOrderInProgress, getRouteRestaurantOrders, getRouteCustomerOrders
-} from '../../../Routes'
+import {getRouteCustomerOrderInProgress, getRouteRestaurantOrders, getRouteCustomerOrders} from '../../../Routes'
 import Api from '../../../api/Api'
 import doWithMinTime from '../../../utils/DoWithMinTime'
 
@@ -39,9 +36,9 @@ class CustomerPayment extends React.Component {
             const {step} = this.props
             const {orderInProgress} = this.props
 
-            const onSuccess = ({ordersForRestaurant}) => {
+            const onSuccess = (orders) => {
                 this.setState({loading: false, isDone: true})
-                this.props.dispatch(setOrders(ordersForRestaurant, RESTAURANT_PREFIX))
+                this.props.dispatch(setOrders(orders))
 
                 const onModalClose = () => {
                     this.props.dispatch(setStep(5))
@@ -51,9 +48,9 @@ class CustomerPayment extends React.Component {
                 setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 200)
             }
 
-            const onFreeModeSuccess = ({ordersForCustomer}) => {
+            const onFreeModeSuccess = (orders) => {
                 this.setState({loading: false, freeze: false, isDone: true})
-                this.props.dispatch(setOrders(ordersForCustomer, CUSTOMER_PREFIX))
+                this.props.dispatch(setOrders(orders))
                 this.props.history.replace(getRouteCustomerOrders(demoId))
             }
 

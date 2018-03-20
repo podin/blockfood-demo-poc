@@ -1,7 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {COURIER_PREFIX, getRouteCourierOrder} from '../../../Routes'
+import {getRouteCourierOrder} from '../../../Routes'
 import OrdersList from '../../../components/orders-list/OrdersList'
+
+import {selectOrdersForCourier} from '../../../state/Selectors'
 
 class CourierOrders extends React.Component {
     constructor(props) {
@@ -41,7 +43,7 @@ class CourierOrders extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        orders: state.orders[COURIER_PREFIX]
+        orders: selectOrdersForCourier(state.orders)
     }
 }
 

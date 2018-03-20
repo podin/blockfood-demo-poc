@@ -6,11 +6,9 @@ import {
     getRouteCustomerOrders, getRouteRestaurantOrders, getRouteCourierOrders,
     getDemoIdFromPathname, getRestaurantIdFromPathname
 } from '../../Routes'
-import Api from '../../api/Api'
-import doWithMinTime from '../../utils/DoWithMinTime'
 import Modal from '../modal/Modal'
 
-import {setModal, setOrders} from '../../state/Actions'
+import {setModal} from '../../state/Actions'
 
 import './FooterController.scss'
 
@@ -26,15 +24,12 @@ class Footer extends React.Component {
 
         this.state = {
             type: this.getType(this.props.location.pathname),
-            task: this.getTask(),
-            loadingFreeModeView: null
+            task: this.getTask()
         }
 
         this.onRestart = this.onRestart.bind(this)
         this.closeModal = this.closeModal.bind(this)
         this.onLoadFreeModeView = this.onLoadFreeModeView.bind(this)
-        this.onModalFreeModeLoadInitialized = this.onModalFreeModeLoadInitialized.bind(this)
-        this.onModalFreeModeClose = this.onModalFreeModeClose.bind(this)
     }
 
     getType(pathname) {
@@ -76,9 +71,8 @@ class Footer extends React.Component {
 
         this.lastFreeModeRoutes[this.state.type] = pathname
 
-        let getOrders, routeToRedirect
+        let routeToRedirect
         if (nextType === CUSTOMER_PREFIX) {
-            getOrders = () => Api.getOrdersForCustomers(demoId)
             routeToRedirect = this.lastFreeModeRoutes[CUSTOMER_PREFIX] || getRouteCustomerOrders(demoId)
         }
         else if (nextType === RESTAURANT_PREFIX) {
@@ -87,31 +81,16 @@ class Footer extends React.Component {
                 restaurantId = getRestaurantIdFromPathname(this.lastFreeModeRoutes[RESTAURANT_PREFIX])
             }
             else {
-                restaurantId = _.find(this.props.orders, ordersList => ordersList.length > 0)[0].details.restaurantId
+                restaurantId = this.props.orders[0].details.restaurantId
             }
 
-            getOrders = () => Api.getOrdersForRestaurant(demoId, restaurantId)
             routeToRedirect = this.lastFreeModeRoutes[RESTAURANT_PREFIX] || getRouteRestaurantOrders(demoId, restaurantId)
         }
         else if (nextType === COURIER_PREFIX){
-            getOrders = () => Api.getOrdersForCourier(demoId)
             routeToRedirect = this.lastFreeModeRoutes[COURIER_PREFIX] || getRouteCourierOrders(demoId)
         }
 
-        this.setState({loadingFreeModeView: nextType})
-        doWithMinTime(() => getOrders()).then((orders) => {
-            this.props.dispatch(setOrders(orders, nextType))
-            this.props.history.replace(routeToRedirect)
-            this.loadingFreeModeViewModalRef.close()
-        })
-    }
-
-    onModalFreeModeLoadInitialized(ref) {
-        this.loadingFreeModeViewModalRef = ref
-    }
-
-    onModalFreeModeClose() {
-        this.setState({loadingFreeModeView: null})
+        this.props.history.replace(routeToRedirect)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -129,13 +108,13 @@ class Footer extends React.Component {
 
     render() {
         const {location, step, modal} = this.props
-        const {type, task, loadingFreeModeView} = this.state
+        const {type, task} = this.state
         
         let firstBtn = false
         const getStep = (minStep, icon = null, btn = false) => {
             const isCompleted = step >= minStep
             const isActiveBtn = btn && isCompleted
-            const isActiveBtnSelected = loadingFreeModeView ? loadingFreeModeView === icon : type === icon
+            const isActiveBtnSelected = type === icon
 
             const className = _.compact([
                 isCompleted && 'completed',
@@ -147,7 +126,7 @@ class Footer extends React.Component {
             ]).join(' ')
             btn && (firstBtn = true)
 
-            const isActiveBtnClickable = isActiveBtn && !isActiveBtnSelected && !loadingFreeModeView
+            const isActiveBtnClickable = isActiveBtn && !isActiveBtnSelected
 
             return (
                 <div className={className} onClick={isActiveBtnClickable ? this.onLoadFreeModeView : null}>
@@ -212,11 +191,6 @@ class Footer extends React.Component {
                                 <h3>Use the buttons in the bottom of your screen to switch.</h3>
                             </React.Fragment>
                         )}
-                    </Modal>
-                )}
-                {loadingFreeModeView && (
-                    <Modal ref={this.onModalFreeModeLoadInitialized} noButton onClose={this.onModalFreeModeClose}>
-                        <h1 className="centered">Loading...</h1>
                     </Modal>
                 )}
             </div>
