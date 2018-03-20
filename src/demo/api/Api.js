@@ -1,28 +1,36 @@
 import Http from 'axios'
 
 class Api {
-    init(onError) {
+    init(demoId, onError) {
         this.onError = onError
+
+        this.demoId = demoId
+    }
+
+    getDemoId() {
+        return this.demoId
     }
 
     startDemo() {
-        return Http.post('/api/start-demo').then(({data}) => data).catch(this.onError)
+        return Http.post('/api/start-demo').then(({data: demoId}) => {
+            this.demoId = demoId
+        }).catch(this.onError)
     }
 
-    getStep(demoId) {
-        return Http.get(`/api/${demoId}/step`).then(({data}) => +data)
+    getStep() {
+        return Http.get(`/api/${this.demoId}/step`).then(({data: step}) => +step)
     }
 
-    getOrders(demoId) {
-        return Http.get(`/api/${demoId}/orders`).then(({data}) => data)
+    getOrders() {
+        return Http.get(`/api/${this.demoId}/orders`).then(({data: orders}) => orders)
     }
 
-    createNewOrder(demoId, order) {
-        return Http.post(`/api/${demoId}/order`, order).then(({data}) => data).catch(this.onError)
+    createNewOrder(order) {
+        return Http.post(`/api/${this.demoId}/order`, order).then(({data: orders}) => orders).catch(this.onError)
     }
 
-    updateOrderStatus(demoId, orderId, status) {
-        return Http.put(`/api/${demoId}/order/${orderId}`, {status}).then(({data}) => data).catch(this.onError)
+    updateOrderStatus(orderId, status) {
+        return Http.put(`/api/${this.demoId}/order/${orderId}`, {status}).then(({data}) => data).catch(this.onError)
     }
 }
 

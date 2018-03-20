@@ -17,12 +17,10 @@ class CustomerRestaurants extends React.Component {
     }
 
     onGoBack() {
-        const {demoId} = this.props.match.params
-        this.props.history.replace(getRouteCustomerAddress(demoId))
+        this.props.history.replace(getRouteCustomerAddress())
     }
 
     onSubmit(event) {
-        const {demoId} = this.props.match.params
         const {orderInProgress} = this.props
 
         let target = event.target, restaurantId
@@ -37,7 +35,7 @@ class CustomerRestaurants extends React.Component {
         if (orderInProgress && orderInProgress.restaurantId !== restaurantId) {
             this.props.dispatch(setOrderInProgress(null))
         }
-        this.props.history.replace(getRouteCustomerOrderInProgress(demoId, restaurantId))
+        this.props.history.replace(getRouteCustomerOrderInProgress(restaurantId))
     }
 
     render() {

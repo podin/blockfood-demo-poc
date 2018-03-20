@@ -30,18 +30,15 @@ class CustomerOrderInProgress extends React.Component {
     }
 
     onGoBack() {
-        const {demoId} = this.props.match.params
-        this.props.history.replace(getRouteCustomerRestaurants(demoId))
+        this.props.history.replace(getRouteCustomerRestaurants())
     }
 
     getOrderInProgress() {
-        const {demoId} = this.props.match.params
         const restaurant = this.getRestaurant()
         const {itemIds, price} = this.state
 
         if (itemIds.length > 0) {
             return {
-                customerId: demoId,
                 restaurantId: restaurant.id,
                 itemIds: itemIds,
                 price
@@ -84,14 +81,12 @@ class CustomerOrderInProgress extends React.Component {
     }
 
     onValidate() {
-        const {demoId} = this.props.match.params
-
         const orderInProgress = this.getOrderInProgress()
 
         if (orderInProgress) {
             this.props.dispatch(setStep(4))
             this.props.dispatch(setOrderInProgress(orderInProgress))
-            this.props.history.replace(getRouteCustomerPayment(demoId))
+            this.props.history.replace(getRouteCustomerPayment())
         }
     }
 

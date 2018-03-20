@@ -5,8 +5,8 @@ import Select from 'react-select'
 import 'react-select/dist/react-select.css'
 import {
     CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX,
-    getDemoIdFromPathname, getRestaurantIdFromPathname, getRouteCustomerOrders,
-    getRouteRestaurantOrders
+    getRestaurantIdFromPathname,
+    getRouteCustomerOrders, getRouteRestaurantOrders
 } from '../../Routes'
 import RESTAURANTS from '../../data/Restaurants'
 
@@ -46,14 +46,11 @@ class Header extends React.Component {
     }
 
     onViewCustomerOrders() {
-        const demoId = getDemoIdFromPathname(this.props.location.pathname)
-        this.props.history.replace(getRouteCustomerOrders(demoId))
+        this.props.history.replace(getRouteCustomerOrders())
     }
 
     onRestaurantChange({value: restaurantId}) {
-        const demoId = getDemoIdFromPathname(this.props.location.pathname)
-
-        this.props.history.replace(getRouteRestaurantOrders(demoId, restaurantId))
+        this.props.history.replace(getRouteRestaurantOrders(restaurantId))
     }
 
     componentWillReceiveProps(nextProps) {

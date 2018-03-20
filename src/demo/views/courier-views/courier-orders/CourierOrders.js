@@ -13,8 +13,6 @@ class CourierOrders extends React.Component {
     }
 
     onSelect(event) {
-        const {demoId} = this.props.match.params
-
         let target = event.target, orderId
         while (!orderId) {
             orderId = target.getAttribute('data-id')
@@ -23,7 +21,7 @@ class CourierOrders extends React.Component {
             }
         }
 
-        this.props.history.replace(getRouteCourierOrder(demoId, orderId))
+        this.props.history.replace(getRouteCourierOrder(orderId))
     }
 
     render() {

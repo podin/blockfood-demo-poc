@@ -24,15 +24,13 @@ class CustomerPayment extends React.Component {
 
     onGoBack() {
         if (!this.state.freeze) {
-            const {demoId} = this.props.match.params
             const {restaurantId} = this.props.orderInProgress
-            this.props.history.replace(getRouteCustomerOrderInProgress(demoId, restaurantId))
+            this.props.history.replace(getRouteCustomerOrderInProgress(restaurantId))
         }
     }
 
     onSubmit() {
         if (!this.state.loading) {
-            const {demoId} = this.props.match.params
             const {step} = this.props
             const {orderInProgress} = this.props
 
@@ -42,7 +40,7 @@ class CustomerPayment extends React.Component {
 
                 const onModalClose = () => {
                     this.props.dispatch(setStep(5))
-                    this.props.history.replace(getRouteRestaurantOrders(demoId, orderInProgress.restaurantId))
+                    this.props.history.replace(getRouteRestaurantOrders(orderInProgress.restaurantId))
                 }
 
                 setTimeout(() => this.props.dispatch(setModal(2, onModalClose)), 200)
@@ -51,11 +49,11 @@ class CustomerPayment extends React.Component {
             const onFreeModeSuccess = (orders) => {
                 this.setState({loading: false, freeze: false, isDone: true})
                 this.props.dispatch(setOrders(orders))
-                this.props.history.replace(getRouteCustomerOrders(demoId))
+                this.props.history.replace(getRouteCustomerOrders())
             }
 
             this.setState({loading: true, freeze: false})
-            doWithMinTime(() => Api.createNewOrder(demoId, orderInProgress)).then(response => {
+            doWithMinTime(() => Api.createNewOrder(orderInProgress)).then(response => {
                 if (step === 10) {
                     return onFreeModeSuccess(response)
                 }

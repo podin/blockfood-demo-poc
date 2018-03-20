@@ -1,5 +1,6 @@
 import * as _ from 'lodash'
 import {matchPath} from 'react-router-dom'
+import Api from './api/Api'
 
 export const CUSTOMER_PREFIX = 'customer-view'
 export const RESTAURANT_PREFIX = 'restaurant-view'
@@ -29,45 +30,44 @@ export const RESTAURANT_ROUTES_LIST = [
 export const COURIER_ORDERS_ROUTE = `/:demoId/${COURIER_PREFIX}/`
 export const COURIER_ORDER_ROUTE = `/:demoId/${COURIER_PREFIX}/order/:orderId`
 
-export const getRouteCustomerAddress = (demoId) => {
-    return CUSTOMER_ADDRESS_ROUTE.replace(':demoId', demoId)
+const getRouteWithDemoId = (route) => {
+    return route.replace(':demoId', Api.getDemoId())
 }
 
-export const getRouteCustomerRestaurants = (demoId) => {
-    return CUSTOMER_RESTAURANTS_ROUTE.replace(':demoId', demoId)
+export const getRouteCustomerAddress = () => {
+    return getRouteWithDemoId(CUSTOMER_ADDRESS_ROUTE)
 }
 
-export const getRouteCustomerOrderInProgress = (demoId, restaurantId) => {
-    return CUSTOMER_ORDER_IN_PROGRESS_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId)
+export const getRouteCustomerRestaurants = () => {
+    return getRouteWithDemoId(CUSTOMER_RESTAURANTS_ROUTE)
 }
 
-export const getRouteCustomerPayment = (demoId) => {
-    return CUSTOMER_PAYMENT_ROUTE.replace(':demoId', demoId)
+export const getRouteCustomerOrderInProgress = (restaurantId) => {
+    return getRouteWithDemoId(CUSTOMER_ORDER_IN_PROGRESS_ROUTE).replace(':restaurantId', restaurantId)
 }
 
-export const getRouteCustomerOrders = (demoId) => {
-    return CUSTOMER_ORDERS_ROUTE.replace(':demoId', demoId)
+export const getRouteCustomerPayment = () => {
+    return getRouteWithDemoId(CUSTOMER_PAYMENT_ROUTE)
 }
 
-export const getRouteRestaurantOrders = (demoId, restaurantId) => {
-    return RESTAURANT_ORDERS_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId)
+export const getRouteCustomerOrders = () => {
+    return getRouteWithDemoId(CUSTOMER_ORDERS_ROUTE)
 }
 
-export const getRouteRestaurantOrder = (demoId, restaurantId, orderId) => {
-    return RESTAURANT_ORDER_ROUTE.replace(':demoId', demoId).replace(':restaurantId', restaurantId).replace(':orderId', orderId)
+export const getRouteRestaurantOrders = (restaurantId) => {
+    return getRouteWithDemoId(RESTAURANT_ORDERS_ROUTE).replace(':restaurantId', restaurantId)
 }
 
-export const getRouteCourierOrders = (demoId) => {
-    return COURIER_ORDERS_ROUTE.replace(':demoId', demoId)
+export const getRouteRestaurantOrder = (restaurantId, orderId) => {
+    return getRouteWithDemoId(RESTAURANT_ORDER_ROUTE).replace(':restaurantId', restaurantId).replace(':orderId', orderId)
 }
 
-export const getRouteCourierOrder = (demoId, orderId) => {
-    return COURIER_ORDER_ROUTE.replace(':demoId', demoId).replace(':orderId', orderId)
+export const getRouteCourierOrders = () => {
+    return getRouteWithDemoId(COURIER_ORDERS_ROUTE)
 }
 
-export const getDemoIdFromPathname = (pathname) => {
-    const match = matchPath(pathname, {path: '/:demoId'})
-    return match ? match.params.demoId : null
+export const getRouteCourierOrder = (orderId) => {
+    return getRouteWithDemoId(COURIER_ORDER_ROUTE).replace(':orderId', orderId)
 }
 
 export const getCustomerRouteIndex = (pathname) => {

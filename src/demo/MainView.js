@@ -27,7 +27,10 @@ class MainView extends React.Component {
     constructor(props) {
         super(props)
 
-        Api.init(this.onError.bind(this))
+        const {pathname} = this.props.location
+        const demoId = this.demoId = pathname !== '/' ? pathname.split('/')[1] : null
+
+        Api.init(demoId, this.onError.bind(this))
 
         this.state = {
             error: false,
@@ -46,7 +49,7 @@ class MainView extends React.Component {
     }
 
     componentDidMount() {
-        Init(this.props).then(({step, orders, pathname}) => {
+        Init(this.demoId, this.props.location.pathname).then(({step, orders, pathname}) => {
             step !== null && this.props.dispatch(setStep(step))
             orders !== null && this.props.dispatch(setOrders(orders))
             pathname !== null && this.props.history.replace(pathname)

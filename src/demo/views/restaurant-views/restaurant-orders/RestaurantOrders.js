@@ -19,7 +19,6 @@ class RestaurantOrders extends React.Component {
     }
 
     onSelect(event) {
-        const {demoId} = this.props.match.params
         const restaurant = this.getRestaurant()
 
         let target = event.target, orderId
@@ -30,7 +29,7 @@ class RestaurantOrders extends React.Component {
             }
         }
 
-        this.props.history.replace(getRouteRestaurantOrder(demoId, restaurant.id, orderId))
+        this.props.history.replace(getRouteRestaurantOrder(restaurant.id, orderId))
     }
 
     render() {

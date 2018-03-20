@@ -3,8 +3,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {
     CUSTOMER_PREFIX, RESTAURANT_PREFIX, COURIER_PREFIX,
-    getRouteCustomerOrders, getRouteRestaurantOrders, getRouteCourierOrders,
-    getDemoIdFromPathname, getRestaurantIdFromPathname
+    getRestaurantIdFromPathname,
+    getRouteCustomerOrders, getRouteRestaurantOrders, getRouteCourierOrders
 } from '../../Routes'
 import Modal from '../modal/Modal'
 
@@ -65,7 +65,6 @@ class Footer extends React.Component {
 
     onLoadFreeModeView(event) {
         const {pathname} = this.props.location
-        const demoId = getDemoIdFromPathname(pathname)
 
         const nextType = this.getType(event.target.className)
 
@@ -73,7 +72,7 @@ class Footer extends React.Component {
 
         let routeToRedirect
         if (nextType === CUSTOMER_PREFIX) {
-            routeToRedirect = this.lastFreeModeRoutes[CUSTOMER_PREFIX] || getRouteCustomerOrders(demoId)
+            routeToRedirect = this.lastFreeModeRoutes[CUSTOMER_PREFIX] || getRouteCustomerOrders()
         }
         else if (nextType === RESTAURANT_PREFIX) {
             let restaurantId
@@ -84,10 +83,10 @@ class Footer extends React.Component {
                 restaurantId = this.props.orders[0].details.restaurantId
             }
 
-            routeToRedirect = this.lastFreeModeRoutes[RESTAURANT_PREFIX] || getRouteRestaurantOrders(demoId, restaurantId)
+            routeToRedirect = this.lastFreeModeRoutes[RESTAURANT_PREFIX] || getRouteRestaurantOrders(restaurantId)
         }
         else if (nextType === COURIER_PREFIX){
-            routeToRedirect = this.lastFreeModeRoutes[COURIER_PREFIX] || getRouteCourierOrders(demoId)
+            routeToRedirect = this.lastFreeModeRoutes[COURIER_PREFIX] || getRouteCourierOrders()
         }
 
         this.props.history.replace(routeToRedirect)

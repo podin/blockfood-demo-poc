@@ -36,20 +36,16 @@ class CustomerAddress extends React.Component {
         const {value} = this.state
 
         if (value.length > 0) {
-            const {demoId} = this.props.match.params
-
             this.props.dispatch(setStep(2))
             this.props.dispatch(setCustomerAddress(value))
-            this.props.history.replace(getRouteCustomerRestaurants(demoId))
+            this.props.history.replace(getRouteCustomerRestaurants())
         }
     }
 
     submitAll() {
-        const {demoId} = this.props.match.params
-
         this.props.dispatch(setStep(2))
         this.props.dispatch(setCustomerAddress(''))
-        this.props.history.replace(getRouteCustomerRestaurants(demoId))
+        this.props.history.replace(getRouteCustomerRestaurants())
     }
 
     componentDidUpdate() {

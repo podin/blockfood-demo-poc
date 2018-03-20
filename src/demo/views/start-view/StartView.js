@@ -22,10 +22,10 @@ class StartView extends React.Component {
     onStartDemo() {
         this.setState({loading: true})
 
-        doWithMinTime(() => Api.startDemo()).then((demoId) => {
+        doWithMinTime(() => Api.startDemo()).then(() => {
             this.props.dispatch(setStep(1))
             this.props.dispatch(setModal(1))
-            this.props.history.push(getRouteCustomerAddress(demoId))
+            this.props.history.push(getRouteCustomerAddress())
         })
     }
 

@@ -1,20 +1,16 @@
 import {getCustomerRouteIndex} from './Routes'
 import Api from './api/Api'
 
-export default (props) => {
-    const {pathname} = props.location
-
-    if (pathname !== '/') {
-        const demoId = pathname.split('/')[1]
-
-        return Api.getStep(demoId)
+export default (demoId, pathname) => {
+    if (demoId) {
+        return Api.getStep()
             .then(step => {
                 if (step === 0) {
-                    const routeIndex = getCustomerRouteIndex(props.location.pathname)
+                    const routeIndex = getCustomerRouteIndex(pathname)
                     return Promise.resolve({step: routeIndex + 1})
                 }
                 else {
-                    return Api.getOrders(demoId).then(orders => {
+                    return Api.getOrders().then(orders => {
                         return Promise.resolve({step, orders})
                     })
                 }

@@ -35,13 +35,11 @@ class RestaurantOrder extends React.Component {
 
     onGoBack() {
         if (!this.state.freeze) {
-            const {demoId} = this.props.match.params
-            this.props.history.replace(getRouteCourierOrders(demoId))
+            this.props.history.replace(getRouteCourierOrders())
         }
     }
 
     onSubmit() {
-        const {demoId} = this.props.match.params
         const {step} = this.props
         const {loading, order} = this.state
 
@@ -76,7 +74,7 @@ class RestaurantOrder extends React.Component {
             }
 
             this.setState({loading: true, freeze: true})
-            doWithMinTime(() => Api.updateOrderStatus(demoId, order.id, newStatus)).then(response => {
+            doWithMinTime(() => Api.updateOrderStatus(order.id, newStatus)).then(response => {
                 if (step === 10) {
                     return onFreeModeSuccess(response)
                 }

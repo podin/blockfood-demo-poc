@@ -13,8 +13,7 @@ class CourierOrders extends React.Component {
     }
 
     onGoBack() {
-        const {demoId} = this.props.match.params
-        this.props.history.replace(getRouteCustomerAddress(demoId))
+        this.props.history.replace(getRouteCustomerAddress())
     }
 
     componentDidMount() {
